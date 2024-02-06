@@ -271,7 +271,7 @@ return redirect()->back()->with('success_message', 'user has been Updated!');
     Client::find($id)->delete();
         }
       }
-      return redirect()->route('admin.client.show');
+      return redirect()->route('client.index');
       // return  $this->index();
       //   return redirect()->route('users.index');
   

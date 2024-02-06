@@ -31,7 +31,7 @@
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-between">
 									<h4 class="card-title mg-b-0">{{ __('general.manage clients') }}</h4>
-									<a href="{{ route('client.create') }}" class="btn btn-primary btn-small">{{ __('general.new client') }}</a>
+									 
 								</div>
 									</div>
 							<div class="card-body">
@@ -41,7 +41,7 @@
 											<tr>
 
 												<th class="border-bottom-0">{{ __('general.user_name') }}</th>
-												<th class="border-bottom-0">{{ __('general.email') }}</th>
+												<th class="border-bottom-0">{{ __('general.mobile') }}</th>
 											
                                                 <th class="border-bottom-0">{{ __('general.action') }}</th>
 
@@ -52,7 +52,7 @@
 											<tr>
 
 												<td>{{$client->user_name }}</td>
-												<td>{{ $client->email }}</td>
+												<td>{{ $client->mobile }}</td>
 												
                                                 <td>
 													<a href="{{route('client.edit', $client->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a> 

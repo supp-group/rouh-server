@@ -86,6 +86,8 @@ return [
 
 'show percent'=>'نسب الخبراء',
 'show Service Expert'=>'خبراء الخدمات',
+'manage clients'=>'ادارة العملاء',
+
 ];
 /*
   {{ __('general.welcome_name',['Name'=>'احمد']) }}
