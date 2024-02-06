@@ -28,7 +28,8 @@ class ExpertsServiceController extends Controller
       return view('admin.expertservice.show', ['expertservices' => $list]);
       //return response()->json($users);
     }
-  
+     
+
     /**
      * Show the form for creating a new resource.
      */

@@ -83,6 +83,9 @@ return [
 'pointscount'=>'عدد النقاط',
 'pointsbefor'=>'النقاط قبل العرض',
 'manage services'=>'ادارة الخدمات',
+
+'show percent'=>'نسب الخبراء',
+'show Service Expert'=>'خبراء الخدمات',
 ];
 /*
   {{ __('general.welcome_name',['Name'=>'احمد']) }}

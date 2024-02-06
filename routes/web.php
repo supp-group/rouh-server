@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\InputController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Web\ClientController;
 use App\Http\Controllers\Web\ExpertController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Web\UserController;
@@ -21,25 +21,25 @@ use App\Http\Controllers\Web\PointController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
- 
+
 Route::get('/', function () {
-   // return view('welcome');
-    return redirect()-> route('login');
+    // return view('welcome');
+    return redirect()->route('login');
 });
- 
+
 
 
 //Route::get('/', [AuthenticatedSessionController::class, 'create']);
- /*
+/*
 Route::get('/dashboard', function () {
-    return view('dashboard');
+   return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 */
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin');
-    Route::middleware('role.admin:admin') ->group(function () {
+    Route::middleware('role.admin:admin')->group(function () {
 
         // Route::prefix('user')->group(function () {
         //     Route::get('', [UserController::class, 'index'])->name('admin.user.show');
@@ -58,11 +58,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::prefix('point')->group(function () {
             Route::post('/update/{id}', [PointController::class, 'update'])->name('point.update');
         });
-            });
+    });
 
     Route::middleware('role.admin:admin-super')->group(function () {
 
-         // expert
+        // expert
         // Route::prefix('/expert')->group(function () {
         // Route::get('', [ExpertController::class, 'index'])->name('admin.expert.show');
         //     Route::get('/add', [ExpertController::class, 'create']);
@@ -75,8 +75,12 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::prefix('expert')->group(function () {
             Route::post('/update/{id}', [ExpertController::class, 'update'])->name('expert.update');
         });
-      
-        
+
+        Route::resource('client', ClientController::class, ['except' => ['update']]);
+        Route::prefix('client')->group(function () {
+            Route::post('/update/{id}', [ClientController::class, 'update'])->name('client.update');
+        });
+
         Route::resource('service', ServiceController::class, ['except' => ['update']]);
         Route::prefix('service')->group(function () {
             Route::post('/update/{id}', [ServiceController::class, 'update'])->name('service.update');
@@ -84,6 +88,16 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/saveimgrecord/{id}', [ServiceController::class, 'saveimgrecord']);
             Route::post('/savefield/{id}', [ServiceController::class, 'savefield']);
             Route::get('/showinputs/{id}', [ServiceController::class, 'showinputs']);
+
+            //عرض النسب
+            Route::get('/percent/show', [ServiceController::class, 'showpercent']);
+            //حفظ النسبة
+            Route::post('/percent/save/{id}', [ServiceController::class, 'percentsave']);
+            //عرض الخبراء المقدمين للخدمات
+            Route::get('/expert/show', [ServiceController::class, 'showexpert']);
+            // حفظ الخبير
+            Route::post('/expert/save/{id}', [ServiceController::class, 'expertsave']);
+
         });
         Route::prefix('input')->group(function () {
             Route::get('/delete/{id}', [InputController::class, 'destroy']);
@@ -110,4 +124,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 */
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

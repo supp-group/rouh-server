@@ -50,7 +50,105 @@ class ServiceController extends Controller
       //return response()->json($users);
   
     }
+    public function showpercent()
+    {
+      $list = DB::table('services')->whereNot('is_callservice',1)->get();
+     return view('admin.service.showpercents', ['services' => $list]);
+
+      //return  "sdsd";
   
+    }
+    public function showexpert()
+    {
+      $list = DB::table('services')->whereNot('is_callservice',1)->get();
+       return view('admin.service.showexperts', ['services' => $list]);
+     // return dd($list);
+  
+    }
+    public function percentsave(UpdateServiceRequest $request, $id)
+    {
+      
+    $formdata = $request->all();
+    //validate
+    $validator = Validator::make(
+      $formdata,
+      $request->rules(),
+      $request->messages()
+    );
+    if ($validator->fails()) {
+      /*
+        return redirect('/cpanel/users/add')
+        ->withErrors($validator)
+                    ->withInput();
+                    */
+     return response()->json($validator);
+
+    } else {
+     // $imagemodel = Expert::find($id);
+      if ($request->hasFile('image')) {
+        $file= $request->file('image');
+               // $filename= $file->getClientOriginalName();                
+     $this->storeImage( $file,$id);
+       }
+       if ($request->hasFile('icon')) {
+        $file = $request->file('icon');
+        // $filename= $file->getClientOriginalName();               
+        $this->storeSvg($file,$id);
+        //  $this->storeImage( $file,2);
+      }
+      Service::find($id)->update([
+        'name'=>  $formdata['name'],
+        'desc'=>  $formdata['desc'],
+        'updateuser_id' =>Auth::user()->id,      
+      'is_active' => isset($formdata['is_active']) ? 1 : 0
+      ]);
+     
+      return response()->json("ok");
+      
+    }
+    }
+    public function expertsave(UpdateServiceRequest $request, $id)
+    {
+      
+    $formdata = $request->all();
+    //validate
+    $validator = Validator::make(
+      $formdata,
+      $request->rules(),
+      $request->messages()
+    );
+    if ($validator->fails()) {
+      /*
+        return redirect('/cpanel/users/add')
+        ->withErrors($validator)
+                    ->withInput();
+                    */
+     return response()->json($validator);
+
+    } else {
+     // $imagemodel = Expert::find($id);
+      if ($request->hasFile('image')) {
+        $file= $request->file('image');
+               // $filename= $file->getClientOriginalName();                
+     $this->storeImage( $file,$id);
+       }
+       if ($request->hasFile('icon')) {
+        $file = $request->file('icon');
+        // $filename= $file->getClientOriginalName();               
+        $this->storeSvg($file,$id);
+        //  $this->storeImage( $file,2);
+      }
+      Service::find($id)->update([
+        'name'=>  $formdata['name'],
+        'desc'=>  $formdata['desc'],
+        'updateuser_id' =>Auth::user()->id,      
+      'is_active' => isset($formdata['is_active']) ? 1 : 0
+      ]);
+     
+      return response()->json("ok");
+      
+    }
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -231,6 +329,8 @@ if( $inputservice['input']['type']=='image' && $inputservice['input']['ispersona
       
     }
     }
+
+
     /**
      * Remove the specified resource from storage.
      */
