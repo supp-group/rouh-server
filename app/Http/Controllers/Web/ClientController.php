@@ -30,6 +30,7 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $path="";
     public function index()
     {
       $list = DB::table('clients')->get();
