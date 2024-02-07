@@ -48,7 +48,7 @@ Route::middleware('authClient:api_clients')->group(function () {
             Route::post('/viewall', [serviceController::class, 'index']); 
             Route::post('/getinputform', [serviceController::class, 'getinputserviceform']); 
             Route::post('/savewithvalues', [SelectedServiceController::class, 'savewithvalues']);
-            Route::post('/uploadimagesvalue', [SelectedServiceController::class, 'uploadimagesvalue']);       
+            Route::post('/uploadfilesvalue', [SelectedServiceController::class, 'uploadfilesvalue']);       
                   
         });
         Route::prefix('/expert')->group(function () {

@@ -44,7 +44,7 @@ class ServiceController extends Controller
         $defaultimg=$strgCtrlr->DefaultPath('image');
         $defaultsvg=$strgCtrlr->DefaultPath('icon');
       //  $url = url('storage/app/public' . '/' . $this->path) . '/';
-        $list = DB::table('services')->where('is_active',1)->select(
+        $list = DB::table('services')->where('is_active',1)->select('id',
             'name',    
           DB::raw("(CASE 
           WHEN services.desc is NULL THEN ''                  

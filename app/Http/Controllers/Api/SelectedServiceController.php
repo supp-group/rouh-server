@@ -135,7 +135,7 @@ class SelectedServiceController extends Controller
         ]);
     }
 
-    public function uploadimagesvalue(Request $request)
+    public function uploadfilesvalue(Request $request)
     {
         //
         $formdata = $request->all();
@@ -154,9 +154,13 @@ class SelectedServiceController extends Controller
 
             } else {
                 DB::transaction(function () use ($request, $formdata) {
-                $input = InputService::find($formdata['inputservice_id'])->input()->first();
-                        
+                //isset($formdata["is_active"]) 
                 $valserCntrlr = new ValueServiceController();
+                //save images if exist
+                if(isset($formdata["inputservice_id"]) ){
+                    if($formdata["inputservice_id"]>0){
+                    $input = InputService::findOrFail($formdata['inputservice_id'])->input()->first();
+               
                 for ($i = 1; $i <= 4; $i++) {
                     if ($request->hasFile('image_' . $i)) {
                         $valueService = new valueService();
@@ -177,6 +181,32 @@ class SelectedServiceController extends Controller
                         $this->id = $valueService->id;
                     }
                 }
+            }
+        }
+            //save record if exist
+if(isset($formdata["record_inputservice_id"]) ){
+    if($formdata["record_inputservice_id"]>0){    
+    $record_input = InputService::findOrFail($formdata['record_inputservice_id'])->input()->first();
+    if ($request->hasFile('record')) {
+        $valueService = new valueService();
+        $valueService->value = "";
+        $valueService->inputservice_id = $formdata['record_inputservice_id'];
+        $valueService->selectedservice_id = $formdata['selectedservice_id'];
+
+        $valueService->name = $record_input->name;
+        $valueService->type =  $record_input->type;
+        $valueService->tooltipe =  $record_input->tooltipe;
+        $valueService->icon =  $record_input->icon;
+        $valueService->ispersonal =  $record_input->ispersonal;
+        $valueService->image_count =  $record_input->image_count;
+        $valueService->save();
+
+        $file = $request->file('record');
+        $valserCntrlr->storerecord($file, $valueService->id);
+        $this->id = $valueService->id;
+    }
+}     
+                }        
             });
             }
          

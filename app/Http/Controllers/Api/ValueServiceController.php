@@ -73,7 +73,7 @@ class ValueServiceController extends Controller
       $oldimagename = basename($oldimage);
       $strgCtrlr=new StorageController();
       $path=$strgCtrlr->path['values_services'];
-      $oldimagepath = $path . '/' . $oldimagename;
+     // $oldimagepath = $path . '/' . $oldimagename;
       //save photo
   
       if ($file !== null) {
@@ -91,6 +91,39 @@ class ValueServiceController extends Controller
           "value" => $filename
         ]);
         Storage::delete("public/" .  $path . '/' . $oldimagename);
+      }
+      return 1;
+    }
+
+    public function storerecord($file, $id)
+    {
+      $imagemodel = ValueService::find($id);
+      $oldimage = $imagemodel->icon;
+      $oldimagename = basename($oldimage);
+      $strgCtrlr=new StorageController();
+      $recpath=$strgCtrlr->recordpath['values_services'];
+  //    $oldimagepath = $recpath . '/' . $oldimagename;
+      //save photo
+  
+      if ($file !== null) {
+        $filename= rand(10000, 99999). $id .".".$file->getClientOriginalExtension();
+   
+     //   $manager = new ImageManager(new Driver());
+     //   $image = $manager->read($file);
+        
+        if (!File::isDirectory(Storage::url('/' . $recpath))) {
+          Storage::makeDirectory('public/' . $recpath);
+        }
+        $path =$file->storeAs(
+          $recpath, $filename,'public'
+      );
+
+       // $image->save(storage_path('app/public') . '/' . $this->iconpath . '/' . $filename);
+        //   $url = url('storage/app/public' . '/' . $this->path . '/' . $filename);
+        ValueService::find($id)->update([
+          "value" => $filename
+        ]);
+        Storage::delete("public/" . $recpath . '/' . $oldimagename);
       }
       return 1;
     }

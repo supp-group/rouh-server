@@ -24,12 +24,15 @@ class StoreImageRequest extends FormRequest
        
       
        return[
-         'inputservice_id'=>'required|integer', 
-         'selectedservice_id'=>'required|integer',        
+         'inputservice_id'=>'nullable|integer', //|not_in:0', 
+         'record_inputservice_id'=>'nullable|integer', 
+         'selectedservice_id'=>'required|integer|not_in:0',        
          'image_1'=>'nullable|file|image',
          'image_2'=>'nullable|file|image',
          'image_3'=>'nullable|file|image',
          'image_4'=>'nullable|file|image',
+        // 'record'=>'nullable|file|extensions:mp3',  
+        'record'=>'nullable|file|mimes:mp3',  
        ];   
     
     }
@@ -43,15 +46,18 @@ public function messages(): array
 {
   
    return[   
-      'inputservice_id.required'=>'this field is required' ,
-      'inputservice_id.integer'=>'messages must be integer' ,
+     // 'inputservice_id.required'=>'this field is required' ,
+       'inputservice_id.integer'=>'must be integer' ,
+      // 'inputservice_id.not_in'=>' must be not 0' ,
+       'record_inputservice_id.integer'=>'must be integer' ,
       'selectedservice_id.required'=> 'this field is required',
       'selectedservice_id.integer'=>'messages must be integer' ,
-     
+      'selectedservice_id.not_in'=> 'this field is required and not 0',
       'image_1'=>'file must be image' ,
       'image_2'=>'file must be image' ,
       'image_3'=>'file must be image' ,
       'image_4'=>'file must be image' ,
+      'record'=>'file must be mp3' ,
     ];
     
 }
