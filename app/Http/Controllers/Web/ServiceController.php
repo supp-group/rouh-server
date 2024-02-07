@@ -65,6 +65,14 @@ class ServiceController extends Controller
      // return dd($list);
   
     }
+    
+    public function editexpert($id)
+    {
+      $object = Service::find($id) ;
+       return view('admin.service.editxpert', ['service' => $object]);
+     // return dd($list);
+  
+    }
     public function percentsave(UpdateServiceRequest $request, $id)
     {
       

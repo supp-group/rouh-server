@@ -95,6 +95,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/percent/save/{id}', [ServiceController::class, 'percentsave']);
             //عرض الخبراء المقدمين للخدمات
             Route::get('/expert/show', [ServiceController::class, 'showexpert']);
+
+            Route::get('/expert/edit/{id}', [ServiceController::class, 'editexpert']);
             // حفظ الخبير
             Route::post('/expert/save/{id}', [ServiceController::class, 'expertsave']);
 
