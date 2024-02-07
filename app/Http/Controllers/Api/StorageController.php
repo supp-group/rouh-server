@@ -18,7 +18,7 @@ class StorageController extends Controller
   public $path = [];
   public $iconpath = [];
   public $recordpath = [];
-  private $defaultimage = "default.jpg";
+  private $defaultimage = "default.png";
   private $defaultsvg = "default.svg";
   public function __construct()
   {
