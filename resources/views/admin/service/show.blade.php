@@ -13,10 +13,10 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">{{ __('general.services') }}</h4> 
+							<h4 class="content-title mb-0 my-auto">{{ __('general.services') }}</h4>
 						</div>
 					</div>
-					 
+
 				</div>
 				<!-- breadcrumb -->
 @endsection
@@ -42,7 +42,7 @@
 
 												<th class="border-bottom-0">{{ __('general.service') }}</th>
 												<th class="border-bottom-0">{{ __('general.descreption') }}</th>
-											
+
                                                 <th class="border-bottom-0">{{ __('general.action') }}</th>
 
 											</tr>
@@ -53,10 +53,10 @@
 
 												<td>{{$service->name }}</td>
 												<td>{{ $service->desc }}</td>
-												
+
                                                 <td>
-													<a href="{{route('service.edit', $service->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a> 
-                                                     
+													<a href="{{route('service.edit', $service->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a>
+
                                                     <form action="{{route('service.destroy', $service->id)}}" method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -74,6 +74,46 @@
 						</div>
 					</div>
 					<!--/div-->
+
+                    <div class="col-xl-12">
+						<div class="card mg-b-20">
+							<div class="card-header pb-0">
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title mg-b-0">{{ __('general.manage services') }}</h4>
+								</div>
+									</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table id="example" class="table text-md-nowrap">
+										<thead>
+											<tr>
+
+												<th class="border-bottom-0">{{ __('general.service') }}</th>
+												<th class="border-bottom-0">{{ __('general.experts') }}</th>
+
+                                                <th class="border-bottom-0">{{ __('general.action') }}</th>
+
+											</tr>
+										</thead>
+										<tbody>
+											@foreach ($services as $service)
+											<tr>
+
+												<td>{{$service->name }}</td>
+												<td>{{ $service->desc }}</td>
+
+                                                <td>
+													<a href="{{url('admin/service/expert/edit',$service->id)}}"  class="btn btn-primary btn-sm" title=""><i class="fa fa-plus"></i> إضافة خبير</a>
+                                                </td>
+
+											</tr>
+											@endforeach
+									</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
 
 
 				</div>

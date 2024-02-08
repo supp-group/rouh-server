@@ -54,7 +54,7 @@
 												<td>{{ $service->desc }}</td>
 
                                                 <td>
-													<a href="#"  class="btn btn-primary btn-sm" title=""><i class="fa fa-plus"></i> إضافة خبير</a>
+													<a href="{{url('admin/service/expert/edit',$service->id)}}"  class="btn btn-light btn-sm" title="">قائمة الخبراء</a>
 
                                                 </td>
 
