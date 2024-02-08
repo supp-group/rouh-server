@@ -25,6 +25,7 @@ use App\Models\Permission;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Web\InputController;
 use App\Models\Inputvalue;
+use App\Models\Expert;
 /* 
 use App\Models\Expertfavorite;
 use App\Models\Servicefavorite;
@@ -68,8 +69,10 @@ class ServiceController extends Controller
     
     public function editexpert($id)
     {
-      $object = Service::find($id) ;
-       return view('admin.service.editxpert', ['service' => $object]);
+      $object = Service::find($id);
+    $selectedExpertList = $object->expertservices()->with('expert')->get();
+      $expertList = Expert::get();
+       return view('admin.service.editxpert', ['service' => $object,'allexperts'=>$expertList ,'selectedexperts'=>$selectedExpertList]);
      // return dd($list);
   
     }

@@ -43,6 +43,9 @@
                                     <div class="col-8">
                                         <p>اسم الخبير المختار</p>
                                     </div>
+
+
+
                                     <div class="col-4">
                                         <div class="form-horizontal d-inline-block">
                                             <div class="form-group">
@@ -53,12 +56,49 @@
                                         </div>
                                     </div>
 
+
                                 </div>
 
                             </div>
 
                         </div>
                     </form>
+                                    @foreach ($selectedexperts as $selectedexpert)
+                                  
+                                    <form class="form-horizontal" name="imgrecord_form"
+                                    action="{{ url('admin/service/saveimgrecord', $service->id) }}" method="POST"
+                                    enctype="multipart/form-data" id="imgrecord_form">
+                                    @csrf
+                                    <div class="mb-2">
+                                        <div class="mb-3">
+                                            <div class="service-field row">
+                                                <div class="col-8">
+                                                    <p>{{ $selectedexpert->expert->user_name }}</p>
+                                                </div>
+            
+            
+            
+                                                <div class="col-4">
+                                                    <div class="form-horizontal d-inline-block">
+                                                        <div class="form-group">
+            
+                                                            <button type="button" class="btn ripple btn-danger deleteinput"
+                                                                id="64"><i class="fa fa-trash"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+            
+            
+                                            </div>
+            
+                                        </div>
+            
+                                    </div>
+                                </form>
+@endforeach
+
+
+                       
                 </div>
             </div>
         </div>
@@ -94,15 +134,15 @@
                                         enctype="multipart/form-data" id="field_form">
                                         @csrf
                                         <div class="form-group mb-3">
-                                            <select name="field_type" id="field_type" class="form-control SlectBox">
+                                            <select name="select_expert" id="select_expert" class="form-control SlectBox">
                                                 <!--placeholder-->
                                                 <option title="" selected class="text-muted">الخبير</option>
-                                                {{-- @foreach ($experts as $expert) --}}
-                                                {{-- <option value="{{$expert->name}}">{{$expert->name}}</option> --}}
-                                                {{-- @endforeach --}}
+                                                 @foreach ($allexperts as $expert) 
+                                                <option value="{{$expert->id}}">{{$expert->user_name}}</option>  
+                                                 @endforeach  
                                             </select>
                                             <ul class="parsley-errors-list filled">
-                                                <li class="parsley-required" id="field_type_error"></li>
+                                                <li class="parsley-required" id="select_expert_error"></li>
                                             </ul>
                                         </div>
 
