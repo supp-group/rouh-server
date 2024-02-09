@@ -31,7 +31,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
                         <h6 class="card-title">قائمة خبراء خدمة {{ $service->name }}</h6>
-                        <a class="btn ripple btn-light" data-target="#scrollmodal" data-toggle="modal" id="btn_showinput"><i class="fa fa-plus"></i> إضافة خبير</a>
+                        <a class="btn ripple btn-light" data-target="#scrollmodal" data-toggle="modal" id="btn_show_expertmodal"><i class="fa fa-plus"></i> إضافة خبير</a>
                     </div>
                     <form class="form-horizontal" name="imgrecord_form"
                         action="{{ url('admin/service/saveimgrecord', $service->id) }}" method="POST"
@@ -63,27 +63,26 @@
 
                         </div>
                     </form>
+                    <div id="div_selectedexpert">
                                     @foreach ($selectedexperts as $selectedexpert)
                                   
-                                    <form class="form-horizontal" name="imgrecord_form"
-                                    action="{{ url('admin/service/saveimgrecord', $service->id) }}" method="POST"
-                                    enctype="multipart/form-data" id="imgrecord_form">
+                                    <form class="form-horizontal delete-expert-form" name="delete_expert_form"
+                                    action="{{ url('admin/service/expert/deleteselected', $selectedexpert->id) }}" method="POST"
+                                    id="delete_expert_form">
                                     @csrf
                                     <div class="mb-2">
                                         <div class="mb-3">
                                             <div class="service-field row">
                                                 <div class="col-8">
                                                     <p>{{ $selectedexpert->expert->user_name }}</p>
-                                                </div>
-            
-            
+                                                </div>           
             
                                                 <div class="col-4">
                                                     <div class="form-horizontal d-inline-block">
                                                         <div class="form-group">
             
-                                                            <button type="button" class="btn ripple btn-danger deleteinput"
-                                                                id="64"><i class="fa fa-trash"></i></button>
+                                                            <button type="submit" class="btn ripple btn-danger btn-delete-expert"
+                                                                id="expert-{{ $selectedexpert->expert->id }}"><i class="fa fa-trash"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,7 +95,7 @@
                                     </div>
                                 </form>
 @endforeach
-
+</div>
 
                        
                 </div>
@@ -129,9 +128,9 @@
                         <div class="col">
                             <div class="card  box-shadow-0">
                                 <div class="card-body pt-4">
-                                    <form class="form-horizontal" name="field_form"
-                                        action="{{ url('admin/service/savefield', $service->id) }}" method="POST"
-                                        enctype="multipart/form-data" id="field_form">
+                                    <form class="form-horizontal" name="expert_form"
+                                        action="{{ url('admin/service/expert/save', $service->id) }}" method="POST"
+                                        id="expert_form">
                                         @csrf
                                         <div class="form-group mb-3">
                                             <select name="select_expert" id="select_expert" class="form-control SlectBox">
@@ -145,22 +144,10 @@
                                                 <li class="parsley-required" id="select_expert_error"></li>
                                             </ul>
                                         </div>
-
-                                        <div id="option_append">
-
-                                            <div class="form-group add-input" id="divoptionhide" style="display: none;">
-                                                <input type="text" class="form-control" id="list_optionhide"
-                                                    value="" placeholder="ادخل الاختيار" name="list_optionhide">
-                                                <button class="close" type="button"
-                                                    onclick="this.parentElement.remove();"><span>×</span></button>
-                                                <ul class="parsley-errors-list filled">
-                                                    <li class="parsley-required" id="list_option_error"></li>
-                                                </ul>
-                                            </div>
-                                        </div>
+ 
                                         <div class="form-group mb-4 justify-content-end">
                                             <div>
-                                                <button type="button" name="btn_add_option" id="btn_add_option"
+                                                <button type="submit" form="expert_form" name="btn_save_expert" id="btn_save_expert"
                                                     class="btn btn-light btn-block"><i class="fa fa-plus"></i></button>
                                             </div>
                                         </div>
@@ -175,8 +162,8 @@
                     <!-- row -->
                 </div>
                 <div class="modal-footer">
-                    <button class="btn ripple btn-primary" name="btn_save_field" id="btn_save_field"
-                        type="submit">حفظ</button>
+                    <button class="btn ripple btn-primary" data-dismiss="modal"  name="btn_close_expert" id="btn_close_expert"
+                        type="button">حفظ</button>
                     <button class="btn ripple btn-secondary" data-dismiss="modal" name="btn_cancel_field"
                         id="btn_cancel_field" type="button"> إلغاء</button>
                 </div>
@@ -222,7 +209,6 @@
         var emptyimg = "{{ URL::asset('assets/img/photos/1.jpg') }}"
     </script>
     <script>
-        urlshowinput = "{{ url('admin/service/showinputs', $service->id) }}";
-        delinputurl = '{{ url('admin/input/delete/[itemid]') }}';
+        urlshowexpert = "{{ url('admin/service/expert/showselected', $service->id) }}";  
     </script>
 @endsection

@@ -1,6 +1,9 @@
 var urlval = "";
 var urlshowinput = "";
+var urlshowexpert = "";
 var delinputurl = "";
+
+
 $(document).ready(function () {
 
 	// $('#sortbody').html('');
@@ -337,6 +340,14 @@ $(document).ready(function () {
 		clearInputError($('#field_type'));
 	});
 
+	$('#btn_show_expertmodal').on('click', function () {
+		//e.preventDefault();
+		resetexpertForm();
+		
+		clearInputError($('#select_expert'));
+	
+	});
+
 
 	/*	
 	//delete input .deleteinput
@@ -617,9 +628,142 @@ $(document).ready(function () {
 		i++;
 	});
 
+	//save expert service
+	$('#btn_save_expert').on('click', function (e) {
+		e.preventDefault();
+	//	startLoading();
+		ClearErrors();
+		//var fdata = $( "#create_form" ).serialize();
+		
+		var form = $('#expert_form')[0];
+		var formData = new FormData(form);
+		urlval = $('#expert_form').attr("action")
+		//var urlval ='{{url("admin/user")}}';
+		//const formData = new FormData("#create_form");
+		//  alert(formData.toString());
+
+		$.ajax({
+			url: urlval,
+			type: "POST",
+
+			data: formData,
+			contentType: false,
+			processData: false,
+			//contentType: 'application/json',
+			success: function (data) {
+				//	alert(data);
+			//	endLoading();
+				//$('#errormsg').html('');
+				//$('#sortbody').html('');
+				if (data.length == 0) {
+					noteError();
+				} else if (data == "ok") {
+					noteSuccess();
+
+					ClearErrors();
+					//$("#btn_cancel_field").trigger("click");
+					loadexperts();
+				}
+
+				// $('.alert').html(result.success);
+			}, error: function (errorresult) {
+				//endLoading();
+				var response = $.parseJSON(errorresult.responseText);
+				// $('#errormsg').html( errorresult );
+				noteError();
+				$.each(response.errors, function (key, val) {
+					$("#" + key + "_error").text(val[0]);
+					$("#" + key).addClass('parsley-error');
+					//$('#error').append(key+"-"+ val[0] +"/");
+				});
+
+			}, finally: function () {
+			//	endLoading();
+
+			}
+			/*
+			error: function(jqXHR, textStatus, errorThrown) {
+			 alert(jqXHR.responseText);
+			  // $('#errormsg').html(jqXHR.responseText);
+			  //$('#errormsg').html("Error");
+			  $('#error').text(jqXHR.responseText);
+			}
+			*/
+
+		});
+
+
+
+	});
+
+	//delete expert service
+	$('.btn-delete-expert').on('click', function (e) {
+		e.preventDefault();
+		var thisform = $(this).parents('form:first');
+		startLoading();
+		//ClearErrors();
+		//var fdata = $( "#create_form" ).serialize();
+		
+		var form = thisform[0];
+		var formData = new FormData(form);
+		urlval = thisform.attr("action")
+		//var urlval ='{{url("admin/user")}}';
+		//const formData = new FormData("#create_form");
+		//  alert(formData.toString());
+
+		$.ajax({
+			url: urlval,
+			type: "POST",
+
+			data: formData,
+			contentType: false,
+			processData: false,
+			//contentType: 'application/json',
+			success: function (data) {
+				//	alert(data);
+				endLoading();
+				//$('#errormsg').html('');
+				//$('#sortbody').html('');
+				if (data.length == 0) {
+					noteError();
+				} else if (data == "ok") {
+					noteSuccess();
+					//ClearErrors();					
+					loadexperts();
+				}
+
+				// $('.alert').html(result.success);
+			}, error: function (errorresult) {
+				endLoading();
+				var response = $.parseJSON(errorresult.responseText);
+				// $('#errormsg').html( errorresult );
+				noteError();
+				
+
+			}, finally: function () {
+				endLoading();
+
+			}
+			/*
+			error: function(jqXHR, textStatus, errorThrown) {
+			 alert(jqXHR.responseText);
+			  // $('#errormsg').html(jqXHR.responseText);
+			  //$('#errormsg').html("Error");
+			  $('#error').text(jqXHR.responseText);
+			}
+			*/
+
+		});
+
+
+
+	});
 	showimgcount($("#image_check"), $('#image_count'));
 	clearTypeinputs();
+
 	loadinputsview();
+
+
 });
 
 ///////////////////////////////////////////////////////
@@ -695,7 +839,15 @@ function resetfieldForm() {
 	$('#iconshow').attr("src", emptyimg);
 	*/
 }
+function resetexpertForm() {
+	jQuery('#expert_form')[0].reset();
 
+
+	/*
+	$('#imgshow').attr("src", emptyimg);
+	$('#iconshow').attr("src", emptyimg);
+	*/
+}
 function loadinputsview() {
 
 
@@ -720,6 +872,47 @@ function loadinputsview() {
 				//	noteError();
 			} else {
 				$('#div_extrainputs').html(data);
+
+			}
+
+			// $('.alert').html(result.success);
+		}, error: function (errorresult) {
+			//endLoading();
+			var response = $.parseJSON(errorresult.responseText);
+			// $('#errormsg').html( errorresult );
+
+
+		}, finally: function () {
+			//endLoading();
+
+		}
+	});
+}
+
+function loadexperts() {
+
+
+	//var formData = 21;
+
+	//var urlval ='{{url("admin/user")}}';
+
+
+	$.ajax({
+		url: urlshowexpert,
+		type: "GET",
+
+		//	data: formData,
+		//	contentType: false,
+		//processData: false,
+		//contentType: 'application/json',
+		success: function (data) {
+
+			//$('#errormsg').html('');
+			//$('#sortbody').html('');
+			if (data.length == 0) {
+				//	noteError();
+			} else {
+				$('#div_selectedexpert').html(data);
 
 			}
 

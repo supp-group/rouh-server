@@ -131,6 +131,17 @@ class ExpertsServiceController extends Controller
         }      
       return redirect()->route('admin.expertservice.show'); 
     }
+    
+    public function deleteselected($id)
+    {
+  $object = ExpertService::find($id);
+ //  $object = ExpertServic::find("aa");
+      if (!($object === null)) {  
+          //delete object
+          ExpertService::find($id)->delete();
+        }      
+        return response()->json("ok");
+    }
 
 }
 

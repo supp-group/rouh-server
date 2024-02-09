@@ -4,7 +4,7 @@ namespace App\Http\Requests\Web\Service;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
-class UpdateServiceRequest extends FormRequest
+class StoreExpertServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,7 @@ class UpdateServiceRequest extends FormRequest
     public function rules(): array
     {
         return[
-            'name'=>'required|string', 
-          //  'desc'=>'string', 
-             'icon' =>File::types(['svg']), 
-             'image'=>'file|image',  
-        
+            'select_expert'=>'required|integer',  
              ];   
        
     }
@@ -34,11 +30,8 @@ class UpdateServiceRequest extends FormRequest
     {
       
        return[   
-          'name.required'=> __('messages.this field is required') ,       
-          
-          'image'=>__('messages.file must be image') ,
-          'icon'=>__('messages.file must be svg') ,
-     
+          'select_expert.required'=> __('messages.this field is required') , 
+          'select_expert.integer'=> __('messages.this field is required') , 
         ];
         
     }

@@ -15,6 +15,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\Web\Service\StoreServiceRequest;
 use App\Http\Requests\Web\Service\UpdateServiceRequest;
 use App\Http\Requests\Web\Input\StoreInputRequest;
+use App\Http\Requests\Web\Service\StoreExpertServiceRequest;
 use App\Models\Input;
 use App\Models\Pointtransfer;
 use App\Models\Selectedservice;
@@ -64,6 +65,14 @@ class ServiceController extends Controller
       $list = DB::table('services')->whereNot('is_callservice',1)->get();
        return view('admin.service.showexperts', ['services' => $list]);
      // return dd($list);
+  
+    }
+    public function showselected($id)
+    {
+      $object = Service::find($id);
+      $selectedExpertList = $object->expertservices()->with('expert')->get();
+      return view('admin.expertservice.show', ['selectedexperts'=>$selectedExpertList]);
+      // return dd($list);
   
     }
     
@@ -118,9 +127,9 @@ class ServiceController extends Controller
       
     }
     }
-    public function expertsave(UpdateServiceRequest $request, $id)
+    public function expertsave(StoreExpertServiceRequest $request, $id)
     {
-      
+     // return response()->json($id); 
     $formdata = $request->all();
     //validate
     $validator = Validator::make(
@@ -137,24 +146,34 @@ class ServiceController extends Controller
      return response()->json($validator);
 
     } else {
-     // $imagemodel = Expert::find($id);
-      if ($request->hasFile('image')) {
-        $file= $request->file('image');
-               // $filename= $file->getClientOriginalName();                
-     $this->storeImage( $file,$id);
-       }
-       if ($request->hasFile('icon')) {
-        $file = $request->file('icon');
-        // $filename= $file->getClientOriginalName();               
-        $this->storeSvg($file,$id);
-        //  $this->storeImage( $file,2);
-      }
-      Service::find($id)->update([
-        'name'=>  $formdata['name'],
-        'desc'=>  $formdata['desc'],
-        'updateuser_id' =>Auth::user()->id,      
-      'is_active' => isset($formdata['is_active']) ? 1 : 0
-      ]);
+     
+ $exserList=ExpertService::where('service_id',$id)->where('expert_id',$formdata['select_expert'])->get();
+if($exserList->isEmpty())
+{
+$expertservice =new  ExpertService();
+$expertservice->expert_id=$formdata['select_expert'];
+$expertservice->service_id=$id;
+$expertservice->points=0;
+$expertservice->expert_cost=0;
+$expertservice->cost_type=0;
+$expertservice->expert_cost_value=0;
+$expertservice->save();
+}
+/*
+else{
+  $exserList->first()->update([
+    'expert_id'=>  $formdata['select_expert'],
+    'service_id'=> $id,  
+
+    'points'=>  0, 
+    'expert_cost'=>  0,      
+    'cost_type'=>0, 
+    'expert_cost_value'=>  0, 
+  ]);
+
+}
+*/
+     
      
       return response()->json("ok");
       

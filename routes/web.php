@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Web\ServiceController;
 use App\Http\Controllers\Web\PointController;
+use App\Http\Controllers\Web\ExpertsServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,7 +96,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/percent/save/{id}', [ServiceController::class, 'percentsave']);
             //عرض الخبراء المقدمين للخدمات
             Route::get('/expert/show', [ServiceController::class, 'showexpert']);
+            Route::get('/expert/showselected/{id}', [ServiceController::class, 'showselected']);
 
+            Route::post('/expert/deleteselected/{id}', [ExpertsServiceController::class, 'deleteselected']);
             Route::get('/expert/edit/{id}', [ServiceController::class, 'editexpert']);
             // حفظ الخبير
             Route::post('/expert/save/{id}', [ServiceController::class, 'expertsave']);
