@@ -663,6 +663,7 @@ $(document).ready(function () {
 					ClearErrors();
 					//$("#btn_cancel_field").trigger("click");
 					loadexperts();
+					$("#btn_cancel_field").trigger("click");
 				}
 
 				// $('.alert').html(result.success);

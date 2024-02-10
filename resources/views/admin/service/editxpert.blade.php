@@ -16,7 +16,7 @@
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto"><a
                         href="{{ route('service.index') }}">{{ __('general.services') }}</a></h4><span
-                    class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{ __('general.edit') }}</span>
+                        class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{ __('general.show Service Expert') }}</span>
             </div>
         </div>
     </div>
@@ -115,13 +115,7 @@
                                                 <li class="parsley-required" id="select_expert_error"></li>
                                             </ul>
                                         </div>
- 
-                                        <div class="form-group mb-4 justify-content-end">
-                                            <div>
-                                                <button type="submit" form="expert_form" name="btn_save_expert" id="btn_save_expert"
-                                                    class="btn btn-light btn-block"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </div>
+  
                                     </form>
                                 </div>
 
@@ -133,7 +127,8 @@
                     <!-- row -->
                 </div>
                 <div class="modal-footer">
-                    <button class="btn ripple btn-primary" data-dismiss="modal"  name="btn_close_expert" id="btn_close_expert"
+                    <button class="btn ripple btn-primary" type="submit" form="expert_form" name="btn_save_expert" id="btn_save_expert"   
+                    
                         type="button">حفظ</button>
                     <button class="btn ripple btn-secondary" data-dismiss="modal" name="btn_cancel_field"
                         id="btn_cancel_field" type="button"> إلغاء</button>
