@@ -20,6 +20,8 @@ use Illuminate\Support\Collection;
 use App\Http\Controllers\Api\ServiceController;
 use App\Models\Service;
 use App\Http\Controllers\Api\StorageController;
+use App\Http\Requests\Api\Expertfavorite\StoreRequest;
+
 class ExpertController extends Controller
 {
 
@@ -352,6 +354,8 @@ class ExpertController extends Controller
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
     }
+
+  
     public function servicetoArray($service,$service_url, $service_icon_url,$defaultimg, $defaultsvg)
     {
 
@@ -506,5 +510,48 @@ class ExpertController extends Controller
         } else {
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
+    }
+
+    public function savefav()
+    {
+        $authuser = auth()->user();
+        $request = request();
+     
+        $formdata = $request->all();
+     
+        $storrequest = new StoreRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
+       
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+            
+            return response()->json($validator->errors());
+            //   return redirect()->back()->withErrors($validator)->withInput();
+
+        } else {
+             
+         //   $data = json_decode($request->getContent(), true);            
+          //   return response()->json([$client_id,$authuser->id]);
+            if ($authuser->id == $formdata['client_id']) {      
+
+       if($formdata['is_favorite']==true){   
+        //updateOrCreate
+        $expertfavorit = Expertfavorite::updateOrCreate(
+          ['client_id' =>$formdata['client_id'], 'expert_id' =>$formdata['expert_id']] 
+      );
+       }else{
+       //delete
+        $deleted = Expertfavorite::where('client_id',$formdata['client_id'])->where('expert_id', $formdata['expert_id'])->delete();
+    
+    }
+    return response()->json("ok");
+             //   return response()->json( $client_id );
+                 } else {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+    }
     }
 }
