@@ -62,14 +62,14 @@ class ServiceController extends Controller
     }
     public function showexpert()
     {
-      $list =Service::whereNot('is_callservice',1)->with('expertservices:id,service_id,expert_id','expertservices.expert:id,user_name')->get();
- $namesarray=[];
+      $list =Service::whereNot('is_callservice',1)->with('expertservices:id,service_id,expert_id','expertservices.expert:id,user_name,first_name,last_name')->get();
+ $namesarray=[];  
  
       foreach(  $list as $servicerow){
         $namesarray=[];
         foreach($servicerow->expertservices as $expertservicerow)
 {
-  $namesarray[]=$expertservicerow->expert->user_name;
+  $namesarray[]=$expertservicerow->expert->first_name." ".$expertservicerow->expert->last_name;
   
   $servicerow->experts_names= implode(",", $namesarray);
 }       
