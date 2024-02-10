@@ -45,7 +45,7 @@
                                         <div class="mb-3">
                                             <div class="service-field row">
                                                 <div class="col-8">
-                                                    <p>{{ $selectedexpert->expert->user_name }}</p>
+                                                    <p>{{ $selectedexpert->expert->first_name." ".$selectedexpert->expert->last_name }}</p>
                                                 </div>           
             
                                                 <div class="col-4">
@@ -108,7 +108,7 @@
                                                 <!--placeholder-->
                                                 <option title="" selected class="text-muted">الخبير</option>
                                                  @foreach ($allexperts as $expert) 
-                                                <option value="{{$expert->id}}">{{$expert->user_name}}</option>  
+                                                <option value="{{$expert->id}}">{{ $expert->first_name." ".$expert->last_name }}</option>  
                                                  @endforeach  
                                             </select>
                                             <ul class="parsley-errors-list filled">

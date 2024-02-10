@@ -7,7 +7,7 @@ id="delete_expert_form">
     <div class="mb-3">
         <div class="service-field row">
             <div class="col-8">
-                <p>{{ $selectedexpert->expert->user_name }}</p>
+                <p>{{ $selectedexpert->expert->first_name." ".$selectedexpert->expert->last_name }}</p>
             </div>   
                       <div class="col-4">
                 <div class="form-horizontal d-inline-block">
