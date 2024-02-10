@@ -62,9 +62,23 @@ class ServiceController extends Controller
     }
     public function showexpert()
     {
-      $list = DB::table('services')->whereNot('is_callservice',1)->get();
-       return view('admin.service.showexperts', ['services' => $list]);
-     // return dd($list);
+      $list =Service::whereNot('is_callservice',1)->with('expertservices:id,service_id,expert_id','expertservices.expert:id,user_name')->get();
+ $namesarray=[];
+ 
+      foreach(  $list as $servicerow){
+        $namesarray=[];
+        foreach($servicerow->expertservices as $expertservicerow)
+{
+  $namesarray[]=$expertservicerow->expert->user_name;
+  
+  $servicerow->experts_names= implode(",", $namesarray);
+}       
+ }
+    
+    //  return  dd($list);
+      return view('admin.service.showexperts', ['services' => $list]);
+
+      
   
     }
     public function showselected($id)

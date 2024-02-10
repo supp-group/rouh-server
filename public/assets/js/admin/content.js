@@ -701,7 +701,7 @@ $(document).ready(function () {
 	showimgcount($("#image_check"), $('#image_count'));
 	clearTypeinputs();
 
-	 loadinputsview();
+	// loadinputsview();
 
 
 });

@@ -33,36 +33,7 @@
                         <h6 class="card-title">قائمة خبراء خدمة {{ $service->name }}</h6>
                         <a class="btn ripple btn-light" data-target="#scrollmodal" data-toggle="modal" id="btn_show_expertmodal"><i class="fa fa-plus"></i> إضافة خبير</a>
                     </div>
-                    <form class="form-horizontal" name="imgrecord_form"
-                        action="{{ url('admin/service/saveimgrecord', $service->id) }}" method="POST"
-                        enctype="multipart/form-data" id="imgrecord_form">
-                        @csrf
-                        <div class="mb-2">
-                            <div class="mb-3">
-                                <div class="service-field row">
-                                    <div class="col-8">
-                                        <p>اسم الخبير المختار</p>
-                                    </div>
-
-
-
-                                    <div class="col-4">
-                                        <div class="form-horizontal d-inline-block">
-                                            <div class="form-group">
-
-                                                <button type="button" class="btn ripple btn-danger deleteinput"
-                                                    id="64"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </form>
+                 
                     <div id="div_selectedexpert">
                                     @foreach ($selectedexperts as $selectedexpert)
                                   

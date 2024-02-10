@@ -51,8 +51,7 @@
 											<tr>
 
 												<td>{{$service->name }}</td>
-												<td>{{ $service->desc }}</td>
-
+												<td>{{ $service->experts_names }}</td>
                                                 <td>
 													<a href="{{url('admin/service/expert/edit',$service->id)}}"  class="btn btn-light btn-sm" title="">قائمة الخبراء</a>
 
