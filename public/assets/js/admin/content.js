@@ -697,71 +697,11 @@ $(document).ready(function () {
 	});
 
 	//delete expert service
-	$('.btn-delete-expert').on('click', function (e) {
-		e.preventDefault();
-		var thisform = $(this).parents('form:first');
-		startLoading();
-		//ClearErrors();
-		//var fdata = $( "#create_form" ).serialize();
-		
-		var form = thisform[0];
-		var formData = new FormData(form);
-		urlval = thisform.attr("action")
-		//var urlval ='{{url("admin/user")}}';
-		//const formData = new FormData("#create_form");
-		//  alert(formData.toString());
-
-		$.ajax({
-			url: urlval,
-			type: "POST",
-
-			data: formData,
-			contentType: false,
-			processData: false,
-			//contentType: 'application/json',
-			success: function (data) {
-				//	alert(data);
-				endLoading();
-				//$('#errormsg').html('');
-				//$('#sortbody').html('');
-				if (data.length == 0) {
-					noteError();
-				} else if (data == "ok") {
-					noteSuccess();
-					//ClearErrors();					
-					loadexperts();
-				}
-
-				// $('.alert').html(result.success);
-			}, error: function (errorresult) {
-				endLoading();
-				var response = $.parseJSON(errorresult.responseText);
-				// $('#errormsg').html( errorresult );
-				noteError();
-				
-
-			}, finally: function () {
-				endLoading();
-
-			}
-			/*
-			error: function(jqXHR, textStatus, errorThrown) {
-			 alert(jqXHR.responseText);
-			  // $('#errormsg').html(jqXHR.responseText);
-			  //$('#errormsg').html("Error");
-			  $('#error').text(jqXHR.responseText);
-			}
-			*/
-
-		});
-
-
-
-	});
+	 
 	showimgcount($("#image_check"), $('#image_count'));
 	clearTypeinputs();
 
-	loadinputsview();
+	 loadinputsview();
 
 
 });
@@ -891,7 +831,7 @@ function loadinputsview() {
 
 function loadexperts() {
 
-
+ 
 	//var formData = 21;
 
 	//var urlval ='{{url("admin/user")}}';
@@ -912,6 +852,7 @@ function loadexperts() {
 			if (data.length == 0) {
 				//	noteError();
 			} else {
+			 
 				$('#div_selectedexpert').html(data);
 
 			}
@@ -929,3 +870,5 @@ function loadexperts() {
 		}
 	});
 }
+
+ 

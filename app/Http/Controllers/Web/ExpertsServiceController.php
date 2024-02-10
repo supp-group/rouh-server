@@ -135,12 +135,17 @@ class ExpertsServiceController extends Controller
     public function deleteselected($id)
     {
   $object = ExpertService::find($id);
+  $service_id=$object->service_id;
  //  $object = ExpertServic::find("aa");
       if (!($object === null)) {  
           //delete object
-          ExpertService::find($id)->delete();
+         ExpertService::find($id)->delete();//temp
         }      
-        return response()->json("ok");
+      //  return response()->json("ok");
+       // return response()->url('admin/service/expert/edit' ,$service_id); 
+        return redirect()->route('service.expert.edit',$service_id); 
+   
+     //  {{url('admin/service/expert/edit',$service->id)}}
     }
 
 }

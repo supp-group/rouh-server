@@ -99,7 +99,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::get('/expert/showselected/{id}', [ServiceController::class, 'showselected']);
 
             Route::post('/expert/deleteselected/{id}', [ExpertsServiceController::class, 'deleteselected']);
-            Route::get('/expert/edit/{id}', [ServiceController::class, 'editexpert']);
+            Route::get('/expert/edit/{id}', [ServiceController::class, 'editexpert'])->name('service.expert.edit');
             // حفظ الخبير
             Route::post('/expert/save/{id}', [ServiceController::class, 'expertsave']);
 
