@@ -11,7 +11,7 @@
                         <div class="card  box-shadow-0">
                             <div class="card-body pt-4">
                                 <form class="form-horizontal" name="expert_percent_form"
-                                    action="{{ url('admin/service/expert/save', $service->id) }}" method="POST"
+                                    action="{{ url('admin/service/percent/save', $service->id) }}" method="POST"
                                     id="expert_percent_form">
                                     @csrf                        
                                     <div class="form-group mb-3">
@@ -37,3 +37,5 @@
         </div>
     </div>
 <!--End Scroll with content modal -->
+ 
+<script src="{{ URL::asset('assets/js/admin/percent.js') }}"></script>

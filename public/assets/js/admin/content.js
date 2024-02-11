@@ -2,7 +2,7 @@ var urlval = "";
 var urlshowinput = "";
 var urlshowexpert = "";
 var delinputurl = "";
-var urlshowpercent="";
+var urlshowpercent = "";
 
 $(document).ready(function () {
 
@@ -343,9 +343,9 @@ $(document).ready(function () {
 	$('#btn_show_expertmodal').on('click', function () {
 		//e.preventDefault();
 		resetexpertForm();
-		
+
 		clearInputError($('#select_expert'));
-	
+
 	});
 
 
@@ -434,7 +434,7 @@ $(document).ready(function () {
 	$("#field_icon").on("change", function () {
 		imageChangeForm("#field_icon", "#field_icon_label", "#field_iconshow");
 	});
-	
+
 	function imageChangeForm(btn_id, upload_label, imageId) {
 		/* Current this object refer to input element */
 		var $input = $(btn_id);
@@ -640,10 +640,10 @@ $(document).ready(function () {
 	//save expert service
 	$('#btn_save_expert').on('click', function (e) {
 		e.preventDefault();
-	//	startLoading();
+		//	startLoading();
 		ClearErrors();
 		//var fdata = $( "#create_form" ).serialize();
-		
+
 		var form = $('#expert_form')[0];
 		var formData = new FormData(form);
 		urlval = $('#expert_form').attr("action")
@@ -661,7 +661,7 @@ $(document).ready(function () {
 			//contentType: 'application/json',
 			success: function (data) {
 				//	alert(data);
-			//	endLoading();
+				//	endLoading();
 				//$('#errormsg').html('');
 				//$('#sortbody').html('');
 				if (data.length == 0) {
@@ -688,7 +688,7 @@ $(document).ready(function () {
 				});
 
 			}, finally: function () {
-			//	endLoading();
+				//	endLoading();
 
 			}
 			/*
@@ -706,127 +706,128 @@ $(document).ready(function () {
 
 	});
 
-	 
+
 	showimgcount($("#image_check"), $('#image_count'));
 	clearTypeinputs();
 
 	// loadinputsview();
 	//show percent modal
 	$('.edit-service-percent').on('click', function (e) {
-		 e.preventDefault();
+		e.preventDefault();
 		ClearErrors();
-var thisId=$(this).attr("id");
-thisId=thisId.replace("edit-","");
-	 var	urlval=urlshowpercent.replace("itemid",thisId);
+		
+		var thisId = $(this).attr("id");
+		thisId = thisId.replace("edit-", "");
+		var urlval = urlshowpercent.replace("itemid", thisId);
 		//var formData = 21;
 		//var thisform =$(this).closest('form');
 		//var urlval ='{{url("admin/user")}}';
 		//var thisform = $(this).parents('form:first');
 		//var formData = new FormData(thisform);
-	//	var	urlval = thisform.attr("action");
-	 
+		//	var	urlval = thisform.attr("action");
+
 		$.ajax({
 			url: urlval,
 			type: "GET",
-	
+
 			//	data: formData,
 			//	contentType: false,
 			//processData: false,
 			//contentType: 'application/json',
 			success: function (data) {
-	
+
 				//$('#errormsg').html('');
 				//$('#sortbody').html('');
 				if (data.length == 0) {
 					//	noteError();
 				} else {
 					$('#scrollmodal-edit').html(data);
-	
+
 				}
-	
+
 				// $('.alert').html(result.success);
 			}, error: function (errorresult) {
 				//endLoading();
 				var response = $.parseJSON(errorresult.responseText);
 				// $('#errormsg').html( errorresult );
-	
-	
+
+
 			}, finally: function () {
 				//endLoading();
-	
+
 			}
 		});
 	});
-	
-//save percent
-$('#btn_save_percent').on('click', function (e) {
-	e.preventDefault();
-	alert("hi");
-//	startLoading();
-	ClearErrors();
-	//var fdata = $( "#create_form" ).serialize();
-	
-	var form = $('#expert_percent_form')[0];
-	var formData = new FormData(form);
-	urlval = $('#expert_percent_form').attr("action")
-	//var urlval ='{{url("admin/user")}}';
-	//const formData = new FormData("#create_form");
-	//  alert(formData.toString());
 
-	$.ajax({
-		url: urlval,
-		type: "POST",
+	//save percent
+	$('#btn_save_percent').on('click', function (e) {
+		e.preventDefault();
+		alert("hi");
+		//	startLoading();
+		ClearErrors();
+		//var fdata = $( "#create_form" ).serialize();
 
-		data: formData,
-		contentType: false,
-		processData: false,
-		//contentType: 'application/json',
-		success: function (data) {
-			//	alert(data);
-		//	endLoading();
-			//$('#errormsg').html('');
-			//$('#sortbody').html('');
-			if (data.length == 0) {
+		var form = $('#expert_percent_form')[0];
+		var formData = new FormData(form);
+		urlval = $('#expert_percent_form').attr("action")
+		//var urlval ='{{url("admin/user")}}';
+		//const formData = new FormData("#create_form");
+		//  alert(formData.toString());
+
+		$.ajax({
+			url: urlval,
+			type: "POST",
+
+			data: formData,
+			contentType: false,
+			processData: false,
+			//contentType: 'application/json',
+			success: function (data) {
+				//	alert(data);
+				//	endLoading();
+				//$('#errormsg').html('');
+				//$('#sortbody').html('');
+				if (data.length == 0) {
+					noteError();
+				} else if (data == "ok") {
+					noteSuccess();
+
+					ClearErrors();
+					//$("#btn_cancel_field").trigger("click");
+					//loadexperts();
+					$("#btn_cancel_field").trigger("click");
+				}
+
+				// $('.alert').html(result.success);
+			}, error: function (errorresult) {
+				//endLoading();
+				var response = $.parseJSON(errorresult.responseText);
+				// $('#errormsg').html( errorresult );
 				noteError();
-			} else if (data == "ok") {
-				noteSuccess();
+				$.each(response.errors, function (key, val) {
+					$("#" + key + "_error").text(val[0]);
+					$("#" + key).addClass('parsley-error');
+					//$('#error').append(key+"-"+ val[0] +"/");
+				});
 
-				ClearErrors();
-				//$("#btn_cancel_field").trigger("click");
-				//loadexperts();
-				$("#btn_cancel_field").trigger("click");
+			}, finally: function () {
+				//	endLoading();
+
 			}
+			/*
+			error: function(jqXHR, textStatus, errorThrown) {
+			 alert(jqXHR.responseText);
+			  // $('#errormsg').html(jqXHR.responseText);
+			  //$('#errormsg').html("Error");
+			  $('#error').text(jqXHR.responseText);
+			}
+			*/
 
-			// $('.alert').html(result.success);
-		}, error: function (errorresult) {
-			//endLoading();
-			var response = $.parseJSON(errorresult.responseText);
-			// $('#errormsg').html( errorresult );
-			noteError();
-			$.each(response.errors, function (key, val) {
-				$("#" + key + "_error").text(val[0]);
-				$("#" + key).addClass('parsley-error');
-				//$('#error').append(key+"-"+ val[0] +"/");
-			});
+		});
 
-		}, finally: function () {
-		//	endLoading();
 
-		}
-		/*
-		error: function(jqXHR, textStatus, errorThrown) {
-		 alert(jqXHR.responseText);
-		  // $('#errormsg').html(jqXHR.responseText);
-		  //$('#errormsg').html("Error");
-		  $('#error').text(jqXHR.responseText);
-		}
-		*/
 
 	});
-
-
-
-});
 
 
 });
@@ -906,13 +907,12 @@ function resetfieldForm() {
 }
 function resetexpertForm() {
 	jQuery('#expert_form')[0].reset();
-
-
 	/*
 	$('#imgshow').attr("src", emptyimg);
 	$('#iconshow').attr("src", emptyimg);
 	*/
 }
+ 
 function loadinputsview() {
 
 
@@ -956,7 +956,7 @@ function loadinputsview() {
 
 function loadexperts() {
 
- 
+
 	//var formData = 21;
 
 	//var urlval ='{{url("admin/user")}}';
@@ -977,7 +977,7 @@ function loadexperts() {
 			if (data.length == 0) {
 				//	noteError();
 			} else {
-			 
+
 				$('#div_selectedexpert').html(data);
 
 			}
@@ -996,4 +996,4 @@ function loadexperts() {
 	});
 }
 
- 
+

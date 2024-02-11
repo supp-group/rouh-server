@@ -7,6 +7,7 @@
 <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
@@ -106,7 +107,9 @@
 
 <script src="{{ URL::asset('assets/js/admin/validate.js') }}"></script>
 <script src="{{ URL::asset('assets/js/admin/content.js') }}"></script>
+
 <script>
 	urlshowpercent = "{{ url('admin/service/percent/edit', 'itemid') }}";  
+	urlallpercent = "{{ url('admin/service/percent/show')}}";  
 </script>
 @endsection
