@@ -46,7 +46,7 @@ $(document).ready(function () {
 		urlval = $('#expert_form').attr("action")
 		//var urlval ='{{url("admin/user")}}';
 		//const formData = new FormData("#create_form");
-		//  alert(formData.toString());
+		 
 
 		$.ajax({
 			url: urlval,
@@ -57,7 +57,7 @@ $(document).ready(function () {
 			processData: false,
 			//contentType: 'application/json',
 			success: function (data) {
-				//	alert(data);
+			 
 			//	endLoading();
 				//$('#errormsg').html('');
 				//$('#sortbody').html('');
@@ -69,9 +69,10 @@ $(document).ready(function () {
 					ClearErrors();
 					//$("#btn_cancel_field").trigger("click");
 					loadexperts();
+				$("#btn_cancel_field").trigger("click");
 				}
 
-				// $('.alert').html(result.success);
+			 
 			}, error: function (errorresult) {
 				//endLoading();
 				var response = $.parseJSON(errorresult.responseText);
@@ -89,7 +90,7 @@ $(document).ready(function () {
 			}
 			/*
 			error: function(jqXHR, textStatus, errorThrown) {
-			 alert(jqXHR.responseText);
+			 
 			  // $('#errormsg').html(jqXHR.responseText);
 			  //$('#errormsg').html("Error");
 			  $('#error').text(jqXHR.responseText);
@@ -116,7 +117,7 @@ $(document).ready(function () {
 		urlval = thisform.attr("action")
 		//var urlval ='{{url("admin/user")}}';
 		//const formData = new FormData("#create_form");
-		//  alert(formData.toString());
+	 
 
 		$.ajax({
 			url: urlval,
@@ -127,7 +128,7 @@ $(document).ready(function () {
 			processData: false,
 			//contentType: 'application/json',
 			success: function (data) {
-				//	alert(data);
+			 
 				endLoading();
 				//$('#errormsg').html('');
 				//$('#sortbody').html('');
@@ -139,7 +140,7 @@ $(document).ready(function () {
 					loadexpertsafterDel();
 				}
 
-				// $('.alert').html(result.success);
+			 
 			}, error: function (errorresult) {
 				endLoading();
 				var response = $.parseJSON(errorresult.responseText);
@@ -153,7 +154,7 @@ $(document).ready(function () {
 			}
 			/*
 			error: function(jqXHR, textStatus, errorThrown) {
-			 alert(jqXHR.responseText);
+			  
 			  // $('#errormsg').html(jqXHR.responseText);
 			  //$('#errormsg').html("Error");
 			  $('#error').text(jqXHR.responseText);
@@ -205,7 +206,7 @@ function resetexpertForm() {
 
 function loadexperts() {
 
-alert("loadexpert");
+ 
  
 	$.ajax({
 		url: urlshowexpert,
@@ -222,12 +223,11 @@ alert("loadexpert");
 			if (data.length == 0) {
 				//	noteError();
 			} else {
-				alert("fill div_selectedexpert");
+			 
 				$('#div_selectedexpert').html(data);
 
 			}
 
-			// $('.alert').html(result.success);
 		}, error: function (errorresult) {
 			//endLoading();
 			var response = $.parseJSON(errorresult.responseText);
@@ -243,7 +243,7 @@ alert("loadexpert");
 
 function loadexpertsafterDel() {
 
-	alert("loadexpert");
+
 		//var formData = 21;
 	
 		//var urlval ='{{url("admin/user")}}';
@@ -264,12 +264,12 @@ function loadexpertsafterDel() {
 				if (data.length == 0) {
 					//	noteError();
 				} else {
-					alert("fill div_selectedexpert");
+				
 					$('#div_selectedexpert').html(data);
 	
 				}
 	
-				// $('.alert').html(result.success);
+				
 			}, error: function (errorresult) {
 				//endLoading();
 				var response = $.parseJSON(errorresult.responseText);

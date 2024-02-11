@@ -44,14 +44,15 @@
                             id="btn_show_expertmodal"><i class="fa fa-plus"></i> إضافة خبير</a>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="div_selectedexpert">
+
                     <div class="table-responsive">
                         <table id="example" class="table text-md-nowrap">
                             <thead>
                                 <tr>
 
                                     <th class="border-bottom-0">اسم الخبير</th>
-                                    <th class="border-bottom-0">نقاط الخبير</th>
+                                    <th class="border-bottom-0">النقاط</th>
 
                                     <th class="border-bottom-0">{{ __('general.action') }}</th>
 
@@ -83,6 +84,7 @@
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -208,4 +210,6 @@
     <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
     <!--Internal  Datatable js -->
     <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/admin/validate.js') }}"></script>
+
 @endsection
