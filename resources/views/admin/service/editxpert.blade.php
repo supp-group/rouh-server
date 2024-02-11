@@ -8,6 +8,14 @@
     <link href="{{ URL::asset('assets/plugins/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
     <!---Internal  Multislider css-->
     <link href="{{ URL::asset('assets/plugins/multislider/multislider.css') }}" rel="stylesheet">
+
+    <!-- Internal Data table css -->
+    <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
@@ -16,7 +24,7 @@
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto"><a
                         href="{{ route('service.index') }}">{{ __('general.services') }}</a></h4><span
-                        class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{ __('general.show Service Expert') }}</span>
+                    class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{ __('general.show Service Expert') }}</span>
             </div>
         </div>
     </div>
@@ -26,52 +34,59 @@
     <!-- row -->
     <div class="row row-sm">
 
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card mg-b-20">
+                <div class="card-header pb-0">
                     <div class="d-flex justify-content-between mb-3">
                         <h6 class="card-title">قائمة خبراء خدمة {{ $service->name }}</h6>
-                        <a class="btn ripple btn-light" data-target="#scrollmodal" data-toggle="modal" id="btn_show_expertmodal"><i class="fa fa-plus"></i> إضافة خبير</a>
+                        <a class="btn ripple btn-light" data-target="#scrollmodal" data-toggle="modal"
+                            id="btn_show_expertmodal"><i class="fa fa-plus"></i> إضافة خبير</a>
                     </div>
-                 
-                    <div id="div_selectedexpert">
-                                    @foreach ($selectedexperts as $selectedexpert)
-                                  
-                                    <form class="form-horizontal delete-expert-form" name="delete_expert_form"
-                                    action="{{ url('admin/service/expert/deleteselected', $selectedexpert->id) }}" method="POST"
-                                    id="delete_expert_form">
-                                    @csrf
-                                    <div class="mb-2">
-                                        <div class="mb-3">
-                                            <div class="service-field row">
-                                                <div class="col-8">
-                                                    <p>{{ $selectedexpert->expert->first_name." ".$selectedexpert->expert->last_name }}</p>
-                                                </div>           
-            
-                                                <div class="col-4">
-                                                    <div class="form-horizontal d-inline-block">
-                                                        <div class="form-group">
-            
-                                                            <button type="submit" class="btn ripple btn-danger btn-delete-expert"
-                                                                id="expert-{{ $selectedexpert->expert->id }}"><i class="fa fa-trash"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-            
-            
-                                            </div>
-            
-                                        </div>
-            
-                                    </div>
-                                </form>
-@endforeach
-</div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example" class="table text-md-nowrap">
+                            <thead>
+                                <tr>
 
-                       
+                                    <th class="border-bottom-0">اسم الخبير</th>
+                                    <th class="border-bottom-0">نقاط الخبير</th>
+
+                                    <th class="border-bottom-0">{{ __('general.action') }}</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($selectedexperts as $selectedexpert)
+                                    <tr>
+
+                                        <td>{{ $selectedexpert->expert->first_name . ' ' . $selectedexpert->expert->last_name }}
+                                        </td>
+                                        <td>{{ $selectedexpert->expert->points }}</td>
+
+                                        <td>
+                                            <a href="" class="btn btn-success btn-sm"
+                                                title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a>
+
+                                            <form action="{{ url('admin/service/expert/deleteselected', $selectedexpert->id) }}" method="POST" class="d-inline" id="delete_expert_form">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger btn-sm btn-delete-expert"
+                                                id="expert-{{ $selectedexpert->expert->id }}"><i
+                                                    class="fa fa-trash"></i></button>
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+        <!--/div-->
 
     </div>
     <!-- row -->
@@ -104,18 +119,20 @@
                                         id="expert_form">
                                         @csrf
                                         <div class="form-group mb-3">
-                                            <select name="select_expert" id="select_expert" class="form-control SlectBox">
+                                            <select name="select_expert" id="select_expert"
+                                                class="form-control SlectBox">
                                                 <!--placeholder-->
                                                 <option title="" selected class="text-muted">الخبير</option>
-                                                 @foreach ($allexperts as $expert) 
-                                                <option value="{{$expert->id}}">{{ $expert->first_name." ".$expert->last_name }}</option>  
-                                                 @endforeach  
+                                                @foreach ($allexperts as $expert)
+                                                    <option value="{{ $expert->id }}">
+                                                        {{ $expert->first_name . ' ' . $expert->last_name }}</option>
+                                                @endforeach
                                             </select>
                                             <ul class="parsley-errors-list filled">
                                                 <li class="parsley-required" id="select_expert_error"></li>
                                             </ul>
                                         </div>
-  
+
                                     </form>
                                 </div>
 
@@ -127,9 +144,8 @@
                     <!-- row -->
                 </div>
                 <div class="modal-footer">
-                    <button class="btn ripple btn-primary" type="submit" form="expert_form" name="btn_save_expert" id="btn_save_expert"   
-                    
-                        type="button">حفظ</button>
+                    <button class="btn ripple btn-primary" type="submit" form="expert_form" name="btn_save_expert"
+                        id="btn_save_expert" type="button">حفظ</button>
                     <button class="btn ripple btn-secondary" data-dismiss="modal" name="btn_cancel_field"
                         id="btn_cancel_field" type="button"> إلغاء</button>
                 </div>
@@ -137,8 +153,6 @@
         </div>
     </div>
     <!--End Scroll with content modal -->
-
-   
 @endsection
 @section('js')
     <!--Internal  Datepicker js -->
@@ -167,11 +181,31 @@
     <script src="{{ URL::asset('assets/js/admin/expert.js') }}"></script>
     <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
     <!--Internal  Datatable js -->
-   
+
     <script>
         var emptyimg = "{{ URL::asset('assets/img/photos/1.jpg') }}"
     </script>
     <script>
-        urlshowexpert = "{{ url('admin/service/expert/showselected', $service->id) }}";  
+        urlshowexpert = "{{ url('admin/service/expert/showselected', $service->id) }}";
     </script>
+
+    <!-- Internal Data tables -->
+    <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
+    <!--Internal  Datatable js -->
+    <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
 @endsection
