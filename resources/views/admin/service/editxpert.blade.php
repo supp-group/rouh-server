@@ -138,11 +138,7 @@
     </div>
     <!--End Scroll with content modal -->
 
-    <!-- Scroll Edit with content modal -->
-    <div class="modal" id="scrollmodal-edit">
-
-    </div>
-    <!--End Scroll with content modal -->
+   
 @endsection
 @section('js')
     <!--Internal  Datepicker js -->
