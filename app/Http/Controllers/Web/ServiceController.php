@@ -16,6 +16,7 @@ use App\Http\Requests\Web\Service\StoreServiceRequest;
 use App\Http\Requests\Web\Service\UpdateServiceRequest;
 use App\Http\Requests\Web\Input\StoreInputRequest;
 use App\Http\Requests\Web\Service\StoreExpertServiceRequest;
+use  App\Http\Requests\Web\Service\UpdatePercentRequest;
 use App\Models\Input;
 use App\Models\Pointtransfer;
 use App\Models\Selectedservice;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Web\InputController;
 use App\Models\Inputvalue;
 use App\Models\Expert;
+
 /* 
 use App\Models\Expertfavorite;
 use App\Models\Servicefavorite;
@@ -99,7 +101,7 @@ class ServiceController extends Controller
      // return dd($list);
   
     }
-    public function percentsave(UpdateServiceRequest $request, $id)
+    public function percentsave(UpdatePercentRequest $request, $id)
     {
       
     $formdata = $request->all();
@@ -110,37 +112,27 @@ class ServiceController extends Controller
       $request->messages()
     );
     if ($validator->fails()) {
-      /*
-        return redirect('/cpanel/users/add')
-        ->withErrors($validator)
-                    ->withInput();
-                    */
+ 
      return response()->json($validator);
 
-    } else {
-     // $imagemodel = Expert::find($id);
-      if ($request->hasFile('image')) {
-        $file= $request->file('image');
-               // $filename= $file->getClientOriginalName();                
-     $this->storeImage( $file,$id);
-       }
-       if ($request->hasFile('icon')) {
-        $file = $request->file('icon');
-        // $filename= $file->getClientOriginalName();               
-        $this->storeSvg($file,$id);
-        //  $this->storeImage( $file,2);
-      }
+    } else {     
+     
       Service::find($id)->update([
-        'name'=>  $formdata['name'],
-        'desc'=>  $formdata['desc'],
-        'updateuser_id' =>Auth::user()->id,      
-      'is_active' => isset($formdata['is_active']) ? 1 : 0
+        'expert_percent'=>  $formdata['expert_percent'],       
       ]);
      
       return response()->json("ok");
       
     }
     }
+
+    public function percentedit($id)
+    {
+      $object = Service::find($id);
+
+ return view('admin.expertservice.edit', ['service' => $object]);
+    }
+    
     public function expertsave(StoreExpertServiceRequest $request, $id)
     {
      // return response()->json($id); 

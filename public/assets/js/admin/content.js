@@ -2,7 +2,7 @@ var urlval = "";
 var urlshowinput = "";
 var urlshowexpert = "";
 var delinputurl = "";
-
+var urlshowpercent="";
 
 $(document).ready(function () {
 
@@ -614,6 +614,15 @@ $(document).ready(function () {
 		}
 
 	});
+
+	$("#expert_percent").focusout(function (e) {
+		if (!validatempty($(this))) {
+			return false;
+		} else {
+
+			return true;
+		}
+	});
 	//add input text dynamicly
 	var i = 1;
 	$('#btn_add_option').on('click', function () {
@@ -697,12 +706,127 @@ $(document).ready(function () {
 
 	});
 
-	//delete expert service
 	 
 	showimgcount($("#image_check"), $('#image_count'));
 	clearTypeinputs();
 
 	// loadinputsview();
+	//show percent modal
+	$('.edit-service-percent').on('click', function (e) {
+		 e.preventDefault();
+		ClearErrors();
+var thisId=$(this).attr("id");
+thisId=thisId.replace("edit-","");
+	 var	urlval=urlshowpercent.replace("itemid",thisId);
+		//var formData = 21;
+		//var thisform =$(this).closest('form');
+		//var urlval ='{{url("admin/user")}}';
+		//var thisform = $(this).parents('form:first');
+		//var formData = new FormData(thisform);
+	//	var	urlval = thisform.attr("action");
+	 
+		$.ajax({
+			url: urlval,
+			type: "GET",
+	
+			//	data: formData,
+			//	contentType: false,
+			//processData: false,
+			//contentType: 'application/json',
+			success: function (data) {
+	
+				//$('#errormsg').html('');
+				//$('#sortbody').html('');
+				if (data.length == 0) {
+					//	noteError();
+				} else {
+					$('#scrollmodal-edit').html(data);
+	
+				}
+	
+				// $('.alert').html(result.success);
+			}, error: function (errorresult) {
+				//endLoading();
+				var response = $.parseJSON(errorresult.responseText);
+				// $('#errormsg').html( errorresult );
+	
+	
+			}, finally: function () {
+				//endLoading();
+	
+			}
+		});
+	});
+	
+//save percent
+$('#btn_save_percent').on('click', function (e) {
+	e.preventDefault();
+	alert("hi");
+//	startLoading();
+	ClearErrors();
+	//var fdata = $( "#create_form" ).serialize();
+	
+	var form = $('#expert_percent_form')[0];
+	var formData = new FormData(form);
+	urlval = $('#expert_percent_form').attr("action")
+	//var urlval ='{{url("admin/user")}}';
+	//const formData = new FormData("#create_form");
+	//  alert(formData.toString());
+
+	$.ajax({
+		url: urlval,
+		type: "POST",
+
+		data: formData,
+		contentType: false,
+		processData: false,
+		//contentType: 'application/json',
+		success: function (data) {
+			//	alert(data);
+		//	endLoading();
+			//$('#errormsg').html('');
+			//$('#sortbody').html('');
+			if (data.length == 0) {
+				noteError();
+			} else if (data == "ok") {
+				noteSuccess();
+
+				ClearErrors();
+				//$("#btn_cancel_field").trigger("click");
+				//loadexperts();
+				$("#btn_cancel_field").trigger("click");
+			}
+
+			// $('.alert').html(result.success);
+		}, error: function (errorresult) {
+			//endLoading();
+			var response = $.parseJSON(errorresult.responseText);
+			// $('#errormsg').html( errorresult );
+			noteError();
+			$.each(response.errors, function (key, val) {
+				$("#" + key + "_error").text(val[0]);
+				$("#" + key).addClass('parsley-error');
+				//$('#error').append(key+"-"+ val[0] +"/");
+			});
+
+		}, finally: function () {
+		//	endLoading();
+
+		}
+		/*
+		error: function(jqXHR, textStatus, errorThrown) {
+		 alert(jqXHR.responseText);
+		  // $('#errormsg').html(jqXHR.responseText);
+		  //$('#errormsg').html("Error");
+		  $('#error').text(jqXHR.responseText);
+		}
+		*/
+
+	});
+
+
+
+});
 
 
 });

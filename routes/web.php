@@ -94,6 +94,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::get('/percent/show', [ServiceController::class, 'showpercent']);
             //حفظ النسبة
             Route::post('/percent/save/{id}', [ServiceController::class, 'percentsave']);
+            //عرض نسبة الخدمة حسب ال id modal
+            Route::get('/percent/edit/{id}', [ServiceController::class, 'percentedit']);
             //عرض الخبراء المقدمين للخدمات
             Route::get('/expert/show', [ServiceController::class, 'showexpert']);
             Route::get('/expert/showselected/{id}', [ServiceController::class, 'showselected']);

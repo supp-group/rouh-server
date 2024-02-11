@@ -48,16 +48,19 @@
 										</thead>
 										<tbody>
 											@foreach ($services as $service)
+											 
+											
 											<tr>
 
 												<td>{{$service->name }}</td>
-												<td>{{ $service->desc }}</td>
+												<td>{{ $service->expert_percent==0?0: $service->expert_percent}} %</td>
 
-                                                <td>
-                                                    <a href="{{url('admin/service/expert/edit',$service->id)}}"  class="btn btn-success btn-sm" title=""><i class="fa fa-edit"></i></a>
+                                                <td>													
+                                                    <button type="button" name="edit-{{ $service->id }}" class="btn btn-success btn-sm edit-service-percent" title="" id="edit-{{ $service->id }}"  data-target="#scrollmodal-edit" data-toggle="modal"><i class="fa fa-edit"></i></button>
                                                 </td>
 
 											</tr>
+										 
 											@endforeach
 									</tbody>
 									</table>
@@ -74,6 +77,11 @@
 			<!-- Container closed -->
 		</div>
 		<!-- main-content closed -->
+		<!-- Scroll Edit with content modal -->
+		<div class="modal" id="scrollmodal-edit">
+			
+		</div>
+		<!--End Scroll with content modal -->
 @endsection
 @section('js')
 <!-- Internal Data tables -->
@@ -95,4 +103,10 @@
 <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
 <!--Internal  Datatable js -->
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+
+<script src="{{ URL::asset('assets/js/admin/validate.js') }}"></script>
+<script src="{{ URL::asset('assets/js/admin/content.js') }}"></script>
+<script>
+	urlshowpercent = "{{ url('admin/service/percent/edit', 'itemid') }}";  
+</script>
 @endsection
