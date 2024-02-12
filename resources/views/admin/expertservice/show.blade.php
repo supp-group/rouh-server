@@ -19,10 +19,11 @@
                     <td>{{ $selectedexpert->points }}</td>
 
                     <td>
-                        <a href="" class="btn btn-success btn-sm"
-                            title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a>
+                        <button   class="btn btn-success btn-sm btn-edit-point" id="expert-service-{{ $selectedexpert->id }}"
+                            data-target="#scrollmodal-edit-point" data-toggle="modal"
+                            title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></button>
 
-                        <form action="{{ url('admin/service/expert/deleteselected', $selectedexpert->id) }}" method="POST" class="d-inline" name="delete_expert_form" id="delete_expert_form">
+                        <form action="{{ url('admin/service/expert/deleteselected', $selectedexpert->id) }}" method="POST" class="d-inline" id="delete_expert_form">
                             @csrf
                             <button type="submit" class="btn btn-danger btn-sm btn-delete-expert"
                             id="expert-{{ $selectedexpert->expert->id }}"><i
@@ -59,5 +60,6 @@
     <!--Internal  Datatable js -->
     <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
 
-
+    <script src="{{ URL::asset('assets/js/admin/expert.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/admin/pointmodal.js') }}"></script>
 

@@ -184,6 +184,7 @@
     <script src="{{ URL::asset('assets/js/admin/validate.js') }}"></script>
     <script src="{{ URL::asset('assets/js/admin/content.js') }}"></script>
     <script src="{{ URL::asset('assets/js/admin/expert.js') }}"></script>
+   
     <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
     <!--Internal  Datatable js -->
 
