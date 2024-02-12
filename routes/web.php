@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Web\ServiceController;
 use App\Http\Controllers\Web\PointController;
 use App\Http\Controllers\Web\ExpertsServiceController;
+use App\Http\Controllers\Web\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::resource('point', PointController::class, ['except' => ['update']]);
         Route::prefix('point')->group(function () {
             Route::post('/update/{id}', [PointController::class, 'update'])->name('point.update');
+        });
+        Route::resource('setting', SettingController::class, ['except' => ['update']]);
+        Route::prefix('setting')->group(function () {
+            Route::post('/update/{id}', [SettingController::class, 'update'])->name('setting.update');
         });
     });
 

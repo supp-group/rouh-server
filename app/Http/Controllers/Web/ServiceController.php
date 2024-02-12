@@ -27,6 +27,7 @@ use App\Models\Servicefavorite;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Web\InputController;
+use App\Http\Controllers\Web\SettingController;
 use App\Models\Inputvalue;
 use App\Models\Expert;
 
@@ -191,10 +192,11 @@ class ServiceController extends Controller
  $exserList=ExpertService::where('service_id',$id)->where('expert_id',$formdata['select_expert'])->get();
 if($exserList->isEmpty())
 {
+  $setctrlr=new SettingController();
 $expertservice =new  ExpertService();
 $expertservice->expert_id=$formdata['select_expert'];
 $expertservice->service_id=$id;
-$expertservice->points=0;
+$expertservice->points=$setctrlr->findbyname('expert_service_points')->value;
 $expertservice->expert_cost=0;
 $expertservice->cost_type=0;
 $expertservice->expert_cost_value=0;
@@ -260,6 +262,7 @@ else{
         'is_active',
         'icon',
       */
+    $setctrlr=new SettingController();
       $newObj = new Service;
       $newObj->name = $formdata['name'];
       $newObj->desc = $formdata['desc'];
@@ -267,7 +270,7 @@ else{
       $newObj->createuser_id = Auth::user()->id;
       $newObj->updateuser_id =Auth::user()->id;
       $newObj->is_active = isset($formdata["is_active"]) ? 1 : 0;
-      
+      $newObj->expert_percent=$setctrlr->findbyname('expert_percent')->value;
       $newObj->save();
 
       if ($request->hasFile('image')) {
