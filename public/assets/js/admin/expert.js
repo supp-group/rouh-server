@@ -67,9 +67,12 @@ $(document).ready(function () {
 					noteSuccess();
 
 					ClearErrors();
+					$("#btn_cancel_field").trigger("click");
 					//$("#btn_cancel_field").trigger("click");
-					loadexperts();
-				$("#btn_cancel_field").trigger("click");
+					//loadexperts();
+					var url= window.location.href;
+					$(location).attr('href',url); 
+			
 				}
 
 			 
