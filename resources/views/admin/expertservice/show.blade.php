@@ -16,7 +16,7 @@
 
                     <td>{{ $selectedexpert->expert->first_name . ' ' . $selectedexpert->expert->last_name }}
                     </td>
-                    <td>{{ $selectedexpert->expert->points }}</td>
+                    <td>{{ $selectedexpert->points }}</td>
 
                     <td>
                         <a href="" class="btn btn-success btn-sm"

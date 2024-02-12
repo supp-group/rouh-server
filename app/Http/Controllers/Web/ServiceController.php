@@ -17,6 +17,7 @@ use App\Http\Requests\Web\Service\UpdateServiceRequest;
 use App\Http\Requests\Web\Input\StoreInputRequest;
 use App\Http\Requests\Web\Service\StoreExpertServiceRequest;
 use  App\Http\Requests\Web\Service\UpdatePercentRequest;
+use  App\Http\Requests\Web\Service\UpdatePointRequest;
 use App\Models\Input;
 use App\Models\Pointtransfer;
 use App\Models\Selectedservice;
@@ -100,6 +101,40 @@ class ServiceController extends Controller
        return view('admin.service.editxpert', ['service' => $object,'allexperts'=>$expertList ,'selectedexperts'=>$selectedExpertList]);
      // return dd($list);
   
+    }
+    public function pointedit($id)
+    {
+      //expert service id
+   
+    //  $expertservice = ExpertService::find($id)->with('expert','service')->first();    
+    $expertservice = ExpertService::with('expert','service')->find($id);  
+   //   return $expertservice;
+      return view('admin.expertservice.pointmodal', ['expertservice' => $expertservice]);
+     // return dd($list);
+  
+    }
+    public function pointsave(UpdatePointRequest $request, $id)
+    {
+      
+    $formdata = $request->all();
+    //validate
+    $validator = Validator::make(
+      $formdata,
+      $request->rules(),
+      $request->messages()
+    );
+    if ($validator->fails()) {
+ 
+     return response()->json($validator);
+
+    } else {     
+      ExpertService::find($id)->update([
+        'points'=>  $formdata['points'],       
+      ]);
+     
+      return response()->json("ok");
+      
+    }
     }
     public function percentsave(UpdatePercentRequest $request, $id)
     {

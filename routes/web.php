@@ -104,7 +104,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::get('/expert/edit/{id}', [ServiceController::class, 'editexpert'])->name('service.expert.edit');
             // حفظ الخبير
             Route::post('/expert/save/{id}', [ServiceController::class, 'expertsave']);
-
+            // points
+            //عرض النقاط في ال modal  حسب ال id
+            Route::get('/point/edit/{id}', [ServiceController::class, 'pointedit']);
+            //حفظ النقاط
+            Route::post('/point/save/{id}', [ServiceController::class, 'pointsave']);
         });
         Route::prefix('input')->group(function () {
             Route::get('/delete/{id}', [InputController::class, 'destroy']);

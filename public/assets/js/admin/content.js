@@ -3,7 +3,7 @@ var urlshowinput = "";
 var urlshowexpert = "";
 var delinputurl = "";
 var urlshowpercent = "";
-
+var  urlpointmodal="";
 $(document).ready(function () {
 
 	// $('#sortbody').html('');
@@ -763,6 +763,53 @@ $(document).ready(function () {
 
 	});
 
+//show point modal
+$('.btn-edit-point').on('click', function (e) {
+	e.preventDefault();
+	ClearErrors();
+	
+	var thisId = $(this).attr("id");
+	thisId = thisId.replace("expert-service-", "");
+	var url =urlpointmodal.replace("itemid", thisId);
+	//var formData = 21;
+	//var thisform =$(this).closest('form');
+	//var urlval ='{{url("admin/user")}}';
+	//var thisform = $(this).parents('form:first');
+	//var formData = new FormData(thisform);
+	//	var	urlval = thisform.attr("action");
+
+	$.ajax({
+		url: url,
+		type: "GET",
+
+		//	data: formData,
+		//	contentType: false,
+		//processData: false,
+		//contentType: 'application/json',
+		success: function (data) {
+
+			//$('#errormsg').html('');
+			//$('#sortbody').html('');
+			if (data.length == 0) {
+				//	noteError();
+			} else {
+				$('#scrollmodal-edit-point').html(data);
+
+			}
+
+			// $('.alert').html(result.success);
+		}, error: function (errorresult) {
+			//endLoading();
+			var response = $.parseJSON(errorresult.responseText);
+			// $('#errormsg').html( errorresult );
+
+
+		}, finally: function () {
+			//endLoading();
+
+		}
+	});
+});
 
 });
 

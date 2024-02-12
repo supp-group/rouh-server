@@ -64,11 +64,12 @@
 
                                         <td>{{ $selectedexpert->expert->first_name . ' ' . $selectedexpert->expert->last_name }}
                                         </td>
-                                        <td>{{ $selectedexpert->expert->points }}</td>
+                                        <td>{{ $selectedexpert->points }}</td>
 
                                         <td>
-                                            <a href="" class="btn btn-success btn-sm"
-                                                title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a>
+                                            <button   class="btn btn-success btn-sm btn-edit-point" id="expert-service-{{ $selectedexpert->id }}"
+                                                data-target="#scrollmodal-edit-point" data-toggle="modal"
+                                                title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></button>
 
                                             <form action="{{ url('admin/service/expert/deleteselected', $selectedexpert->id) }}" method="POST" class="d-inline" id="delete_expert_form">
                                                 @csrf
@@ -99,7 +100,9 @@
     <!-- main-content closed -->
 
 
-
+    <div class="modal" id="scrollmodal-edit-point">
+			
+    </div>
 
 
     <!-- Scroll with content modal -->
@@ -186,9 +189,9 @@
 
     <script>
         var emptyimg = "{{ URL::asset('assets/img/photos/1.jpg') }}"
-    </script>
-    <script>
+     
         urlshowexpert = "{{ url('admin/service/expert/showselected', $service->id) }}";
+        urlpointmodal="{{ url('admin/service/point/edit', 'itemid') }}";
     </script>
 
     <!-- Internal Data tables -->
