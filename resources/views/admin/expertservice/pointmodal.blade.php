@@ -1,7 +1,7 @@
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">النقاط : {{ $expertservice->service->name }} </h6><button aria-label="Close" class="close"
+                <h6 class="modal-title">النقاط :(الخدمة:  {{ $expertservice->service->name }} -الخبير:{{ $expertservice->expert->first_name . ' ' . $expertservice->expert->last_name }})</h6> <button aria-label="Close" class="close"
                     data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
