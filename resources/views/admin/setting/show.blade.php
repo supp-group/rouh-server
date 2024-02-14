@@ -21,77 +21,89 @@
     <!-- breadcrumb -->
 @endsection
 @section('content')
-        <!-- row opened -->
-        <div class="row row-sm">
+    <!-- row opened -->
+    <div class="row row-sm">
 
 
-            <!--div-->
-            <div class="col-xl-12">
-                <div class="card mg-b-20">
-                    <div class="card-header pb-0">
-                        <div class="d-flex justify-content-between">
-                            <h4 class="card-title mg-b-0">نسبة الخبير الافتراضية</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="">
-                            <form class="form-horizontal" name="create_form" action="" method="POST"
-                                enctype="multipart/form-data" id="create_form">
-                                @csrf
-                                <div class="form-group d-flex justify-content-between">
-                                    <input type="text" class="form-control " id="name" placeholder="نسبة الخبير"
-                                        name="name" value="">
-                                    <button type="submit" name="btn_update_user" id="btn_update_user"
-                                        class="btn btn-primary mr-3">{{ __('general.save') }}</button>
-                                    <ul class="parsley-errors-list filled">
-                                        <li class="parsley-required" id="name_error"></li>
-                                    </ul>
-                                </div>
-                            </form>
-
-                        </div>
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card mg-b-20">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-0">نسبة الخبير الافتراضية</h4>
                     </div>
                 </div>
-                <!--/div-->
-
-
-            </div>
-            <!-- /div-->
-
-            <!--div-->
-            <div class="col-xl-12">
-                <div class="card mg-b-20">
-                    <div class="card-header pb-0">
-                        <div class="d-flex justify-content-between">
-                            <h4 class="card-title mg-b-0">النقاط الافتراضية</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="">
-                            <form class="form-horizontal" name="create_form" action="" method="POST"
-                                enctype="multipart/form-data" id="create_form">
-                                @csrf
-                                <div class="form-group d-flex justify-content-between">
-                                    <input type="text" class="form-control " id="name" placeholder="نقاط الخدمة"
-                                        name="name" value="">
-                                    <button type="submit" name="btn_update_user" id="btn_update_user"
+                <div class="card-body">
+                    <div class="">
+                        <form class="form-horizontal" action="{{ url('admin/setting/updatepercent', $expert_percent->id) }}"
+                            name="expert_percent_form" action="" method="POST" id="expert_percent_form">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group d-flex justify-content-between col-sm-12">
+                                    <input type="text" class="form-control " id="expert_percent"
+                                        placeholder="نسبة الخبير" name="expert_percent"
+                                        value="{{ $expert_percent->value }}">
+                                    <button type="submit" name="btn_expert_percent" id="btn_expert_percent"
                                         class="btn btn-primary mr-3">{{ __('general.save') }}</button>
+                                </div>
+                                <div class="col-sm-12">
                                     <ul class="parsley-errors-list filled">
-                                        <li class="parsley-required" id="name_error"></li>
+                                        <li class="parsley-required" id="expert_percent_error"></li>
                                     </ul>
                                 </div>
-                            </form>
+                            </div>
+                        </form>
 
-                        </div>
                     </div>
                 </div>
-                <!--/div-->
-
-
             </div>
-            <!-- /div-->
+            <!--/div-->
+
+
         </div>
-        <!-- row closed -->
+        <!-- /div-->
+
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card mg-b-20">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-0">النقاط الافتراضية</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        <form class="form-horizontal"
+                            action="{{ url('admin/setting/updatepoints', $expert_service_points->id) }}"
+                            name="expert_service_points_form" action="" method="POST" id="expert_service_points_form">
+                            @csrf
+                            <div class="row">
+                            <div class="form-group d-flex justify-content-between col-sm-12">
+                                <input type="text" class="form-control " id="expert_service_points"
+                                    placeholder="نقاط الخدمة" name="expert_service_points"
+                                    value="{{ $expert_service_points->value }}">
+                              
+                                <button type="submit" name="btn_expert_service_points" id="btn_expert_service_points"
+                                    class="btn btn-primary mr-3">{{ __('general.save') }}</button>
+                            </div>
+                            <div class="col-sm-12">
+                                <ul class="parsley-errors-list filled">
+                                    <li class="parsley-required" id="expert_service_points_error"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!--/div-->
+
+
+        </div>
+        <!-- /div-->
+    </div>
+    <!-- row closed -->
 
     </div>
     <!-- Container closed -->
@@ -118,4 +130,6 @@
     <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
     <!--Internal  Datatable js -->
     <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/admin/validate.js') }}"></script>
+    <script src="{{ URL::asset('assets/js/admin/setting.js') }}"></script>
 @endsection

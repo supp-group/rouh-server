@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\Web\Setting\UpdateExpertServicePointsRequest;
+use App\Http\Requests\Web\Setting\UpdateExpertPercentRequest;
 class SettingController extends Controller
 {
     /**
@@ -14,7 +17,11 @@ class SettingController extends Controller
     public function index()
     {
         $list =Setting::get();
-        return view('admin.setting.show', ['settings' => $list]);
+        $expert_percent=$this->findbyname('expert_percent');
+        $expert_service_points=$this->findbyname('expert_service_points');
+        return view('admin.setting.show', ['expert_percent'=>$expert_percent,'expert_service_points'=>$expert_service_points]);
+ 
+      //  return view('admin.setting.show', ['settings' => ['expert_percent'=>$expert_percent,'expert_service_points'=>$expert_service_points]]);
     }
 
     /**
@@ -69,5 +76,57 @@ class SettingController extends Controller
       $object=Setting::where('name',$name)->first();
       
       return $object;
+    }
+
+    public function updatepercent(UpdateExpertPercentRequest $request, $id)
+    {
+      $formdata = $request->all();
+      //validate
+      $validator = Validator::make(
+        $formdata,
+        $request->rules(),
+        $request->messages()
+      );
+      if ($validator->fails()) {
+         return response()->json($validator);
+  
+      } else {
+      
+        Setting::find($id)->update([
+        
+          'value'=>  $formdata['expert_percent'],
+          
+        ]);
+      
+        //save image
+        return response()->json("ok");
+        
+      }
+    }
+
+    public function updatepoints(UpdateExpertServicePointsRequest $request, $id)
+    {
+      $formdata = $request->all();
+      //validate
+      $validator = Validator::make(
+        $formdata,
+        $request->rules(),
+        $request->messages()
+      );
+      if ($validator->fails()) {
+         return response()->json($validator);
+  
+      } else {
+      
+        Setting::find($id)->update([
+        
+          'value'=>  $formdata['expert_service_points'],
+          
+        ]);
+      
+        //save image
+        return response()->json("ok");
+        
+      }
     }
 }

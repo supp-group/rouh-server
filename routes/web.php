@@ -63,6 +63,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::resource('setting', SettingController::class, ['except' => ['update']]);
         Route::prefix('setting')->group(function () {
             Route::post('/update/{id}', [SettingController::class, 'update'])->name('setting.update');
+            Route::post('/updatepercent/{id}', [SettingController::class, 'updatepercent']);
+            Route::post('/updatepoints/{id}', [SettingController::class, 'updatepoints']);
+
         });
     });
 
