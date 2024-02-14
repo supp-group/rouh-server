@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\InputController;
+use App\Http\Controllers\Web\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\ClientController;
 use App\Http\Controllers\Web\ExpertController;
@@ -12,7 +13,7 @@ use App\Http\Controllers\Web\ServiceController;
 use App\Http\Controllers\Web\PointController;
 use App\Http\Controllers\Web\ExpertsServiceController;
 use App\Http\Controllers\Web\SettingController;
-
+use App\Http\Controllers\Api\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +42,11 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin');
+
+    Route::resource('notify', NotificationController::class, ['except' => ['update']]);
+    Route::post('saveToken', [NotificationController::class, 'saveToken']);
+    Route::post('sendNotification', [NotificationController::class, 'sendNotification']);
+
     Route::middleware('role.admin:admin')->group(function () {
 
         // Route::prefix('user')->group(function () {
@@ -122,6 +128,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::get('/delete/{id}', [InputController::class, 'destroy']);
             Route::get('/edit/{id}', [InputController::class, 'edit']);
             Route::post('/update/{id}', [InputController::class, 'update']);
+        });
+        //الطلبات
+        Route::resource('order', OrderController::class, ['except' => ['update']]);
+        Route::prefix('order')->group(function () {          
+            Route::post('/update/{id}', [OrderController::class, 'update']);
         });
     });
     /*
