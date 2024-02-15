@@ -98,6 +98,51 @@ class ExpertController extends Controller
 
         return response()->json($user);
     }
+    public function getwithcomments()
+    {
+        $data = request(['id']);
+        $id = $data['id'];
+ 
+        $strgCtrlr=new StorageController();
+        $url=$strgCtrlr->ExpertPath('image');
+        $recurl=$strgCtrlr->ExpertPath('record');
+        $defaultimg=$strgCtrlr->DefaultPath('image');
+        $expert = Expert::where('user_name', request(['user_name']))->
+            //where('password',  $passhash)->
+            select(
+                'id',
+                'user_name',
+                'password',
+                'mobile',
+                'email',
+              //  'nationality',
+                'birthdate',
+                'gender',
+              //  'marital_status',
+                'is_active',
+                'points_balance',
+                'cash_balance',
+                'cash_balance_todate',
+                'rates',               
+            DB::raw("(CASE 
+            WHEN record is NULL THEN ''                  
+            ELSE CONCAT('$recurl',record)
+            END) AS record"),
+              //  'desc',                   
+          DB::raw("(CASE 
+          WHEN desc is NULL THEN ''                  
+         ELSE desc END) AS 'desc'"),
+                'call_cost',
+                'answer_speed',
+                DB::raw("(CASE 
+            WHEN image is NULL THEN '$defaultimg'                    
+            ELSE CONCAT('$url',image)
+            END) AS image")
+            )->first();
+ 
+
+        return response()->json($expert);
+    }
     public function getexpertsbyserviceid()
     {
         $data = request(['id']);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 13, 2024 at 09:54 AM
+-- Generation Time: Feb 15, 2024 at 12:18 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.2.0
 
@@ -24,6 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `answers`
+--
+
+DROP TABLE IF EXISTS `answers`;
+CREATE TABLE IF NOT EXISTS `answers` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `record` text COLLATE utf8mb4_unicode_ci,
+  `content` text COLLATE utf8mb4_unicode_ci,
+  `answer_reject_reason` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `answer_state` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `selectedservice_id` bigint UNSIGNED DEFAULT NULL,
+  `updateuser_id` bigint UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cashtransfers`
 --
 
@@ -31,10 +51,10 @@ DROP TABLE IF EXISTS `cashtransfers`;
 CREATE TABLE IF NOT EXISTS `cashtransfers` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `cash` decimal(8,2) DEFAULT NULL,
-  `cashtype` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fromtype` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `totype` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cashtype` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fromtype` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `totype` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `client_id` bigint UNSIGNED DEFAULT NULL,
   `expert_id` bigint UNSIGNED DEFAULT NULL,
   `pointtransfer_id` bigint UNSIGNED DEFAULT NULL,
@@ -52,16 +72,16 @@ CREATE TABLE IF NOT EXISTS `cashtransfers` (
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE IF NOT EXISTS `clients` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mobile` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nationality` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mobile` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nationality` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birthdate` datetime DEFAULT NULL,
   `gender` int DEFAULT NULL,
-  `marital_status` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `token` text COLLATE utf8mb4_unicode_ci,
+  `marital_status` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `points_balance` int DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -84,35 +104,61 @@ INSERT INTO `clients` (`id`, `user_name`, `password`, `mobile`, `email`, `nation
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `companies`
+--
+
+DROP TABLE IF EXISTS `companies`;
+CREATE TABLE IF NOT EXISTS `companies` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `point_balance` decimal(8,2) DEFAULT '0.00',
+  `point_profit` decimal(8,2) DEFAULT '0.00',
+  `cash_balance` decimal(8,2) DEFAULT '0.00',
+  `cash_profit` decimal(8,2) DEFAULT '0.00',
+  `notes` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`id`, `point_balance`, `point_profit`, `cash_balance`, `cash_profit`, `notes`, `created_at`, `updated_at`) VALUES
+(1, '0.00', '0.00', '0.00', '0.00', '', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `experts`
 --
 
 DROP TABLE IF EXISTS `experts`;
 CREATE TABLE IF NOT EXISTS `experts` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mobile` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nationality` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mobile` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nationality` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birthdate` datetime DEFAULT NULL,
   `gender` int DEFAULT NULL,
-  `marital_status` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `image` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `marital_status` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `points_balance` int DEFAULT '0',
   `cash_balance` decimal(8,2) DEFAULT '0.00',
   `cash_balance_todate` decimal(8,2) DEFAULT '0.00',
   `rates` decimal(8,2) DEFAULT '0.00',
-  `desc` text COLLATE utf8mb4_unicode_ci,
+  `desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `call_cost` int DEFAULT '0',
-  `token` text COLLATE utf8mb4_unicode_ci,
-  `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL,
   `answer_speed` decimal(8,2) DEFAULT NULL,
-  `first_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `record` text COLLATE utf8mb4_unicode_ci,
+  `first_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `record` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `experts_user_name_unique` (`user_name`),
   UNIQUE KEY `experts_mobile_unique` (`mobile`)
@@ -201,11 +247,11 @@ INSERT INTO `experts_services` (`id`, `expert_id`, `service_id`, `created_at`, `
 DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
@@ -220,10 +266,10 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
 DROP TABLE IF EXISTS `inputs`;
 CREATE TABLE IF NOT EXISTS `inputs` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tooltipe` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tooltipe` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `ispersonal` tinyint(1) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -302,7 +348,7 @@ INSERT INTO `inputs_services` (`id`, `service_id`, `input_id`, `created_at`, `up
 DROP TABLE IF EXISTS `inputvalues`;
 CREATE TABLE IF NOT EXISTS `inputvalues` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `value` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `input_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -332,10 +378,10 @@ INSERT INTO `inputvalues` (`id`, `value`, `input_id`, `created_at`, `updated_at`
 DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `migration` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -405,7 +451,38 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (61, '2024_02_08_154244_change_token_in_experts_table', 33),
 (62, '2024_02_08_154256_change_token_in_users_table', 33),
 (63, '2024_02_12_193320_create_settings_table', 34),
-(64, '2024_02_12_195152_add_ar_name_to_settings_table', 35);
+(64, '2024_02_12_195152_add_ar_name_to_settings_table', 35),
+(65, '2024_02_13_133435_create_notifications_table', 36),
+(66, '2024_02_14_214709_add_comment_date_to_selectedservices_table', 37),
+(67, '2024_02_14_220716_create_answers_table', 37),
+(68, '2024_02_15_115410_drop_answer2_from_selectedservices_table', 38),
+(69, '2024_02_15_120613_create_companies_table', 39),
+(70, '2024_02_15_120707_add_company_profit_to_selectedservices_table', 39);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+DROP TABLE IF EXISTS `notifications`;
+CREATE TABLE IF NOT EXISTS `notifications` (
+  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notifiable_type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notifiable_id` bigint UNSIGNED NOT NULL,
+  `data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `client_id` bigint UNSIGNED DEFAULT NULL,
+  `expert_id` bigint UNSIGNED DEFAULT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `side` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -415,8 +492,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 DROP TABLE IF EXISTS `password_resets`;
 CREATE TABLE IF NOT EXISTS `password_resets` (
-  `email` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   KEY `password_resets_email_index` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -429,8 +506,8 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
 
 DROP TABLE IF EXISTS `password_reset_tokens`;
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
-  `email` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -463,11 +540,11 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 DROP TABLE IF EXISTS `personal_access_tokens`;
 CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `tokenable_type` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -525,7 +602,7 @@ CREATE TABLE IF NOT EXISTS `pointstransfers` (
   `selectedservice_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `side` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `side` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -545,8 +622,8 @@ INSERT INTO `pointstransfers` (`id`, `point_id`, `client_id`, `expert_id`, `serv
 DROP TABLE IF EXISTS `reasons`;
 CREATE TABLE IF NOT EXISTS `reasons` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `content` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL,
@@ -567,19 +644,21 @@ CREATE TABLE IF NOT EXISTS `selectedservices` (
   `service_id` bigint UNSIGNED DEFAULT NULL,
   `points` int DEFAULT '0',
   `rate` decimal(8,2) DEFAULT '0.00',
-  `answer` text COLLATE utf8mb4_unicode_ci,
-  `answer2` text COLLATE utf8mb4_unicode_ci,
-  `comment` text COLLATE utf8mb4_unicode_ci,
-  `iscommentconfirmd` tinyint(1) DEFAULT '0',
-  `issendconfirmd` tinyint(1) DEFAULT '0',
-  `isanswerconfirmd` tinyint(1) DEFAULT '0',
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `comment_rate` int NOT NULL DEFAULT '0',
-  `status` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expert_cost` decimal(8,2) DEFAULT '0.00',
   `cost_type` decimal(8,2) DEFAULT '0.00',
   `expert_cost_value` decimal(8,2) DEFAULT '0.00',
+  `comment_date` datetime DEFAULT NULL,
+  `comment_state` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comment_reject_reason` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `form_state` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comment_user_id` bigint UNSIGNED DEFAULT NULL,
+  `company_profit` decimal(8,2) DEFAULT '0.00',
+  `company_profit_percent` decimal(8,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -587,8 +666,8 @@ CREATE TABLE IF NOT EXISTS `selectedservices` (
 -- Dumping data for table `selectedservices`
 --
 
-INSERT INTO `selectedservices` (`id`, `client_id`, `expert_id`, `service_id`, `points`, `rate`, `answer`, `answer2`, `comment`, `iscommentconfirmd`, `issendconfirmd`, `isanswerconfirmd`, `created_at`, `updated_at`, `comment_rate`, `status`, `expert_cost`, `cost_type`, `expert_cost_value`) VALUES
-(33, 10, 1, 1, 200, '0.00', '', '', '', 0, 0, 0, '2024-02-07 14:21:33', '2024-02-07 14:21:33', 0, 'created', '50.00', '1.00', '50.00');
+INSERT INTO `selectedservices` (`id`, `client_id`, `expert_id`, `service_id`, `points`, `rate`, `comment`, `created_at`, `updated_at`, `comment_rate`, `status`, `expert_cost`, `cost_type`, `expert_cost_value`, `comment_date`, `comment_state`, `comment_reject_reason`, `form_state`, `comment_user_id`, `company_profit`, `company_profit_percent`) VALUES
+(33, 10, 1, 1, 200, '0.00', '', '2024-02-07 14:21:33', '2024-02-07 14:21:33', 0, 'created', '50.00', '1.00', '50.00', NULL, NULL, NULL, NULL, NULL, '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -599,14 +678,14 @@ INSERT INTO `selectedservices` (`id`, `client_id`, `expert_id`, `service_id`, `p
 DROP TABLE IF EXISTS `services`;
 CREATE TABLE IF NOT EXISTS `services` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `image` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `createuser_id` bigint UNSIGNED DEFAULT NULL,
   `updateuser_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `icon` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `icon` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1',
   `is_callservice` int DEFAULT '0',
   `expert_percent` decimal(8,2) DEFAULT '0.00',
@@ -650,16 +729,16 @@ CREATE TABLE IF NOT EXISTS `servicesfavorites` (
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `value` text COLLATE utf8mb4_unicode_ci,
-  `type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `notes` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `updateuser_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `ar_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ar_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sequence` int DEFAULT '0',
-  `dept` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dept` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -668,8 +747,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
 --
 
 INSERT INTO `settings` (`id`, `name`, `value`, `type`, `notes`, `updateuser_id`, `created_at`, `updated_at`, `ar_name`, `sequence`, `dept`) VALUES
-(1, 'expert_percent', '5', 'decimal', NULL, NULL, NULL, NULL, 'نسبة الخبير الافتراضية', 0, NULL),
-(2, 'expert_service_points', '100', 'decimal', NULL, NULL, NULL, NULL, 'النقاط الافتراضية', 0, NULL);
+(1, 'expert_percent', '10', 'decimal', NULL, NULL, NULL, '2024-02-14 11:05:30', 'نسبة الخبير الافتراضية', 0, NULL),
+(2, 'expert_service_points', '200', 'decimal', NULL, NULL, NULL, '2024-02-14 11:05:52', 'النقاط الافتراضية', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -680,22 +759,22 @@ INSERT INTO `settings` (`id`, `name`, `value`, `type`, `notes`, `updateuser_id`,
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `role` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `token` text COLLATE utf8mb4_unicode_ci,
+  `password` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `role` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `createuser_id` bigint UNSIGNED DEFAULT NULL,
   `updateuser_id` bigint UNSIGNED DEFAULT NULL,
-  `mobile` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mobile` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `image` text COLLATE utf8mb4_unicode_ci,
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
@@ -706,7 +785,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `first_name`, `last_name`, `user_name`, `role`, `token`, `createuser_id`, `updateuser_id`, `mobile`, `remember_token`, `created_at`, `updated_at`, `image`, `is_active`) VALUES
-(1, 'ahmad', 'najyms@gmail.com', NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', 'ahmad', 'ms', NULL, 'admin', 'eZch7A-yY1DnCr9gB9cLDc:APA91bG_-cvRIB8u4agr87fXt6igOTADeBYpLP5tQisGktFat8rN4l3alTgWdUqfeShuHW5mp-R5MtBfM-1NYJrv7mRYgjGJBBubYlrzlg6sWmwEipJepOYPBdm8KoaMte1a6-DYuC_c', NULL, 1, NULL, NULL, '2024-01-11 12:47:38', '2024-02-10 10:28:37', '109301.webp', 1),
+(1, 'ahmad', 'najyms@gmail.com', NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', 'ahmad', 'ms', NULL, 'admin', 'dy3pv7O-4TbDzwSHXmEDYp:APA91bFiBGbDMmLyoWk0VW-CJqa8NywHcTzM6kJ9ZGaLmNYo31HFFEmDD35B7swsSEfGNH6_2twwXF3bejB6NrMAxT0w2MiCgJbpsF0l4aTcujALCJxA1YwjdOrIdbI9933obCaasx8C', NULL, 1, NULL, NULL, '2024-01-11 12:47:38', '2024-02-13 12:15:48', '109301.webp', 1),
 (2, 'super1', 'super@gmail.com', NULL, '$2y$12$Bhtt5mZSK0f6kkE3qc54m.C0p1YwjfNH/eBE93BV25mp1s0Om1SJG', 'super', 'super', NULL, 'super', NULL, NULL, 1, NULL, NULL, '2024-01-11 12:48:33', '2024-01-25 17:29:17', '274822.webp', 1),
 (8, 'user', 'user@gmail.com', NULL, '$2y$12$54YLe6Epl6E0ruhQaNj6ruVe32Ll9mQsoe8evlwmf.zLXzRwPdDlG', 'casc', 'ascv', NULL, 'admin', 'f22i4Dh75_SupfLYkUEVit:APA91bGph_GirA_BYppqL81YqLuqDsmGhC5dRf9n51XrZdRI8UAoAz9mdtRkPjwHTayvaAGnNdE65iXwhEpA1MGMx-MRFu_Yo5ce4FpovPEWgO3GcZj_HQzquCq-RUtKUiHmyanDfuxq', 1, 1, '8111434342', NULL, '2024-01-22 13:51:09', '2024-02-08 13:08:54', NULL, 1),
 (9, 'client', 'client@gmail.com', NULL, '$2y$12$t9tCCSF76pHXuuqHctkWpePmE2.Ng190NI2m0hAOLp3ZiMq8tj.XK', 'ahmad', 'ms', NULL, 'admin', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luY2xpZW50IiwiaWF0IjoxNzA3NDA3MTU3LCJuYmYiOjE3MDc0MDcxNTcsImp0aSI6IkZvUFZYMllrT2VqMHJ1TjkiLCJzdWIiOiIxMyIsInBydiI6IjQxZWZiN2JhZDdmNmY2MzJlMjQwNWJkM2E3OTNiOGE2YmRlYzY3NzcifQ.rWvpuHg5-DBfWxrubaCDIUXlBgOJcRfyhqHhZZpliXA', 1, 1, '1234123444', NULL, '2024-01-22 13:56:56', '2024-02-08 13:48:29', NULL, 1),
@@ -723,15 +802,15 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `fi
 DROP TABLE IF EXISTS `values_services`;
 CREATE TABLE IF NOT EXISTS `values_services` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `value` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `selectedservice_id` bigint UNSIGNED DEFAULT NULL,
   `inputservice_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tooltipe` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `icon` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tooltipe` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `icon` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `ispersonal` tinyint(1) DEFAULT NULL,
   `image_count` int DEFAULT '0',
   PRIMARY KEY (`id`)

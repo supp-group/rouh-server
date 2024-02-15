@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations. add_comment_date_to_selectedservices_table
+     * Run the migrations.
      */
     public function up(): void
     {
         Schema::table('selectedservices', function (Blueprint $table) {
-            $table->integer('comment_rate')->nullabel()->default(0); 
+            $table->decimal('company_profit')->nullable()->default(0);          
+            $table->decimal('company_profit_percent')->nullable()->default(0);
         });
     }
 
@@ -22,7 +23,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('selectedservices', function (Blueprint $table) {
-            $table->dropColum('comment_rate');
+            $table->dropColum('company_profit');
+            $table->dropColum('company_profit_percent');
+            
         });
     }
 };
