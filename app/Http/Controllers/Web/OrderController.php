@@ -16,7 +16,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\Web\Point\StorePointRequest;
 use App\Http\Requests\Web\Point\UpdatePointRequest;
 use App\Models\Pointtransfer;
-use App\Models\Reason;
+
 //use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\StorageController;
