@@ -14,6 +14,7 @@ use App\Http\Controllers\Web\PointController;
 use App\Http\Controllers\Web\ExpertsServiceController;
 use App\Http\Controllers\Web\SettingController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Web\AnswerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -134,6 +135,12 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::prefix('order')->group(function () {          
             Route::post('/update/{id}', [OrderController::class, 'update'])->name('order.update');
         });
+        //ردود الخبير
+        Route::resource('answer', AnswerController::class, ['except' => ['update']]);
+        Route::prefix('answer')->group(function () {          
+            Route::post('/update/{id}', [AnswerController::class, 'update'])->name('answer.update');
+        });
+      
     });
     /*
     Route::middleware('role.admin:super')->group(function () {

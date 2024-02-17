@@ -811,6 +811,17 @@ $('.btn-edit-point').on('click', function (e) {
 	});
 });
 
+$('#form_state').on('change', function () {
+	var option = $(this).find(":selected").val();
+	if (option == 'reject') { 
+		$('#reason-div').show();	 
+	} else if (option == 'agree') {		 
+		$('#reason-div').hide();		 
+	}  else{
+		$('#reason-div').hide();
+	}
+});
+
 });
 
 ///////////////////////////////////////////////////////

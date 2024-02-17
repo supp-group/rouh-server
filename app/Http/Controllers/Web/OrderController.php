@@ -11,10 +11,8 @@ use Illuminate\Support\Facades\DB;
 use File;
 use Illuminate\Support\Facades\Validator; 
 use Illuminate\Support\Carbon;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-use App\Http\Requests\Web\Point\StorePointRequest;
-use App\Http\Requests\Web\Point\UpdatePointRequest;
+
+use App\Http\Requests\Web\Order\UpdateFormStateRequest;
 use App\Models\Pointtransfer;
 
 //use Illuminate\Support\Facades\Auth;
@@ -48,43 +46,9 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePointRequest $request)
+    public function store(Request $request)
     {
-      $formdata = $request->all();
-      // return redirect()->back()->with('success_message', $formdata);
-      $validator = Validator::make(
-        $formdata,
-        $request->rules(),
-        $request->messages()
-      );
-  
-      if ($validator->fails()) {
-        /*
-                          return  redirect()->back()->withErrors($validator)
-                          ->withInput();
-                          */
-        // return response()->withErrors($validator)->json();
-        return response()->json($validator);  
-      } else {
-        $newObj = new Selectedservice;
-        $newObj->count = $formdata['count'];
-        $newObj->countbefor = isset($formdata["countbefor"]) ? $formdata["countbefor"] : 0;
-        $newObj->price = $formdata['price'];
-       // $newObj->pricebefor =  $formdata['price'];
-        
-        $newObj->is_active = isset($formdata["is_active"]) ? 1 : 0;
-        //$newObj->token = $formdata['token'];
-        $newObj->save();
-  /*
-        if ($request->hasFile('image')) {
-          $file = $request->file('image');
-          // $filename= $file->getClientOriginalName();               
-          $this->storeImage($file, $newObj->id);
-          //  $this->storeImage( $file,2);
-        }
-  */
-        return response()->json("ok");
-      }
+     
     }
   
     /**
@@ -114,7 +78,7 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePointRequest $request, $id)
+    public function update(UpdateFormStateRequest $request, $id)
     {
       $formdata = $request->all();
       //validate
@@ -140,12 +104,11 @@ class OrderController extends Controller
        $this->storeImage( $file,$id);
          }
          */ 
+        $reason=Reason::find($formdata['form_reject_reason']);
         Selectedservice::find($id)->update([
-          'count'=>  $formdata['count'],
-          'price'=>  $formdata['price'],
-          'pricebefor' => $formdata['price'],    
-          'countbefor' => isset($formdata["countbefor"]) ? $formdata["countbefor"] : 0,            
-        'is_active' => isset($formdata['is_active']) ? 1 : 0         
+          'form_state'=>  $formdata['form_state'],
+          'form_reject_reason'=>  $reason->content,
+              
         ]);
       
         //save image
@@ -158,15 +121,7 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-      $object = Selectedservice::find($id); 
-      if (!($object === null)) {
-  
-       
-      
-  Selectedservice::find($id)->delete();
-  
-        
-      }
+    
       return redirect()->route('order.index');
       // return  $this->index();
       //   return redirect()->route('users.index');

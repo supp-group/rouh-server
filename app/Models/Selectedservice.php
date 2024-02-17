@@ -31,6 +31,7 @@ class Selectedservice extends Model
         'comment_user_id',
         'company_profit',
         'company_profit_percent',
+        'form_reject_reason',
     ];  
  protected $appends= ['form_state_conv'];
  public function getFormStateConvAttribute(){

@@ -22,7 +22,8 @@ class ValueService extends Model
         'image_count',
     ];
 
-    protected $appends= ['full_path_conv'];
+    protected $appends= ['full_path_conv','value_conv'];
+
     public function getFullPathConvAttribute(){
        $conv="";
        $strgCtrlr = new StorageController();
@@ -42,7 +43,28 @@ class ValueService extends Model
            return  $conv;
     }
    
-    
+    public function getValueConvAttribute(){
+        $conv="";
+       if($this->ispersonal==1 && $this->name=='gender'){
+        if($this->value==1){
+            $conv=__('general.male');
+        }else{
+            $conv=__('general.female');
+        }
+      
+       }else if($this->ispersonal==0 && $this->type=='bool'){
+        if($this->value==1){
+            $conv=__('general.yes');
+        }else{
+            $conv=__('general.no');
+        }
+       }else{
+        $conv=$this->value;
+       }
+       
+     
+            return  $conv;
+     }
     public function selectedservices(): BelongsTo
     {
         return $this->belongsTo(Selectedservice::class)->withDefault();

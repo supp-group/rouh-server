@@ -36,10 +36,11 @@
                                     <label class="col-sm-12 ">{{ __('general.service') }}:{{' '. $selectedservice->service->name}}</label>
                                     <label class="col-sm-12">{{ __('general.expert') }}:{{' '. $selectedservice->expert->full_name}}</label>
                                     <label class="col-sm-12 ">{{ __('general.client') }}:{{' '. $selectedservice->client->user_name}}</label>
-                                    
+									<label class="col-sm-12 ">الحقول: </label>
+                                 
 									@foreach ($selectedservice->valueServices->whereNotIn('type', ['image','record']) as $valueService)
                                      
-                                       <label class="col-sm-12 "><p>{{ $valueService->tooltipe}}</p> <p>{{ $valueService->value}}</p></label>
+                                       <label class="col-sm-12 "><p>{{ $valueService->tooltipe}}</p> <p>{{ $valueService->value_conv}}</p></label>
 									 
 									   @endforeach
                                       
@@ -72,7 +73,19 @@
 														<li class="parsley-required"  id="form_state_error"></li>
 													</ul>
 												</div>
-										 
+												<div class="mb-4" id="reason-div"  style="display: none;">
+													<select name="form_reject_reason"   id="form_reject_reason" class="form-control  "  >
+														<!--placeholder-->
+														<option title=""   class="text-muted">اختر سبب الرفض</option>
+														@foreach ($reasons as $reason)
+														<option value="{{ $reason->id }}" >{{ $reason->content }}</option>
+														@endforeach
+														 
+													</select>
+													<ul class="parsley-errors-list filled">
+														<li class="parsley-required"  id="form_state_error"></li>
+													</ul>
+												</div>
 											<div class="form-group mb-0 mt-3 justify-content-end">
 												<div>
 													<button type="submit" name="btn_update_state" id="btn_update_state" class="btn btn-primary">{{ __('general.save') }}</button>
@@ -83,7 +96,7 @@
 										@else
 										<label class="col-sm-12 ">{{ __('general.status') }}:{{' '. $selectedservice->form_state_conv}}</label>
 										@if ($selectedservice->form_state=='reject')
-										<label class="col-sm-12 ">سبب الرفض:{{' '. $selectedservice->comment_reject_reason}}</label>	
+										<label class="col-sm-12 ">سبب الرفض:{{' '. $selectedservice->form_reject_reason}}</label>	
 										@endif
 											@endif
 								
