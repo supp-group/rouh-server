@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+//use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Selectedservice extends Model
 {
@@ -31,22 +32,32 @@ class Selectedservice extends Model
         'company_profit',
         'company_profit_percent',
     ];  
-    public static $status_conv;
-    public function __construct()
-  {
-    /*
-    $this->status_conv=$this->form_state=='wait'?__('general.status.wait') :
-        ($this->form_state=='agree'?__('general.status.agree'):
-            ($this->form_state=='reject'?__('general.status.reject'):$this->form_state)) ;
-            */
-  }
-  public function conv()
-  {
-    
-   return ($this->form_state=='wait'?__('general.status.wait') :
-        ($this->form_state=='agree'?__('general.status.agree'):
-            ($this->form_state=='reject'?__('general.status.reject'):$this->form_state))) ;
-  }
+ protected $appends= ['form_state_conv'];
+ public function getFormStateConvAttribute(){
+    $conv="";
+    switch($this->form_state) {
+        case('wait'):
+            $conv = __('general.status.wait');
+           break;
+           case('agree'):
+            $conv =__('general.status.agree');
+           break;
+           case('reject'):
+            $conv = __('general.status.reject');
+           break;
+
+        default:
+        $conv = $this->form_state;
+    }
+        return  $conv;
+ }
+
+ 
+ 
+ 
+
+ 
+
     /* deleted
         // 'answer',
           //  'answer2',

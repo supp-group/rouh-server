@@ -50,14 +50,11 @@
 											<tr>
 
 												<td>{{$selectedservice->service->name }}</td>
-												<td>{{ $selectedservice->expert->first_name. ' ' . $selectedservice->expert->last_name  }}</td>
+												<td>{{ $selectedservice->expert->full_name }}</td>
                                                 <td>{{ $selectedservice->client->user_name }}</td>
-                                                <td>{{ $selectedservice->form_state}}</td>
+                                                <td>{{ $selectedservice->form_state_conv}}</td>
                                                 <td>
 													<a href="{{route('order.edit', $selectedservice->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a> 
-                                                     
-                                                  
-
                                                 </td>
 
 											</tr>

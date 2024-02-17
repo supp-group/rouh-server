@@ -26,8 +26,8 @@ class OrderController extends Controller
     public function index()
     {
       $list =Selectedservice::with('expert','client','service')->orderByDesc('form_state')->get();
-      
-       return view('admin.order.show', ['selectedservices' => $list]);     
+    //  return  $list;
+        return view('admin.order.show', ['selectedservices' => $list]);     
     }
   
     /**
@@ -99,14 +99,10 @@ class OrderController extends Controller
     public function edit(string $id)
     {
     //  $url =url(Storage::url($this->path)).'/';
-      $object = Selectedservice::find($id);
-       /*
-      if( $object->image !="" ){
-        $object->fullpathimg= $url.$object->image;
-      }
-      */
+      $object =Selectedservice::with('expert','client','valueservices',)->find($id);
       
-      return view('admin.order.edit', ['order' => $object]);
+     //return dd($object);
+      return view('admin.order.edit', ['selectedservice' => $object]);
     }
   
     /**

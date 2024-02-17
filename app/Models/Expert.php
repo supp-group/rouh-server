@@ -60,6 +60,12 @@ class Expert extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    protected $appends= ['full_name'];
+ public function getFullNameAttribute(){     
+        return  $this->first_name.' '. $this->last_name ;
+ }
+
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -75,6 +81,8 @@ class Expert extends Authenticatable implements JWTSubject
         return [];
     }
     //
+
+
     public function expertsServices(): HasMany
     {
         return $this->hasMany(ExpertService::class);

@@ -132,7 +132,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         //الطلبات
         Route::resource('order', OrderController::class, ['except' => ['update']]);
         Route::prefix('order')->group(function () {          
-            Route::post('/update/{id}', [OrderController::class, 'update']);
+            Route::post('/update/{id}', [OrderController::class, 'update'])->name('order.update');
         });
     });
     /*
