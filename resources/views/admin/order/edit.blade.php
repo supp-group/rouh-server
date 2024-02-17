@@ -37,7 +37,22 @@
                                     <label class="col-sm-12 ">{{ __('general.service') }}:{{' '. $selectedservice->service->name}}</label>
                                     <label class="col-sm-12">{{ __('general.expert') }}:{{' '. $selectedservice->expert->full_name}}</label>
                                     <label class="col-sm-12 ">{{ __('general.client') }}:{{' '. $selectedservice->client->user_name}}</label>
-									
+									@foreach ($selectedservice->valueServices as $valueService)
+                                       @if ($valueService->type !='image' && $valueService->type !='record')
+                                       <label class="col-sm-12 "><p>{{ $valueService->name}}</p> <p>{{ $valueService->value}}</p></label>
+								   
+                                       @else 
+                                       @if ($valueService->type =='image')
+                                       <div class="pd-20 clearfix">
+                                        <img alt="" id="imgshow" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0"
+                                        src="{{$valueService->full_path_conv}}" >
+                                    </div>    
+                                       @else
+                                           <a href="{{$valueService->full_path_conv}}">تسجيل صوتي</a>
+                                       @endif
+                                     
+                                       @endif 
+                                    @endforeach
                                     <div class="form-group">
 										<input type="text" class="form-control " @disabled(true) id="first_name" placeholder="{{ __('general.first_name') }}" name="first_name" value="{{ $selectedservice->id}}">
 									 
