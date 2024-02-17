@@ -88,6 +88,12 @@ return [
 'show Service Expert'=>'خبراء الخدمات',
 'manage clients'=>'ادارة العملاء',
 'experts list'=>'قائمة الخبراء',
+'expert'=>'الخبير',
+'client'=>'العميل',
+'status'=>'الحالة',
+'status.wait'=>'انتظار',
+'status.agree'=>'موافق',
+'status.reject'=>'مرفوض',
 ];
 /*
   {{ __('general.welcome_name',['Name'=>'احمد']) }}

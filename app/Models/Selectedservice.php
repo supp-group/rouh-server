@@ -30,7 +30,23 @@ class Selectedservice extends Model
         'comment_user_id',
         'company_profit',
         'company_profit_percent',
-    ];     
+    ];  
+    public static $status_conv;
+    public function __construct()
+  {
+    /*
+    $this->status_conv=$this->form_state=='wait'?__('general.status.wait') :
+        ($this->form_state=='agree'?__('general.status.agree'):
+            ($this->form_state=='reject'?__('general.status.reject'):$this->form_state)) ;
+            */
+  }
+  public function conv()
+  {
+    
+   return ($this->form_state=='wait'?__('general.status.wait') :
+        ($this->form_state=='agree'?__('general.status.agree'):
+            ($this->form_state=='reject'?__('general.status.reject'):$this->form_state))) ;
+  }
     /* deleted
         // 'answer',
           //  'answer2',
@@ -58,6 +74,11 @@ class Selectedservice extends Model
     public function pointtransfers(): HasMany
     {
         return $this->hasMany(Pointtransfer::class);
+    }
+    public function answers(): HasMany
+    {
+         
+        return $this->hasMany(Answer::class);
     }
 
 }
