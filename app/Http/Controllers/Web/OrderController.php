@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reason;
 use Illuminate\Http\Request;
 use App\Models\ValueService;
 use App\Models\Selectedservice;
@@ -15,6 +16,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\Web\Point\StorePointRequest;
 use App\Http\Requests\Web\Point\UpdatePointRequest;
 use App\Models\Pointtransfer;
+use App\Models\Reason;
 //use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\StorageController;
@@ -99,10 +101,14 @@ class OrderController extends Controller
     public function edit(string $id)
     {
     //  $url =url(Storage::url($this->path)).'/';
-      $object =Selectedservice::with('expert','client','valueservices',)->find($id);
-      
+      $object =Selectedservice::with(['expert','client',       
+      'valueservices' => function ($q){
+        $q->orderByDesc('ispersonal');
+    }
+     ] )->find($id);
+      $reasons=Reason::where('type','form')->get();
      //return dd($object);
-      return view('admin.order.edit', ['selectedservice' => $object]);
+      return view('admin.order.edit', ['selectedservice' => $object,'reasons'=> $reasons]);
     }
   
     /**

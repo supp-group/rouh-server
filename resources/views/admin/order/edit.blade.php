@@ -32,63 +32,61 @@
 								<p class="mb-2"> </p>
 							</div>
 							<div class="card-body pt-0">
-								<form class="form-horizontal" name="create_form" action="{{route('order.update', $selectedservice->id)}}" method="POST" enctype="multipart/form-data" id="create_form">
-									@csrf
+								
                                     <label class="col-sm-12 ">{{ __('general.service') }}:{{' '. $selectedservice->service->name}}</label>
                                     <label class="col-sm-12">{{ __('general.expert') }}:{{' '. $selectedservice->expert->full_name}}</label>
                                     <label class="col-sm-12 ">{{ __('general.client') }}:{{' '. $selectedservice->client->user_name}}</label>
-									@foreach ($selectedservice->valueServices as $valueService)
-                                       @if ($valueService->type !='image' && $valueService->type !='record')
-                                       <label class="col-sm-12 "><p>{{ $valueService->name}}</p> <p>{{ $valueService->value}}</p></label>
-								   
-                                       @else 
-                                       @if ($valueService->type =='image')
+                                    
+									@foreach ($selectedservice->valueServices->whereNotIn('type', ['image','record']) as $valueService)
+                                     
+                                       <label class="col-sm-12 "><p>{{ $valueService->tooltipe}}</p> <p>{{ $valueService->value}}</p></label>
+									 
+									   @endforeach
+                                      
+									   @foreach ($selectedservice->valueServices->where('type','image')  as $valueService)
+                                
                                        <div class="pd-20 clearfix">
                                         <img alt="" id="imgshow" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0"
                                         src="{{$valueService->full_path_conv}}" >
-                                    </div>    
-                                       @else
-                                           <a href="{{$valueService->full_path_conv}}">تسجيل صوتي</a>
-                                       @endif
-                                     
-                                       @endif 
-                                    @endforeach
-                                    <div class="form-group">
-										<input type="text" class="form-control " @disabled(true) id="first_name" placeholder="{{ __('general.first_name') }}" name="first_name" value="{{ $selectedservice->id}}">
-									 
+                                    </div>  
+									@endforeach  
+									@foreach ($selectedservice->valueServices->where('type','record') as $valueService)
+									   <label class="col-sm-12 ">تسجيل صوتي</label> 
+									    <audio controls class="col-sm-12 ">
+											<source src="{{$valueService->full_path_conv}}" type="audio/mpeg">
+											</audio>
+                                       
+											@endforeach  
+											@if ($selectedservice->form_state=='wait')
+											<form class="form-horizontal" name="create_form" action="{{route('order.update', $selectedservice->id)}}" method="POST"   id="update_form">
+												@csrf
+										  
+												<div class="mb-4">
+													<select name="form_state"   id="form_state" class="form-control  "  >
+														<!--placeholder-->
+														<option title=""   class="text-muted">{{ __('general.status.wait') }}</option>
+														<option value="agree" >{{ __('general.status.agree') }}</option>
+														<option value="reject" >{{ __('general.status.reject') }}</option>
+													</select>
+													<ul class="parsley-errors-list filled">
+														<li class="parsley-required"  id="form_state_error"></li>
+													</ul>
+												</div>
 										 
-									</div>
- 
-                                    <div class="my-4">
-										<textarea class="form-control" placeholder="{{ __('general.descreption') }}" rows="3" id="desc" name="desc">{{$selectedservice->desc}}</textarea>
-									</div>
-                                    <div class="form-group mb-4 justify-content-end">
-										<div class="custom-file">
-											<input class="custom-file-input" id="image" name="image" type="file"> <label class="custom-file-label" for="customFile"  id="image_label">{{ __('general.choose image') }}</label>
-											<ul class="parsley-errors-list filled" >
-												<li class="parsley-required" id="image_error"></li>
-											</ul>
-										</div>
-									</div>
-									<div class="form-group justify-content-end">
-										<div class="checkbox">
-											<div class="custom-checkbox custom-control">
-												<input type="checkbox" data-checkboxes="mygroup" @if ( $selectedservice->form_state=='1') @checked(true) @endif  class="custom-control-input" id="checkbox-2" value="{{ $selectedservice->form_state }}" name="form_state">
-												<label for="checkbox-2" class="custom-control-label mt-1"  >{{ __('general.form_state') }}</label>
+											<div class="form-group mb-0 mt-3 justify-content-end">
+												<div>
+													<button type="submit" name="btn_update_state" id="btn_update_state" class="btn btn-primary">{{ __('general.save') }}</button>
+													<button type="button" name="btn_cancel" id="btn_cancel"  class="btn btn-secondary">{{ __('general.cancel') }}</button>				
+												</div>
 											</div>
-											
-										</div>
-										<ul class="parsley-errors-list filled" >
-											<li class="parsley-required" id="form_state_error"></li>
-										</ul>
-									</div>
-									<div class="form-group mb-0 mt-3 justify-content-end">
-										<div>
-											<button type="submit" name="btn_update_user" id="btn_update_user" class="btn btn-primary">{{ __('general.save') }}</button>
-											<button type="button" name="btn_cancel" id="btn_cancel"  class="btn btn-secondary">{{ __('general.cancel') }}</button>				
-										</div>
-									</div>
-								</form>
+										</form>
+										@else
+										<label class="col-sm-12 ">{{ __('general.status') }}:{{' '. $selectedservice->form_state_conv}}</label>
+										@if ($selectedservice->form_state=='reject')
+										<label class="col-sm-12 ">سبب الرفض:{{' '. $selectedservice->comment_reject_reason}}</label>	
+										@endif
+											@endif
+								
 {{-- 
 								<div class="pd-20 clearfix">
 									<img alt="" id="imgshow" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0"
