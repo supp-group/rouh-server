@@ -71,9 +71,20 @@ class AnswerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(  $id)
     {
-        //
+         //  $url =url(Storage::url($this->path)).'/';
+      $object =Selectedservice::with(['expert','client',       
+      'valueservices' => function ($q){
+        $q->orderByDesc('ispersonal');
+    },      
+    'answers' => function ($q){
+      $q->orderByDesc('created_at');
+  }
+     ])->find($id);
+      $reasons=Reason::where('type','answer')->get();
+     //return dd($object);
+      return view('admin.answer.edit', ['selectedservice' => $object,'reasons'=> $reasons]); 
     }
 
     /**

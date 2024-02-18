@@ -43,6 +43,9 @@ class StorageController extends Controller
     //value
     $this->path['values_services'] = 'images/values';
     $this->recordpath['values_services'] = 'images/values/records';
+    //answer
+     
+    $this->recordpath['answers'] = 'images/answers/records';
   }
   /**
    * Display a listing of the resource.
@@ -119,6 +122,14 @@ class StorageController extends Controller
       $url = url(Storage::url($this->path['values_services'])) . '/';
     } else {
       $url = url(Storage::url($this->recordpath['values_services'])) . '/';
+    }
+    return $url;
+  }
+  public function AnswerPath($type)
+  { //image record
+    $url = "";
+    if ($type == "record") {
+      $url = url(Storage::url($this->recordpath['answers'])) . '/';
     }
     return $url;
   }

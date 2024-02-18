@@ -78,7 +78,7 @@ class Selectedservice extends Model
     $conv="";
  
     if($this->answer_state=='no_answer' ){
-        $conv='لم يرد';
+        $conv=__('general.status.no_answer');
     }       
     else if( $this->answer_state=='reject'){
         $conv=__('general.status.reject');

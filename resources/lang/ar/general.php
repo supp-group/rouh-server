@@ -94,8 +94,11 @@ return [
 'status.wait'=>'انتظار',
 'status.agree'=>'موافق',
 'status.reject'=>'مرفوض',
+'status.no_answer'=>'لم يرد',
 'orders'=>'الطلبات',
 'order details'=>'تفاصيل الطلب',
+'answers'=>'الردود',
+'answer'=>'رد الخبير',
 ];
 /*
   {{ __('general.welcome_name',['Name'=>'احمد']) }}
