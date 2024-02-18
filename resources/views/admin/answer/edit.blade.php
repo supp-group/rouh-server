@@ -133,7 +133,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($selectedservice->answers->skip(1) as $answer)
+                        @foreach ($selectedservice->answers->whereNotIn('answer_state',['wait']) as $answer)
                         <tr>
 
                             <td>{{$answer->content}}</td>
