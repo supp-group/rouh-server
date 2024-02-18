@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 //use Illuminate\Database\Eloquent\Casts\Attribute;
-
+use Illuminate\Support\Facades\DB; 
 class Selectedservice extends Model
 {
     use HasFactory;
@@ -33,7 +33,7 @@ class Selectedservice extends Model
         'company_profit_percent',
         'form_reject_reason',
     ];  
- protected $appends= ['form_state_conv'];
+ protected $appends= ['form_state_conv','answer_state','answer_state_conv'];
  public function getFormStateConvAttribute(){
     $conv="";
     switch($this->form_state) {
@@ -53,8 +53,44 @@ class Selectedservice extends Model
         return  $conv;
  }
 
+ public function getAnswerStateAttribute(){
+    $conv="";
  
+    if($this->answers->isEmpty()){
+        $conv='no_answer';
+    }else
+    {
+      //  $answer=  DB::table('answers')->where('selectedservice_id',$this->id)->latest() ;
+       $answer= $this->answers->sortBy('created_at')->last()->answer_state ;
+         if( $answer =='reject'){
+        $conv='reject';
+    }else if ($answer =='agree'){
+        $conv='agree';
+    }else if($answer=='wait'){
+        $conv='wait';
+    }
+}
+     
+        return  $conv;
+ }
+
+ public function getAnswerStateConvAttribute(){
+    $conv="";
  
+    if($this->answer_state=='no_answer' ){
+        $conv='لم يرد';
+    }       
+    else if( $this->answer_state=='reject'){
+        $conv=__('general.status.reject');
+    }else if ($this->answer_state=='agree'){
+        $conv=__('general.status.agree');
+    }else if($this->answer_state=='wait'){
+        $conv=__('general.status.wait');;
+    }
+ 
+     
+        return  $conv;
+ }
  
 
  

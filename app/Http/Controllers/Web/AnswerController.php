@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
  
 use App\Models\Reason;
- 
+  
+use App\Models\User;
 use App\Models\ValueService;
 use App\Models\Selectedservice;
 use Illuminate\Support\Facades\DB; 
@@ -29,10 +30,18 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        $list =Selectedservice::with('expert','client','service','answers')->get();
+        $list =User::latest()->first();
+      
+        $list =Selectedservice::with(['expert','client','service','answers'
+        /*
+        'answers' => function ($q){
+            $q->latest()->first();
+        }
+        */
+         ])->where('form_state','agree')->get();
        
-      // return  $list;
-          return view('admin.answer.show', ['selectedservices' => $list]);     
+   //   return  $list;
+      return view('admin.answer.show', ['selectedservices' => $list]);     
     }
 
     /**
