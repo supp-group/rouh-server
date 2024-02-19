@@ -83,7 +83,7 @@
 														 
 													</select>
 													<ul class="parsley-errors-list filled">
-														<li class="parsley-required"  id="form_state_error"></li>
+														<li class="parsley-required"  id="form_reject_reason_error"></li>
 													</ul>
 												</div>
 											<div class="form-group mb-0 mt-3 justify-content-end">
@@ -137,7 +137,7 @@
 <script src="{{URL::asset('assets/js/form-elements.js')}}"></script>
 
 <script src="{{URL::asset('assets/js/admin/validate.js')}}"></script>
-<script src="{{URL::asset('assets/js/admin/content.js')}}"></script>
+<script src="{{URL::asset('assets/js/admin/order.js')}}"></script>
 <script src="{{URL::asset('assets/js/form-elements.js')}}"></script>
 <script  >  
 var emptyimg ="{{URL::asset('assets/img/photos/1.jpg')}}";

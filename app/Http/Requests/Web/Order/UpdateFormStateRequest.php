@@ -19,10 +19,34 @@ class UpdateFormStateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+   
     public function rules(): array
     {
-        return [
-            //
-        ];
+       
+      
+       return[
+         'form_state'=>'required|in:agree,reject', 
+         'form_reject_reason'=>'exclude_unless:form_state,reject|required|integer', //exclude_if
+        
+       ];   
+    
     }
+    /**
+ * Get the error messages for the defined validation rules. 'decimal:2'
+
+ *
+ * @return array<string, string>
+ */
+public function messages(): array
+{
+  
+   return[   
+      'form_state.required'=> __('messages.this field is required')  ,
+      'form_state.in'=> __('messages.this field is required')  ,
+      'form_reject_reason.required'=>  __('messages.this field is required') ,
+      'form_reject_reason.integer'=>  __('messages.this field is required') ,     
+ 
+    ];
+    
+}
 }

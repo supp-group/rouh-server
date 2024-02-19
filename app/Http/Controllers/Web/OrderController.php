@@ -105,12 +105,13 @@ class OrderController extends Controller
          }
          */ 
         $reason=Reason::find($formdata['form_reject_reason']);
+        /*
         Selectedservice::find($id)->update([
           'form_state'=>  $formdata['form_state'],
           'form_reject_reason'=>  $reason->content,
               
         ]);
-      
+      */
         //save image
         return response()->json("ok");
         
