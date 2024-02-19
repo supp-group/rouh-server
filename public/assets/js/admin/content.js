@@ -821,6 +821,62 @@ $('#form_state').on('change', function () {
 		$('#reason-div').hide();
 	}
 });
+$('#btn-send-notify').on('click', function (e) {
+	e.preventDefault();
+ 
+sendformbyid('#send-notify-form');
+	});
+
+function sendformbyid(formid) {
+	startLoading();
+	ClearErrors();
+//	$formid='#create_form';
+	 
+	var form = $(formid)[0];
+	var formData = new FormData(form);
+	urlval = $(formid).attr("action")
+ 
+
+	$.ajax({
+		url: urlval,
+		type: "POST",
+
+		data: formData,
+		contentType: false,
+		processData: false,
+		//contentType: 'application/json',
+		success: function (data) {
+			//	alert(data);
+			endLoading();
+			//$('#errormsg').html('');
+			//$('#sortbody').html('');
+			if (data.length == 0) {
+				noteError();
+
+			} else   {
+				noteSuccess();
+				 
+				  $('#msg').html(data);
+			}
+
+			// $('.alert').html(result.success);
+		}, error: function (errorresult) {
+			endLoading();
+			var response = $.parseJSON(errorresult.responseText);
+			// $('#errormsg').html( errorresult );
+			noteError(); 
+
+		}, finally: function () {
+			endLoading();
+
+		}
+	 
+
+	});
+
+
+ 
+}
 
 });
 
