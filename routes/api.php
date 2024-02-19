@@ -43,6 +43,7 @@ Route::middleware('authClient:api_clients')->group(function () {
         Route::post('/view', [ClientController::class, 'index']);
         Route::post('/getloguser', [ClientController::class, 'getloguser']);
         Route::post('/getbymobile', [ClientController::class, 'getbymobile']);
+        Route::post('/updateprofile', [ClientController::class, 'updateprofile']);
 //api/client/service
         Route::prefix('/service')->group(function () {
             Route::post('/viewall', [serviceController::class, 'index']); 

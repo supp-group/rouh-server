@@ -16,6 +16,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\StorageController;
+use App\Http\Requests\Api\Client\UpdateClientRequest;
 /*
 use App\Http\Requests\Web\Client\StoreClientRequest;
 use App\Http\Requests\Web\Client\UpdateClientRequest;
@@ -161,5 +162,57 @@ class ClientController extends Controller
          
         }
         return 1;
+    }
+
+    public function updateprofile(Request $filerequest)
+    {
+        
+        $formdata = $filerequest->all();
+
+   
+  //  $file=  $formdata ->file('image');
+      $storrequest=new UpdateClientRequest();
+    //  $storrequest->request()=$formdata ;
+   //   $storrequest=  $formdata ;
+      $validator = Validator::make($formdata,
+      $storrequest->rules(),
+      $storrequest->messages()
+    );
+    if ($validator->fails()) {
+        /*
+          return redirect('/cpanel/users/add')
+          ->withErrors($validator)
+                      ->withInput();
+                      */
+                      return response()->json($validator->errors());
+     //   return redirect()->back()->withErrors($validator)->withInput();
+  
+      } else {
+             $id=   $formdata["id"];
+     $authuser = auth()->user();
+     if (!( $authuser->id == $id)) {
+        return response()->json('notexist', 401);
+    }else{
+     $birthdate= Carbon::create($formdata["birthdate"])->format('Y-m-d');
+     Client::find($id)->update([
+            'user_name'=>  $formdata['user_name'],
+            'email'=>  $formdata['email'],
+            'nationality' => $formdata['nationality'],         
+            'birthdate' =>  $birthdate,
+            'gender' =>(int) $formdata['gender'],        
+            'marital_status' =>$formdata['marital_status'],   
+          ]);
+        if ($filerequest->hasFile('image')) {
+            $file= $filerequest->file('image');
+            $this->storeImage( $file, $id);
+        }
+       
+      
+         return response()->json($id);
+      }
+    }
+  
+  
+  
     }
 }

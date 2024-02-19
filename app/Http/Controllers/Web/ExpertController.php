@@ -87,6 +87,7 @@ class ExpertController extends Controller
       //$newObj->record = $formdata['record'];
       $newObj->desc = $formdata['desc'];
       $newObj->call_cost = 0;
+      $newObj->answer_speed = 0;
       $newObj->is_active = isset($formdata["is_active"]) ? 1 : 0;
       //$newObj->token = $formdata['token'];
          /*
