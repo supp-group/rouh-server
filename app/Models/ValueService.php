@@ -22,8 +22,21 @@ class ValueService extends Model
         'image_count',
     ];
 
-    protected $appends= ['full_path_conv','value_conv'];
-
+    protected $appends= ['full_path_conv','value_conv','svg_path'];
+    public function getSvgPathAttribute(){
+        $conv="";
+        $strgCtrlr = new StorageController(); 
+        if(is_null($this->icon) ){
+            $conv =$strgCtrlr->DefaultPath('icon'); 
+        }else if($this->icon==''){
+            $conv =$strgCtrlr->DefaultPath('icon'); 
+        } else {
+            $url = $strgCtrlr->InputPath('icon');
+            $conv =  $url.$this->icon;
+        }     
+       
+            return  $conv;
+     }
     public function getFullPathConvAttribute(){
        $conv="";
        $strgCtrlr = new StorageController();

@@ -124,7 +124,8 @@ class SelectedServiceController extends Controller
                 $pointtransfer->status = 1;
                 $pointtransfer->selectedservice_id = $newObj->id;
                 $pointtransfer->side = 'from-client';
-
+                $pointtransfer->state = 'wait';
+                $pointtransfer->type = 'd';
                 $pointtransfer->save();
                 //  }
             }

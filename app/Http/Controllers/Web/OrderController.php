@@ -97,22 +97,33 @@ class OrderController extends Controller
   
       } else {
        // $imagemodel = Expert::find($id);
-       /*
-        if ($request->hasFile('image')) {
-          $file= $request->file('image');
-                 // $filename= $file->getClientOriginalName();                
-       $this->storeImage( $file,$id);
-         }
-         */ 
+        
+        DB::transaction(function ()use( $formdata,$id) {
+      
         $reason=Reason::find($formdata['form_reject_reason']);
-        /*
+        
         Selectedservice::find($id)->update([
           'form_state'=>  $formdata['form_state'],
-          'form_reject_reason'=>  $reason->content,
-              
+          'form_reject_reason'=>  $reason->content,              
         ]);
-      */
-        //save image
+if($formdata['form_state']=='agree'){
+
+  Pointtransfer::where('selectedservice_id',$id)
+  ->where('state','wait')
+  ->where('side','from-client')->update([
+    'state'=> 'agree',                
+  ]);
+  $countpoint=Pointtransfer::where('selectedservice_id',$id)
+  ->where('state','wait')
+  ->where('side','from-client')->first()->count ;
+  //add points to company
+  
+}else{
+  //reject
+
+}
+        });
+        
         return response()->json("ok");
         
       }
