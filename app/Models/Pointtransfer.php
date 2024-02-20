@@ -20,6 +20,8 @@ class Pointtransfer extends Model
 'status',
 'selectedservice_id',
 'side',
+'state',
+'type',
     ];
 
 
