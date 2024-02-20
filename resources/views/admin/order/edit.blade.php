@@ -36,7 +36,7 @@
 
                     <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="User Icon SVG Vector Icon"
                                 fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
-                                src="{{ asset('storage/images/inputs/icons/9455365.svg') }}">
+                                src="{{$selectedservice->service->svg_path }}">
                             {{ ' ' . __('general.service') }}</span>{{ ' ' . $selectedservice->service->name }}</p>
                     <p><span class="badge badge-light px-3 py-2"><img alt="User Icon SVG Vector Icon" fetchpriority="high"
                                 decoding="async" data-nimg="1" style="width:20px;height:20px"
