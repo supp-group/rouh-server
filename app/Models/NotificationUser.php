@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class NotificationUser extends Model
 {
     use HasFactory;
     protected $fillable = [
-        
-        'point_balance',
-        'point_profit',
-        'cash_balance',
-        'cash_profit',
-        'notes',
-        
+        'notification_id',
+'client_id',
+'expert_id',
+'user_id',
+'isread',
+'read_at',
+'state',
+'notes',
+
          
     ];
 }
