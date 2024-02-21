@@ -17,7 +17,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations.2024_02_20_163306_ drop_notifiable_type_in_notifications_table
      */
     public function down(): void
     {

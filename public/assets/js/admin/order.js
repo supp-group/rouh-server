@@ -13,7 +13,11 @@ $(document).ready(function () {
 		sendform('#update_form');
 		});
 	 
-	 
+		$('#btn_answer_state').on('click', function (e) {
+			e.preventDefault();
+			sendform('#answer_form');
+			});
+		 
 	 
 	function ClearErrors() {
 

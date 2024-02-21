@@ -23,7 +23,7 @@ use App\Models\Pointtransfer;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Api\ValueService\StoreImageRequest;
 
-
+use App\Http\Controllers\Api\StorageController;
 //use Illuminate\Support\Str;
 class SelectedServiceController extends Controller
 {
@@ -63,7 +63,7 @@ class SelectedServiceController extends Controller
             //check client balance
             $client = Client::find($data['client_id']);
             $expertService = ExpertService::where('expert_id', $data['expert_id'])->where('service_id', $data['service_id'])->first();
-
+$service=Service::find( $expertService->service_id);
             if ($client->points_balance < $expertService->points) {
                 return response()->json([
                     "error" => "nopoints",
@@ -79,18 +79,18 @@ class SelectedServiceController extends Controller
                 $newObj->service_id = $expertService->service_id;
                 $newObj->points = $expertService->points;
                 $newObj->rate = 0;
-                $newObj->answer = "";
-                $newObj->answer2 = "";
+             //   $newObj->answer = "";
+             //   $newObj->answer2 = "";
                 $newObj->comment = "";
-                $newObj->iscommentconfirmd = 0;
-                $newObj->issendconfirmd = 0;
-                $newObj->isanswerconfirmd = 0;
+               // $newObj->iscommentconfirmd = 0;
+             //   $newObj->issendconfirmd = 0;
+            //    $newObj->isanswerconfirmd = 0;
                 $newObj->comment_rate = 0;
                 $newObj->status = "created";
-                $newObj->expert_cost = $expertService->expert_cost;
+                $newObj->expert_cost =$service->expert_percent ;
                 $newObj->cost_type = $expertService->cost_type;
-                $newObj->expert_cost_value = $expertService->expert_cost_value;
-
+             //   $newObj->expert_cost_value = $expertService->expert_cost_value;
+                $newObj->expert_cost_value =StorageController::CalcPercentVal($service->expert_percent,$expertService->points);
                 $newObj->save();
                 $this->id = $newObj->id;
 
@@ -135,7 +135,7 @@ class SelectedServiceController extends Controller
             "message" => $this->id
         ]);
     }
-
+  
     public function uploadfilesvalue(Request $request)
     {
         //

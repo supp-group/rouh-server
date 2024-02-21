@@ -62,35 +62,35 @@
                             <source src="{{ $valueService->full_path_conv }}" type="audio/mpeg">
                         </audio>
                     @endforeach
-
+                    @if ($selectedservice->answer_state == 'wait')
                     <label class="col-sm-12 "> {{ __('general.answer') }}</label>
-                    @if ($selectedservice->answer_state != 'no_answer')
-                        <label class="col-sm-12 ">{{ $selectedservice->answers->first()->content }}</label>
+                   
+                        <label class="col-sm-12 ">{{ $selectedservice->answers->where('answer_state','wait')->first()->content }}</label>
                         <audio controls class="col-sm-12 ">
-                            <source src="{{ $selectedservice->answers->first()->record_path }}" type="audio/mpeg">
+                            <source src="{{ $selectedservice->answers->where('answer_state','wait')->first()->record_path }}" type="audio/mpeg">
                         </audio>
                     @endif
                    
                     <label class="col-sm-12 "> {{ __('general.status') }}:  {{ $selectedservice->answer_state_conv }}</label>
                     @if ($selectedservice->answer_state != 'no_answer')
                     @if ($selectedservice->answer_state == 'wait')
-                    <form class="form-horizontal" name="create_form"
-                    action="{{ route('answer.update', $selectedservice->id) }}" method="POST" id="update_form">
+                    <form class="form-horizontal" name="answer_form"
+                    action="{{ route('answer.update', $selectedservice->id) }}" method="POST" id="answer_form">
                     @csrf
 
                     <div class="mb-4">
-                        <select name="form_state" id="form_state" class="form-control  ">
+                        <select name="answer_state" id="answer_state" class="form-control  ">
                             <!--placeholder-->
                             <option title="" class="text-muted">{{ __('general.status.wait') }}</option>
                             <option value="agree">{{ __('general.status.agree') }}</option>
                             <option value="reject">{{ __('general.status.reject') }}</option>
                         </select>
                         <ul class="parsley-errors-list filled">
-                            <li class="parsley-required" id="form_state_error"></li>
+                            <li class="parsley-required" id="answer_state_error"></li>
                         </ul>
                     </div>
                     <div class="mb-4" id="reason-div" style="display: none;">
-                        <select name="form_reject_reason" id="form_reject_reason" class="form-control  ">
+                        <select name="answer_reject_reason" id="answer_reject_reason" class="form-control  ">
                             <!--placeholder-->
                             <option title="" class="text-muted">اختر سبب الرفض</option>
                             @foreach ($reasons as $reason)
@@ -99,12 +99,12 @@
 
                         </select>
                         <ul class="parsley-errors-list filled">
-                            <li class="parsley-required" id="form_state_error"></li>
+                            <li class="parsley-required" id="answer_reject_reason_error"></li>
                         </ul>
                     </div>
                     <div class="form-group mb-0 mt-3 justify-content-end">
                         <div>
-                            <button type="submit" name="btn_update_state" id="btn_update_state"
+                            <button type="submit" name="btn_answer_state" id="btn_answer_state"
                                 class="btn btn-primary">{{ __('general.save') }}</button>
                             <button type="button" name="btn_cancel" id="btn_cancel"
                                 class="btn btn-secondary">{{ __('general.cancel') }}</button>

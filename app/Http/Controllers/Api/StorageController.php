@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use PhpParser\Node\Expr\Cast\Object_;
+use Ramsey\Uuid\Type\Decimal;
 
 class StorageController extends Controller
 {
@@ -132,6 +133,12 @@ class StorageController extends Controller
       $url = url(Storage::url($this->recordpath['answers'])) . '/';
     }
     return $url;
+  }
+  public static function CalcPercentVal($percent,$total)
+  {
+      //10% 200->200*10/100
+      $val=$total*$percent/100;
+      return $val;
   }
   //
 }
