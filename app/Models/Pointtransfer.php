@@ -22,6 +22,7 @@ class Pointtransfer extends Model
 'side',
 'state',
 'type',
+'source_id',
     ];
 
 

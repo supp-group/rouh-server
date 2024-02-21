@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Reason;
 use Illuminate\Http\Request;
 use App\Models\ValueService;
@@ -14,7 +15,7 @@ use Illuminate\Support\Carbon;
 
 use App\Http\Requests\Web\Order\UpdateFormStateRequest;
 use App\Models\Pointtransfer;
-
+use App\Models\Client;
 //use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\StorageController;
@@ -99,28 +100,60 @@ class OrderController extends Controller
        // $imagemodel = Expert::find($id);
         
         DB::transaction(function ()use( $formdata,$id) {
-      
-        $reason=Reason::find($formdata['form_reject_reason']);
-        
-        Selectedservice::find($id)->update([
-          'form_state'=>  $formdata['form_state'],
-          'form_reject_reason'=>  $reason->content,              
-        ]);
+          $pointobj=Pointtransfer::where('selectedservice_id',$id)
+          ->where('state','wait')
+          ->where('side','from-client')->first();
+          $selectedObj= Selectedservice::find($id);
 if($formdata['form_state']=='agree'){
-
-  Pointtransfer::where('selectedservice_id',$id)
-  ->where('state','wait')
-  ->where('side','from-client')->update([
+  Selectedservice::find($id)->update([
+    'form_state'=>  $formdata['form_state'],
+                  
+  ]);
+  Pointtransfer::find( $pointobj->id)->update([
     'state'=> 'agree',                
   ]);
-  $countpoint=Pointtransfer::where('selectedservice_id',$id)
-  ->where('state','wait')
-  ->where('side','from-client')->first()->count ;
+
+  $count= $pointobj->count ;
+  // change state to agree
+  Pointtransfer::find($pointobj->id)->update([
+    'state'=>  'agree']              
+  );
   //add points to company
-  
+  $bobj=Company::first();
+  $newblnce=$bobj->point_balance+ $count;
+Company::first()->update([
+  'point_balance'=> $newblnce]              
+);
 }else{
   //reject
+  $reason=Reason::find($formdata['form_reject_reason']);
+  Selectedservice::find($id)->update([
+    'form_state'=>  $formdata['form_state'],
+    'form_reject_reason'=>  $reason->content,              
+  ]);
 
+  Pointtransfer::find($pointobj->id)->update([
+    'state'=>  'reject']              
+  );
+ 
+$returnPoint = new Pointtransfer();
+ 
+$returnPoint->client_id =  $selectedObj->client_id;
+$returnPoint->expert_id = $selectedObj->expert_id;
+$returnPoint->service_id = $selectedObj->service_id;
+$returnPoint->count = $pointobj->count;
+$returnPoint->status = 1;
+$returnPoint->selectedservice_id = $id;
+$returnPoint->side = 'to-client';
+$returnPoint->state = 'reject-return';
+$returnPoint->type = 'p';
+$returnPoint->source_id = $pointobj->id;
+$returnPoint->save();
+
+//add point to client
+$client = Client::find( $selectedObj->client_id);
+$client->points_balance = $client->points_balance + $pointobj->count;
+$client->save();
 }
         });
         
