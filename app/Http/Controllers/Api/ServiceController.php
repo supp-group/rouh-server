@@ -91,7 +91,7 @@ DB::raw("(CASE
    $iconurlinput =$strgCtrlr->InputPath('icon');
    $defaultimg=$strgCtrlr->DefaultPath('image');
    $defaultsvg=$strgCtrlr->DefaultPath('icon');
-$service = Service::find($data['id'])->select('id',
+$service = Service::select('id',
 'name',
 DB::raw("(CASE 
 WHEN services.desc is NULL THEN ''                  
@@ -104,7 +104,7 @@ END) AS image"),
 DB::raw("(CASE 
 WHEN services.icon is NULL THEN '$defaultsvg'                     
 ELSE CONCAT('$iconurl',icon)
-END) AS icon"),)->first()->load(
+END) AS icon"),)->find($data['id'])->load(
     ['inputservices'=>function($q){
 $q->select('id','input_id','service_id');
         }    ,
@@ -124,7 +124,8 @@ END) AS icon"),
                 $q->select('id', 'value','input_id');
                     }  
 ]
-);
+)
+ ;
 
   /*
    $service = Service::find($data['id'])->select('id',

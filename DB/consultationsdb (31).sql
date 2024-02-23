@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 18, 2024 at 04:16 PM
+-- Generation Time: Feb 23, 2024 at 09:28 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.2.0
 
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `answers` (
 --
 
 INSERT INTO `answers` (`id`, `record`, `content`, `answer_reject_reason`, `answer_state`, `selectedservice_id`, `updateuser_id`, `created_at`, `updated_at`) VALUES
-(1, 'rec.mp3', 'بحاجة الى جلسات', NULL, 'wait', 33, NULL, '2024-01-18 20:06:28', NULL),
-(2, 'sdsd.mp3', 'casvasc', NULL, 'wait', 33, NULL, '2024-01-18 20:06:28', NULL),
+(1, 'rec.mp3', 'بحاجة الى جلسات', NULL, 'wait', 33, NULL, '2024-02-21 20:06:28', NULL),
+(2, 'sdsd.mp3', 'casvasc', NULL, 'reject', 33, NULL, '2024-01-18 20:06:28', NULL),
 (3, 'sdsd.mp3', 'laaassttt', NULL, 'wait', 34, NULL, '2024-02-18 20:06:28', NULL),
 (4, 'sdsd.mp3', 'casvasc', NULL, 'reject', 34, NULL, '2024-01-18 20:06:28', NULL);
 
@@ -70,6 +70,8 @@ CREATE TABLE IF NOT EXISTS `cashtransfers` (
   `pointtransfer_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `selectedservice_id` bigint UNSIGNED DEFAULT NULL,
+  `source_id` bigint UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -97,9 +99,8 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updateuser_id` bigint UNSIGNED DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `clients_mobile_unique` (`mobile`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `clients`
@@ -112,7 +113,7 @@ INSERT INTO `clients` (`id`, `user_name`, `password`, `mobile`, `email`, `nation
 (14, 'raghad', NULL, '021458700000', 'ra@email.com', 'syria', '2000-05-18 00:00:00', 2, 'single', '9782114.webp', NULL, 0, '2024-02-01 07:12:20', '2024-02-01 07:12:21', NULL, 1),
 (15, 'tesyyyt', NULL, '213777777777', 'hhel@hh.lo', 'الجزائر', '2024-02-16 00:00:00', 2, NULL, '7137915.webp', NULL, 0, '2024-02-15 22:08:38', '2024-02-15 22:08:38', NULL, 1),
 (16, 'dina test', NULL, '213111111111', 'dina@gmail.com', 'الجزائر', '2024-01-01 00:00:00', 2, 'Married', '8632416.webp', NULL, 0, '2024-02-16 17:31:55', '2024-02-16 17:31:55', NULL, 1),
-(17, 'yasin1', NULL, '213944917252', 'yasin11@g', 'الجزائر', '2024-02-17 00:00:00', 2, 'Married', '9843517.webp', NULL, 0, '2024-02-17 12:09:04', '2024-02-17 12:09:04', NULL, 1);
+(17, 'ahmadd', NULL, '213944917252', 'abc@xyz.com', 'سوريا', '2000-10-20 00:00:00', 1, 'married', '4385517.webp', NULL, 0, '2024-02-17 12:09:04', '2024-02-19 13:59:22', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -172,21 +173,19 @@ CREATE TABLE IF NOT EXISTS `experts` (
   `first_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `record` text COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `experts_user_name_unique` (`user_name`),
-  UNIQUE KEY `experts_mobile_unique` (`mobile`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `experts`
 --
 
 INSERT INTO `experts` (`id`, `user_name`, `mobile`, `email`, `nationality`, `birthdate`, `gender`, `marital_status`, `image`, `points_balance`, `cash_balance`, `cash_balance_todate`, `rates`, `desc`, `call_cost`, `token`, `password`, `created_at`, `updated_at`, `is_active`, `answer_speed`, `first_name`, `last_name`, `record`) VALUES
-(1, 'expert1', '0969459459', 'expert@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '352171.webp', 0, '0.00', '0.00', '4.00', 'انا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقة', 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-02-15 14:00:42', 1, NULL, 'محمد', 'السعيد', '15562135.mp3'),
-(2, 'expert2', '0265498789', 'expert2012@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '331772.webp', 0, '0.00', '0.00', '0.00', NULL, 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-02-10 10:32:41', 1, NULL, 'ahmad', 'ms', '15562135.mp3'),
-(3, 'expert3', '0969459441', 'expert2011@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '240733.webp', 0, '0.00', '0.00', '0.00', 'asc', 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-02-04 15:30:23', 1, NULL, 'ahmad', 'ms', NULL),
-(6, 'sdvsdv', '8111123456', 'dssfvw@ononon.com', NULL, '2024-01-01 00:00:00', 2, NULL, '984116.webp', 0, '0.00', '0.00', '0.00', 'gregregfv', 0, NULL, '$2y$12$z6uPd0zfxseoukPrIAUXXub2mVSI2/8IuGcnvnXGx7GYoWXJElw3.', '2024-01-28 11:55:25', '2024-01-28 12:22:53', 1, NULL, '1ahmad', '1ms', NULL),
-(7, 'expert-4', '0956464987', 'dsssw@ononon.com', NULL, '2000-02-05 00:00:00', 1, NULL, NULL, 0, '0.00', '0.00', '0.00', NULL, 0, NULL, '$2y$12$AY0yFfKsCh1o0q/ucYa1b.Z8OsmWLWHg50H7CDTeJ6HrMUT3CRtJS', '2024-02-09 20:04:35', '2024-02-10 15:13:08', 1, NULL, 'احمد', 'السالم', NULL);
+(1, 'expert1', '0969459459', 'expert@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '352171.webp', 0, '0.00', '0.00', '4.00', 'انا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقة', 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-02-22 18:13:29', 1, '0.00', 'محمد', 'السعيد', '15562135.mp3'),
+(2, 'expert2', '0265498789', 'expert2012@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '331772.webp', 0, '0.00', '0.00', '0.00', NULL, 0, NULL, '$2y$12$A3aKZ9WoZKtDQvTDsxqxx.FucOJGrS0sqiFjtduiIrJuY6K.JTNuq', NULL, '2024-02-23 06:56:56', 1, '0.00', 'ahmad', 'ms', '15562135.mp3'),
+(3, 'expert3', '0969459441', 'expert2011@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '240733.webp', 0, '0.00', '0.00', '0.00', 'asc', 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-02-04 15:30:23', 1, '0.00', 'ahmad', 'ms', NULL),
+(6, 'sdvsdv', '8111123456', 'dssfvw@ononon.com', NULL, '2024-01-01 00:00:00', 2, NULL, '984116.webp', 0, '0.00', '0.00', '0.00', 'gregregfv', 0, NULL, '$2y$12$z6uPd0zfxseoukPrIAUXXub2mVSI2/8IuGcnvnXGx7GYoWXJElw3.', '2024-01-28 11:55:25', '2024-01-28 12:22:53', 1, '0.00', '1ahmad', '1ms', NULL),
+(7, 'expert-4', '0956464987', 'dsssw@ononon.com', NULL, '2000-02-05 00:00:00', 1, NULL, NULL, 0, '0.00', '0.00', '0.00', NULL, 0, NULL, '$2y$12$AY0yFfKsCh1o0q/ucYa1b.Z8OsmWLWHg50H7CDTeJ6HrMUT3CRtJS', '2024-02-09 20:04:35', '2024-02-10 15:13:08', 1, '0.00', 'احمد', 'السالم', NULL);
 
 -- --------------------------------------------------------
 
@@ -232,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `experts_services` (
   `cost_type` int DEFAULT '0',
   `expert_cost_value` decimal(8,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `experts_services`
@@ -244,13 +243,9 @@ INSERT INTO `experts_services` (`id`, `expert_id`, `service_id`, `created_at`, `
 (3, 1, 20, NULL, NULL, 100, '0.00', 0, '0.00'),
 (5, 2, 20, NULL, NULL, 200, '0.00', 0, '0.00'),
 (6, 3, 1, NULL, NULL, 200, '0.00', 0, '0.00'),
-(38, 2, 21, '2024-02-11 19:09:11', '2024-02-12 17:16:16', 700, '0.00', 0, '0.00'),
-(40, 6, 21, '2024-02-11 19:12:18', '2024-02-12 14:21:19', 133, '0.00', 0, '0.00'),
-(47, 1, 21, '2024-02-12 17:15:31', '2024-02-12 17:16:57', 100, '0.00', 0, '0.00'),
-(48, 7, 21, '2024-02-12 17:16:31', '2024-02-12 17:17:15', 200, '0.00', 0, '0.00'),
 (49, 1, 2, '2024-02-12 20:17:29', '2024-02-12 20:17:29', 0, '0.00', 0, '0.00'),
 (50, 7, 2, '2024-02-12 20:22:32', '2024-02-12 20:22:32', 100, '0.00', 0, '0.00'),
-(51, 2, 22, '2024-02-18 13:42:16', '2024-02-18 13:42:16', 200, '0.00', 0, '0.00');
+(52, 1, 23, '2024-02-22 13:41:02', '2024-02-22 13:41:02', 200, '0.00', 0, '0.00');
 
 -- --------------------------------------------------------
 
@@ -290,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `inputs` (
   `image_count` int DEFAULT '0',
   `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `inputs`
@@ -311,7 +306,10 @@ INSERT INTO `inputs` (`id`, `name`, `type`, `tooltipe`, `icon`, `ispersonal`, `c
 (48, 'record', 'record', '', '', 0, '2024-02-03 13:25:04', '2024-02-03 13:25:04', 0, 1),
 (49, 'image', 'image', '', '', 0, '2024-02-03 13:25:04', '2024-02-09 11:10:49', 2, 1),
 (65, 'name f', 'text', 'tooltipwww', '9455365.svg', 0, '2024-02-09 11:10:41', '2024-02-09 11:10:41', 0, 1),
-(66, 'advsav', 'text', 'rrrr', NULL, 0, '2024-02-10 13:00:48', '2024-02-10 13:02:24', 0, 1);
+(66, 'advsav', 'text', 'rrrr', NULL, 0, '2024-02-10 13:00:48', '2024-02-10 13:02:24', 0, 1),
+(70, 'هل لديك مرض مزمن', 'bool', 'هل لديك مرض مزمن', '5094870.svg', 0, '2024-02-22 13:38:46', '2024-02-22 13:38:46', 0, 1),
+(71, 'تحدث عن مشكلتك الصحية', 'longtext', 'تحدث عن مشكلتك الصحية', '9303871.svg', 0, '2024-02-22 13:39:33', '2024-02-22 13:39:33', 0, 1),
+(72, 'متى بدأت المشكلة', 'date', 'متى بدأت المشكلة', '4558772.svg', 0, '2024-02-22 13:40:14', '2024-02-22 13:40:14', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -327,7 +325,7 @@ CREATE TABLE IF NOT EXISTS `inputs_services` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `inputs_services`
@@ -343,15 +341,14 @@ INSERT INTO `inputs_services` (`id`, `service_id`, `input_id`, `created_at`, `up
 (31, 1, 6, '2024-02-01 19:04:20', '2024-02-01 19:04:20'),
 (32, 1, 24, '2024-02-01 19:04:27', '2024-02-01 19:04:27'),
 (33, 1, 25, '2024-02-01 19:04:27', '2024-02-01 19:04:27'),
-(55, 21, 48, '2024-02-03 13:25:04', '2024-02-03 13:25:04'),
-(56, 21, 49, '2024-02-03 13:25:04', '2024-02-03 13:25:04'),
-(72, 21, 65, '2024-02-09 11:10:41', '2024-02-09 11:10:41'),
-(73, 21, 1, '2024-02-09 11:10:58', '2024-02-09 11:10:58'),
-(74, 21, 3, '2024-02-09 11:10:58', '2024-02-09 11:10:58'),
-(75, 21, 5, '2024-02-09 11:10:58', '2024-02-09 11:10:58'),
-(76, 21, 4, '2024-02-09 11:10:58', '2024-02-09 11:10:58'),
-(77, 21, 6, '2024-02-09 11:10:58', '2024-02-09 11:10:58'),
-(78, 21, 66, '2024-02-10 13:00:48', '2024-02-10 13:00:48');
+(80, 23, 1, '2024-02-22 13:37:23', '2024-02-22 13:37:23'),
+(81, 23, 3, '2024-02-22 13:37:23', '2024-02-22 13:37:23'),
+(82, 23, 5, '2024-02-22 13:37:23', '2024-02-22 13:37:23'),
+(83, 23, 4, '2024-02-22 13:37:23', '2024-02-22 13:37:23'),
+(84, 23, 6, '2024-02-22 13:37:23', '2024-02-22 13:37:23'),
+(87, 23, 70, '2024-02-22 13:38:46', '2024-02-22 13:38:46'),
+(88, 23, 71, '2024-02-22 13:39:33', '2024-02-22 13:39:33'),
+(89, 23, 72, '2024-02-22 13:40:14', '2024-02-22 13:40:14');
 
 -- --------------------------------------------------------
 
@@ -395,7 +392,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -472,7 +469,15 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (68, '2024_02_15_115410_drop_answer2_from_selectedservices_table', 38),
 (69, '2024_02_15_120613_create_companies_table', 39),
 (70, '2024_02_15_120707_add_company_profit_to_selectedservices_table', 39),
-(71, '2024_02_17_214543_add_form_reject_reason_to_selectedservices_table', 40);
+(71, '2024_02_17_214543_add_form_reject_reason_to_selectedservices_table', 40),
+(72, '2024_02_19_183752_add_state_to_pointstransfers_table', 41),
+(73, '2024_02_20_163306_change_id_in_notifications_table', 42),
+(74, '2024_02_20_163619_add_id_to_notifications_table', 43),
+(75, '2024_02_20_163836_drop_notifiable_type_in_notifications_table', 44),
+(76, '2024_02_20_165438_create_notifications_users_table', 45),
+(77, '2024_02_21_152603_add_source_id_to_pointstransfers_table', 46),
+(78, '2024_02_22_131501_add_selectedservice_id_to_cashtransfers_table', 47),
+(79, '2024_02_22_133725_add_source_id_to_cashtransfers_table', 48);
 
 -- --------------------------------------------------------
 
@@ -482,21 +487,41 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE IF NOT EXISTS `notifications` (
-  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `notifiable_type` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `notifiable_id` bigint UNSIGNED NOT NULL,
+  `side` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `data` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `read_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `createuser_id` bigint UNSIGNED DEFAULT NULL,
+  `updateuser_id` bigint UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications_users`
+--
+
+DROP TABLE IF EXISTS `notifications_users`;
+CREATE TABLE IF NOT EXISTS `notifications_users` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `notification_id` bigint UNSIGNED DEFAULT NULL,
   `client_id` bigint UNSIGNED DEFAULT NULL,
   `expert_id` bigint UNSIGNED DEFAULT NULL,
   `user_id` bigint UNSIGNED DEFAULT NULL,
-  `side` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `isread` tinyint(1) DEFAULT NULL,
+  `read_at` datetime DEFAULT NULL,
+  `state` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `notes` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`)
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -618,6 +643,9 @@ CREATE TABLE IF NOT EXISTS `pointstransfers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `side` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source_id` bigint UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -625,8 +653,8 @@ CREATE TABLE IF NOT EXISTS `pointstransfers` (
 -- Dumping data for table `pointstransfers`
 --
 
-INSERT INTO `pointstransfers` (`id`, `point_id`, `client_id`, `expert_id`, `service_id`, `count`, `status`, `selectedservice_id`, `created_at`, `updated_at`, `side`) VALUES
-(21, NULL, 10, 1, 1, 200, 1, 33, '2024-02-07 14:21:33', '2024-02-07 14:21:33', 'from-client');
+INSERT INTO `pointstransfers` (`id`, `point_id`, `client_id`, `expert_id`, `service_id`, `count`, `status`, `selectedservice_id`, `created_at`, `updated_at`, `side`, `state`, `type`, `source_id`) VALUES
+(21, NULL, 10, 1, 1, 200, 1, 33, '2024-02-07 14:21:33', '2024-02-07 14:21:33', 'from-client', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -720,19 +748,18 @@ CREATE TABLE IF NOT EXISTS `services` (
   `is_callservice` int DEFAULT '0',
   `expert_percent` decimal(8,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `services`
 --
 
 INSERT INTO `services` (`id`, `name`, `desc`, `image`, `createuser_id`, `updateuser_id`, `created_at`, `updated_at`, `icon`, `is_active`, `is_callservice`, `expert_percent`) VALUES
-(1, 'طاقة 1الشفاء', 'نارلانلامن', '895841.webp', NULL, 1, NULL, '2024-02-15 14:10:22', '263001.svg', 1, 0, '6.60'),
-(2, 'الصحة', 'يري', '224572.webp', NULL, 1, NULL, '2024-02-15 14:03:26', '666872.svg', 1, 0, '15.00'),
+(1, 'طاقة 1الشفاء', 'طاقة  الشفاء 1', '895841.webp', NULL, 1, NULL, '2024-02-22 13:29:54', '879541.svg', 1, 0, '6.60'),
+(2, 'الصحة', 'الصحة', '224572.webp', NULL, 1, NULL, '2024-02-22 13:29:27', '666872.svg', 1, 0, '15.00'),
 (19, 'callservice', ' ', NULL, 1, 1, '2024-01-31 19:28:03', '2024-01-31 19:28:03', NULL, 1, 1, '0.00'),
 (20, 'طاقة الشفاء', 'العلاج بالطاقة', '2383720.webp', 1, 1, '2024-01-31 19:29:36', '2024-02-11 17:30:39', '9302820.svg', 1, 0, '10.00'),
-(21, 'استشارة طبية', NULL, '2821021.webp', 1, 1, '2024-01-31 19:30:52', '2024-02-17 12:59:51', '2516821.svg', 1, 0, '8.00'),
-(22, 'خدمة جديدة', NULL, NULL, 1, 1, '2024-02-12 20:11:52', '2024-02-12 20:12:57', NULL, 1, 0, '6.00');
+(23, 'استشارة طبية', 'استشارة طبية', '2348623.webp', 1, 1, '2024-02-22 13:32:32', '2024-02-22 13:42:21', '3063923.svg', 1, 0, '20.00');
 
 -- --------------------------------------------------------
 
@@ -815,10 +842,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `first_name`, `last_name`, `user_name`, `role`, `token`, `createuser_id`, `updateuser_id`, `mobile`, `remember_token`, `created_at`, `updated_at`, `image`, `is_active`) VALUES
-(1, 'ahmad', 'najyms@gmail.com', NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', 'ahmad', 'ms', NULL, 'admin', 'dy3pv7O-4TbDzwSHXmEDYp:APA91bFiBGbDMmLyoWk0VW-CJqa8NywHcTzM6kJ9ZGaLmNYo31HFFEmDD35B7swsSEfGNH6_2twwXF3bejB6NrMAxT0w2MiCgJbpsF0l4aTcujALCJxA1YwjdOrIdbI9933obCaasx8C', NULL, 1, NULL, NULL, '2024-01-11 12:47:38', '2024-02-13 12:15:48', '109301.webp', 1),
+(1, 'ahmad', 'najyms@gmail.com', NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', 'ahmad', 'ms', NULL, 'admin', 'eZch7A-yY1DnCr9gB9cLDc:APA91bG_-cvRIB8u4agr87fXt6igOTADeBYpLP5tQisGktFat8rN4l3alTgWdUqfeShuHW5mp-R5MtBfM-1NYJrv7mRYgjGJBBubYlrzlg6sWmwEipJepOYPBdm8KoaMte1a6-DYuC_c', NULL, 1, NULL, NULL, '2024-01-11 12:47:38', '2024-02-19 10:17:19', '109301.webp', 1),
 (2, 'super1', 'super@gmail.com', NULL, '$2y$12$Bhtt5mZSK0f6kkE3qc54m.C0p1YwjfNH/eBE93BV25mp1s0Om1SJG', 'super', 'super', NULL, 'super', NULL, NULL, 1, NULL, NULL, '2024-01-11 12:48:33', '2024-01-25 17:29:17', '274822.webp', 1),
 (3, 'admin@gmail.com', 'jjjjjj@gmail.com', NULL, '$2y$12$CkkT3KMcnk2qq1M9HIExPOmY7JO0yJThW.9Gv08V3uPxj.aI/pY.C', 'yumyu', 'ergerg', NULL, 'super', NULL, 1, 1, '0213456789', NULL, '2024-02-18 11:28:55', '2024-02-18 11:28:55', NULL, 1),
-(8, 'user', 'user@gmail.com', NULL, '$2y$12$54YLe6Epl6E0ruhQaNj6ruVe32Ll9mQsoe8evlwmf.zLXzRwPdDlG', 'casc', 'ascv', NULL, 'admin', 'f22i4Dh75_SupfLYkUEVit:APA91bGph_GirA_BYppqL81YqLuqDsmGhC5dRf9n51XrZdRI8UAoAz9mdtRkPjwHTayvaAGnNdE65iXwhEpA1MGMx-MRFu_Yo5ce4FpovPEWgO3GcZj_HQzquCq-RUtKUiHmyanDfuxq', 1, 1, '8111434342', NULL, '2024-01-22 13:51:09', '2024-02-08 13:08:54', NULL, 1),
+(8, 'user', 'user@gmail.com', NULL, '$2y$12$54YLe6Epl6E0ruhQaNj6ruVe32Ll9mQsoe8evlwmf.zLXzRwPdDlG', 'casc', 'ascv', NULL, 'admin', 'cUqZTkolu1pz2-74npIClM:APA91bHIqKoY5CXg0lugNY_u7s82bRz-M8eakf_QcsNqjn7fpvMgQMVMukBIfnXF-AsyIN-F-yfL0vijm-WWD1EhMoT2OeoVSH9bi-xO8KSVQRFjZrLPXD7sBvtTK1AsVzaAbEk-tweN', 1, 1, '8111434342', NULL, '2024-01-22 13:51:09', '2024-02-19 10:34:02', NULL, 1),
 (9, 'client', 'client@gmail.com', NULL, '$2y$12$t9tCCSF76pHXuuqHctkWpePmE2.Ng190NI2m0hAOLp3ZiMq8tj.XK', 'ahmad', 'ms', NULL, 'admin', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luY2xpZW50IiwiaWF0IjoxNzA3NDA3MTU3LCJuYmYiOjE3MDc0MDcxNTcsImp0aSI6IkZvUFZYMllrT2VqMHJ1TjkiLCJzdWIiOiIxMyIsInBydiI6IjQxZWZiN2JhZDdmNmY2MzJlMjQwNWJkM2E3OTNiOGE2YmRlYzY3NzcifQ.rWvpuHg5-DBfWxrubaCDIUXlBgOJcRfyhqHhZZpliXA', 1, 1, '1234123444', NULL, '2024-01-22 13:56:56', '2024-02-08 13:48:29', NULL, 1),
 (10, 'ddtyhtddsw@ononon.com', 'dsdtyntdw@ononon.com', NULL, '$2y$12$CzGEYxXyluOtZobX267ub.WonqpY5D59rIbFB7yGTyUYeJRWcauii', 'ahmad', 'ms', NULL, 'super', NULL, 1, 1, '88811143434', NULL, '2024-01-22 13:57:50', '2024-01-22 13:57:50', NULL, 0),
 (11, 'ahmadahmad', 'adminuser@gmail.com', NULL, '$2y$12$6BjwnUF9jB5NgFAIclCsIOlwr2CyjIuvGiORWedjX6eQKo/3q.CYa', 'احمد', 'محمد', NULL, 'admin', 'f22i4Dh75_SupfLYkUEVit:APA91bGph_GirA_BYppqL81YqLuqDsmGhC5dRf9n51XrZdRI8UAoAz9mdtRkPjwHTayvaAGnNdE65iXwhEpA1MGMx-MRFu_Yo5ce4FpovPEWgO3GcZj_HQzquCq-RUtKUiHmyanDfuxq', 1, 1, '0995959959', NULL, '2024-01-23 13:06:37', '2024-02-08 12:57:58', '2317011.webp', 1),
@@ -845,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `values_services` (
   `ispersonal` tinyint(1) DEFAULT NULL,
   `image_count` int DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `values_services`
@@ -859,9 +886,6 @@ INSERT INTO `values_services` (`id`, `value`, `selectedservice_id`, `inputservic
 (133, '1', 33, 5, '2024-02-07 14:21:33', '2024-02-07 14:21:33', 'هل يوجد مرض مزمن', 'bool', 'هل يوجد مرض مزمن', NULL, 0, 0),
 (134, '87609134.webp', 33, 33, '2024-02-07 14:32:08', '2024-02-07 14:32:08', 'image', 'image', '', '', 0, 4),
 (135, '50207135.mp3', 33, 32, '2024-02-07 14:33:06', '2024-02-07 14:33:06', 'record', 'record', '', '', 0, 0),
-(136, '53458136.mp3', 33, 32, '2024-02-07 15:12:04', '2024-02-07 15:12:04', 'record', 'record', '', '', 0, 0),
-(137, '86364137.mp3', 33, 32, '2024-02-07 15:12:24', '2024-02-07 15:12:24', 'record', 'record', '', '', 0, 0),
-(138, '46161138.mp3', 33, 32, '2024-02-07 15:17:04', '2024-02-07 15:17:04', 'record', 'record', '', '', 0, 0),
 (139, '75821139.webp', 33, 33, '2024-02-07 15:17:52', '2024-02-07 15:17:52', 'image', 'image', '', '', 0, 4);
 COMMIT;
 
