@@ -719,4 +719,20 @@ class ExpertController extends Controller
             }
         }
     }
+
+    public function deleteaccount(Request $filerequest)
+    {
+        $formdata = request(['id']);
+        $id=   $formdata["id"];           
+     $authuser = auth()->user();
+     if (!( $authuser->id == $id)) {
+        return response()->json('notexist', 401);
+    }else{     
+     Expert::find($id)->update([
+            'is_active'=>  0,           
+          ]);
+          auth('api')->logout();      
+         return response()->json($id);
+      }
+    }
 }
