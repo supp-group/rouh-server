@@ -43,7 +43,8 @@
                                 decoding="async" data-nimg="1" style="width:20px;height:20px"
                                 src="{{ asset('storage/images/inputs/icons/username.svg') }}">
                             {{ ' ' . __('general.expert') }}</span>{{ ' ' . $selectedservice->expert->full_name }}</p>
-                    @foreach ($selectedservice->valueServices->whereNotIn('type', ['image', 'record']) as $valueService)
+                  
+                            @foreach ($selectedservice->valueServices->whereNotIn('type', ['image', 'record']) as $valueService)
                         <p><span class="badge badge-light badge-lg px-3 py-2"><img fetchpriority="high" decoding="async"
                                     data-nimg="1" style="color:white;width:20px;height:20px"
                                     src="{{ $valueService->svg_path }}">

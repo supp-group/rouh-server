@@ -99,7 +99,14 @@ return [
 'order details'=>'تفاصيل الطلب',
 'answers'=>'الردود',
 'answer'=>'رد الخبير',
+
+'single'=>'اعزب',
+'married'=>'متزوج',
+'divorced'=>'مطلق',
+'widower'=>'ارمل',
+
 ];
-/*
+/* 
+
   {{ __('general.welcome_name',['Name'=>'احمد']) }}
 */

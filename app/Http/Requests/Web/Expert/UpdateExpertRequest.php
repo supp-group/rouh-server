@@ -11,7 +11,7 @@ class UpdateExpertRequest extends FormRequest
 protected   $minpass=8;
 protected   $maxpass=16;
 protected  $minMobileLength=10;
-protected $maxMobileLength=10;
+protected $maxMobileLength=15;
 protected $maxlength=500;
     /**
     

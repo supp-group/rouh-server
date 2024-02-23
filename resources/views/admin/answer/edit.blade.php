@@ -34,21 +34,22 @@
                 </div>
                 <div class="card-body pt-0">
 
-                    <label
-                        class="col-sm-12 ">{{ __('general.service') }}:{{ ' ' . $selectedservice->service->name }}</label>
-                    <label
-                        class="col-sm-12">{{ __('general.expert') }}:{{ ' ' . $selectedservice->expert->full_name }}</label>
-                    <label
-                        class="col-sm-12 ">{{ __('general.client') }}:{{ ' ' . $selectedservice->client->user_name }}</label>
-                    <label class="col-sm-12 ">الحقول: </label>
-
+                   
+                    <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="User Icon SVG Vector Icon"
+                        fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
+                        src="{{$selectedservice->service->svg_path }}">
+                    {{ ' ' . __('general.service') }}</span>{{ ' ' . $selectedservice->service->name }}</p>
+            <p><span class="badge badge-light px-3 py-2"><img alt="User Icon SVG Vector Icon" fetchpriority="high"
+                        decoding="async" data-nimg="1" style="width:20px;height:20px"
+                        src="{{ asset('storage/images/inputs/icons/username.svg') }}">
+                    {{ ' ' . __('general.expert') }}</span>{{ ' ' . $selectedservice->expert->full_name }}</p>
+          
                     @foreach ($selectedservice->valueServices->whereNotIn('type', ['image', 'record']) as $valueService)
-                        <label class="col-sm-12 ">
-                            <p>{{ $valueService->tooltipe }}</p>
-                            <p>{{ $valueService->value_conv }}</p>
-                        </label>
-                    @endforeach
-
+                <p><span class="badge badge-light badge-lg px-3 py-2"><img fetchpriority="high" decoding="async"
+                            data-nimg="1" style="color:white;width:20px;height:20px"
+                            src="{{ $valueService->svg_path }}">
+                        {{ ' ' . $valueService->tooltipe }}</span>{{ ' ' . $valueService->value_conv }}</p>
+            @endforeach
                     @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
                         <div class="pd-20 clearfix">
                             <img alt="" id="imgshow"
