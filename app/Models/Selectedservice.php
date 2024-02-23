@@ -128,5 +128,12 @@ class Selectedservice extends Model
          
         return $this->hasMany(Answer::class);
     }
-
+    public function cashTransfers(): HasMany
+    {
+        return $this->hasMany(Cashtransfer::class,'selectedservice_id');
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'comment_user_id')->withDefault();
+    }
 }

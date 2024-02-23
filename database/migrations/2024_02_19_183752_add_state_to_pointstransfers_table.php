@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run the migrations. add_selectedservice_id_to_cashtransfers_table
      */
     public function up(): void
     {

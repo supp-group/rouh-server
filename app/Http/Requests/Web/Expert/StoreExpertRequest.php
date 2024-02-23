@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Web\Expert;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class StoreExpertRequest extends FormRequest
 {
    
@@ -27,9 +27,11 @@ protected $maxlength=500;
        return[
          'first_name'=>'required|string', 
          'last_name'=>'required|string', 
-           'user_name'=>'required|string|unique:experts,user_name',    
+           'user_name'=>['required','string',Rule::unique('experts','user_name')->where('is_active',1)],
+         //  |unique:experts,user_name,    
         // 'name'=>'required|alpha_num:ascii|unique:users,name',        
-         'email'=>'required|email|unique:experts,email',      
+         'email'=>['required','email',Rule::unique('experts','email')->where('is_active',1)],
+         //,'unique:experts,email',      
          'password'=>'required|between:'. $this->minpass.','. $this->maxpass,
          'confirm_password' => 'same:password',
          'mobile'=>'required|unique:experts,mobile|numeric|digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,          

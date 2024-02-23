@@ -36,7 +36,7 @@ class ClientAuthController extends Controller
     {
   
         $credentials = request(['mobile']);
-        $user= Client::where('mobile',  $credentials)->first();
+        $user= Client::where('mobile',  $credentials)->where('is_active',1)->first();
       //  return response()->json(['form' =>  $credentials]);
         if (  !is_null( $user)) {
             if(! $token = auth('api_clients')->fromUser($user)){

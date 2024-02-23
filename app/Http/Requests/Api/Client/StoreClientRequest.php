@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Api\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class StoreClientRequest extends FormRequest
 {
     /**
@@ -39,7 +39,8 @@ class StoreClientRequest extends FormRequest
      
          'nationality'=>'required',
        //  'city'=>'required|alpha_num',
-         'mobile'=>'nullable|unique:clients,mobile|digits_between:'. $minMobileLength.','.$maxMobileLength,          
+        // 'mobile'=>'nullable|unique:clients,mobile|digits_between:'. $minMobileLength.','.$maxMobileLength,  
+         'mobile'=>['required', Rule::unique('clients','mobile')->where('is_active',1),'digits_between:'. $minMobileLength.','.$maxMobileLength]  
       //   'phone'=>'nullable|numeric|digits_between:'. $minMobileLength.','.$maxMobileLength,
         // 'role'=>'required',      
        ];   

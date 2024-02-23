@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\NotificationUser;
 class Notification extends Model
 {
     use HasFactory;
@@ -20,4 +21,10 @@ class Notification extends Model
         'notes',
           
     ];
+
+    public function notificationUsers(): HasMany
+    {
+        return $this->hasMany(NotificationUser::class);
+    }
 }
+

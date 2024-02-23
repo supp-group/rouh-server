@@ -72,7 +72,7 @@ class ClientController extends Controller
     $url=$strgCtrlr->ClientPath('image');
     $defaultimg=$strgCtrlr->DefaultPath('image');
    // $url =url( Storage::url($this->path)).'/';
-        $user = Client::where('mobile', $credentials)->select(
+        $user = Client::where('mobile', $credentials)->where('is_active',1)->select(
             'id',
             'user_name',
             'mobile',
@@ -215,4 +215,20 @@ class ClientController extends Controller
   
   
     }
+    public function deleteaccount(Request $filerequest)
+    {
+        $formdata = request(['id']);
+        $id=   $formdata["id"];           
+     $authuser = auth()->user();
+     if (!( $authuser->id == $id)) {
+        return response()->json('notexist', 401);
+    }else{     
+     Client::find($id)->update([
+            'is_active'=>  0,           
+          ]);
+          auth('api_clients')->logout();      
+         return response()->json($id);
+      }
+    }
+
 }

@@ -83,4 +83,8 @@ class Client extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Selectedservice::class);
     }
+    public function notificationUsers(): HasMany
+    {
+        return $this->hasMany(NotificationUser::class);
+    }
 }

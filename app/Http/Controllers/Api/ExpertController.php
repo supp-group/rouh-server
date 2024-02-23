@@ -49,7 +49,7 @@ class ExpertController extends Controller
         $recurl = $strgCtrlr->ExpertPath('record');
         $defaultimg = $strgCtrlr->DefaultPath('image');
         $user = Expert::where('user_name', request(['user_name']))->
-            //where('password',  $passhash)->
+            where('is_active',1)->
             select(
                 'id',
                 'user_name',
@@ -78,7 +78,9 @@ class ExpertController extends Controller
                 DB::raw("(CASE 
             WHEN image is NULL THEN '$defaultimg'                    
             ELSE CONCAT('$url',image)
-            END) AS image")
+            END) AS image"),
+            'first_name',
+            'last_name',
             )->first();
 
         $authuser = auth()->user();

@@ -119,9 +119,9 @@ if($formdata['form_state']=='agree'){
     'state'=>  'agree']              
   );
   //add points to company
-  $bobj=Company::first();
+  $bobj=Company::find(1);
   $newblnce=$bobj->point_balance+ $count;
-Company::first()->update([
+Company::find(1)->update([
   'point_balance'=> $newblnce]              
 );
 }else{

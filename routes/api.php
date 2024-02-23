@@ -44,6 +44,7 @@ Route::middleware('authClient:api_clients')->group(function () {
         Route::post('/getloguser', [ClientController::class, 'getloguser']);
         Route::post('/getbymobile', [ClientController::class, 'getbymobile']);
         Route::post('/updateprofile', [ClientController::class, 'updateprofile']);
+        Route::post('/deleteaccount', [ClientController::class, 'deleteaccount']);
 //api/client/service
         Route::prefix('/service')->group(function () {
             Route::post('/viewall', [serviceController::class, 'index']); 
