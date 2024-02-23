@@ -79,6 +79,7 @@ $service=Service::find( $expertService->service_id);
                 $newObj->service_id = $expertService->service_id;
                 $newObj->points = $expertService->points;
                 $newObj->rate = 0;
+                $newObj->form_state='wait';
              //   $newObj->answer = "";
              //   $newObj->answer2 = "";
                 $newObj->comment = "";
