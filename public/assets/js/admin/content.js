@@ -868,6 +868,21 @@ function sendformbyid(formid) {
 
  
 }
+ 
+$("input[name=is_active]").click(function() {
+	//  var checkBoxes = $(this).val();
+	var checkBoxes = $(this).prop("checked");
+if(checkBoxes==true){
+ //$("#lbl_is_active").text("مفعل");
+$("input[name=is_active]").prop("value",1);
+}else{
+//$("#lbl_is_active").text("غير مفعل");
+$("input[name=is_active]").prop("value",0);
+}
+	//  alert( $("#status").prop("value"));
+   //   checkBoxes.prop("checked", !checkBoxes.prop("checked"));
+  }); 
+  
 
 });
 

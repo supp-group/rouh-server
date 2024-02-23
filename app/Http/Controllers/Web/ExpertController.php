@@ -140,6 +140,7 @@ class ExpertController extends Controller
   public function update(UpdateExpertRequest $request, $id)
   {
     $formdata = $request->all();
+   
     //validate
     $validator = Validator::make(
       $formdata,
@@ -181,7 +182,7 @@ class ExpertController extends Controller
         //  'rates' => $formdata['rates'],
      //   'record' => $formdata['record'],
         'desc' => $formdata['desc'],
-      'is_active' => isset($formdata['is_active']) ? 1 : 0
+      'is_active' => isset($formdata['is_active'])?1:0,
       //  'call_cost' => $formdata['call_cost'],
         //   'token' => $formdata['token'],
 
@@ -194,7 +195,7 @@ class ExpertController extends Controller
       }
       //save image
       return response()->json("ok");
-      
+    
     }
   }
   /**

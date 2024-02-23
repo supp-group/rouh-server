@@ -23,16 +23,17 @@ protected $maxlength=500;
     }
 
     public function rules(): array
-    {
-       
+    {    
       
        return[
          'first_name'=>'required|string', 
          'last_name'=>'required|string', 
-           'user_name'=>['required','string',Rule::unique('experts','user_name')->where('is_active',1)->ignore($this->id)],
-       //    unique:experts,user_name,'.$this->id,
+         'is_active'=>'nullable',
+           'user_name'=>['required','string','exclude_unless:is_active,1',Rule::unique('experts','user_name')->where('is_active',1)->ignore($this->id)],
+        //'exclude_unless:is_active,1'
+           //    unique:experts,user_name,'.$this->id,
         // 'name'=>'required|alpha_num:ascii|unique:users,name',        
-         'email'=>['required','email',Rule::unique('experts','email')->where('is_active',1)->ignore($this->id)],
+         'email'=>['required','email','exclude_unless:is_active,1',Rule::unique('experts','email')->where('is_active',1)->ignore($this->id)],
          // |unique:experts,email,'.$this->id,      
          'password'=>'nullable|between:'. $this->minpass.','. $this->maxpass,
          'confirm_password' => 'same:password',

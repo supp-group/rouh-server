@@ -121,8 +121,8 @@
 									<div class="form-group justify-content-end">
 										<div class="checkbox">
 											<div class="custom-checkbox custom-control">
-												<input type="checkbox" data-checkboxes="mygroup" @if ( $expert->is_active=='1') @checked(true) @endif  class="custom-control-input" id="checkbox-2" value="{{ $expert->is_active }}" name="is_active">
-												<label for="checkbox-2" class="custom-control-label mt-1"  >{{ __('general.is_active') }}</label>
+												<input type="checkbox" data-checkboxes="mygroup" @if ( $expert->is_active=='1') @checked(true) @endif  class="custom-control-input" id="is_active" value="{{ $expert->is_active }}" name="is_active">
+												<label id="lbl_is_active" for="is_active" class="custom-control-label mt-1"  >{{ __('general.is_active') }}</label>
 											</div>
 											
 										</div>
