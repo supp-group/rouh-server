@@ -29,12 +29,17 @@
     <div class="row row-sm">
         <div class="col">
             <div class="card  box-shadow-0">
-                <div class="card-header mb-2">
+                <div class="card-header mb-2 d-flex justify-content-between">
                     <h3 class="card-title mb-1">{{ __('general.order details') }}</h3>
+                @if ($selectedservice->answer_state == 'wait')
+                    <span class="text-warning">{{ __('general.wait') }}</span>
+                @elseif ($selectedservice->answer_state == 'reject')
+                    <span class="text-danger">{{ __('general.reject') }}</span>
+                @else
+                    <span class="text-success">{{ __('general.agree') }}</span>
+                @endif
                 </div>
                 <div class="card-body pt-0">
-
-
                     <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="User Icon SVG Vector Icon"
                                 fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
                                 src="{{$selectedservice->service->svg_path }}">
@@ -43,27 +48,20 @@
                                 decoding="async" data-nimg="1" style="width:20px;height:20px"
                                 src="{{ asset('storage/images/inputs/icons/username.svg') }}">
                             {{ ' ' . __('general.expert') }}</span>{{ ' ' . $selectedservice->expert->full_name }}</p>
-                  
+
                             @foreach ($selectedservice->valueServices->whereNotIn('type', ['image', 'record']) as $valueService)
                         <p><span class="badge badge-light badge-lg px-3 py-2"><img fetchpriority="high" decoding="async"
                                     data-nimg="1" style="color:white;width:20px;height:20px"
                                     src="{{ $valueService->svg_path }}">
                                 {{ ' ' . $valueService->tooltipe }}</span>{{ ' ' . $valueService->value_conv }}</p>
                     @endforeach
-                    <div class="gallery">
+                    <div class="gallery mb-3">
                         @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
                         <a href="{{ $valueService->full_path_conv }}" class="big" rel="rel1">
                             <img src="{{ $valueService->full_path_conv }}" alt="" title="">
                         </a>
                         @endforeach
                     </div>
-                        <div class="bd pd-20 clearfix">
-                            @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
-                            <img alt="" id="imgshow"
-                                class="rounded float-sm-right wd-100p wd-sm-200 ml-3"
-                                src="{{ $valueService->full_path_conv }}">
-                            @endforeach
-                        </div>
                     @foreach ($selectedservice->valueServices->where('type', 'record') as $valueService)
                         <label class="col-sm-12 ">تسجيل صوتي</label>
                         <audio controls class="col-sm-12 ">
@@ -74,17 +72,13 @@
                         <form class="form-horizontal" name="create_form"
                             action="{{ route('order.update', $selectedservice->id) }}" method="POST" id="update_form">
                             @csrf
-
-                            <div class="mb-4">
-                                <select name="form_state" id="form_state" class="form-control  ">
-                                    <!--placeholder-->
-                                    <option title="" class="text-muted">{{ __('general.status.wait') }}</option>
-                                    <option value="agree">{{ __('general.status.agree') }}</option>
-                                    <option value="reject">{{ __('general.status.reject') }}</option>
-                                </select>
-                                <ul class="parsley-errors-list filled">
-                                    <li class="parsley-required" id="form_state_error"></li>
-                                </ul>
+                            <div class="form-group mb-0 mt-3 justify-content-end">
+                                <div>
+                                    <button type="submit" name="agree" id="btn_update_state"
+                                        class="btn btn-primary">موافقة</button>
+                                    <button type="button" name="reject" id="btn_cancel"
+                                        class="btn btn-danger">رفض</button>
+                                </div>
                             </div>
                             <div class="mb-4" id="reason-div" style="display: none;">
                                 <select name="form_reject_reason" id="form_reject_reason" class="form-control  ">
@@ -93,19 +87,10 @@
                                     @foreach ($reasons as $reason)
                                         <option value="{{ $reason->id }}">{{ $reason->content }}</option>
                                     @endforeach
-
                                 </select>
                                 <ul class="parsley-errors-list filled">
                                     <li class="parsley-required" id="form_reject_reason_error"></li>
                                 </ul>
-                            </div>
-                            <div class="form-group mb-0 mt-3 justify-content-end">
-                                <div>
-                                    <button type="submit" name="btn_update_state" id="btn_update_state"
-                                        class="btn btn-primary">{{ __('general.save') }}</button>
-                                    <button type="button" name="btn_cancel" id="btn_cancel"
-                                        class="btn btn-secondary">{{ __('general.cancel') }}</button>
-                                </div>
                             </div>
                         </form>
                     @else
