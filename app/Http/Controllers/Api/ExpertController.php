@@ -21,7 +21,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Models\Service;
 use App\Http\Controllers\Api\StorageController;
 use App\Http\Requests\Api\Expertfavorite\StoreRequest;
-
+use  App\Http\Requests\Api\Expert\UpdateExpertRequest;
 class ExpertController extends Controller
 {
 
@@ -720,19 +720,97 @@ class ExpertController extends Controller
         }
     }
 
-    public function deleteaccount(Request $filerequest)
+    public function deleteaccount()
     {
         $formdata = request(['id']);
-        $id=   $formdata["id"];           
+        $id=$formdata["id"];           
      $authuser = auth()->user();
      if (!( $authuser->id == $id)) {
         return response()->json('notexist', 401);
     }else{     
      Expert::find($id)->update([
-            'is_active'=>  0,           
+            'is_active'=>0,           
           ]);
-          auth('api')->logout();      
+         auth('api')->logout();      
          return response()->json($id);
       }
+    }
+
+    public function updateprofile(Request $filerequest)
+    {       
+        $formdata = $filerequest->all();
+        $id=0;
+     if(isset($formdata["id"])){
+        $id=$formdata["id"];
+     }   
+     
+   
+ 
+      $storrequest=new UpdateExpertRequest();
+  
+      $validator = Validator::make($formdata,
+      $storrequest->rules($id),
+      $storrequest->messages()
+    );
+    if ($validator->fails()) {       
+                      return response()->json($validator->errors()); 
+      } else {           
+     $authuser = auth()->user();
+     if (!( $authuser->id == $id)) {
+        return response()->json('notexist', 401);
+    }else{
+     $birthdate= Carbon::create($formdata["birthdate"])->format('Y-m-d');
+     Expert::find($id)->update([
+        'first_name'=>  $formdata['first_name'],
+        'last_name'=>  $formdata['last_name'],
+        'email'=>  $formdata['email'],
+         //   'user_name'=>  $formdata['user_name'],
+         'mobile' => $formdata['mobile'],
+         'gender' =>(int) $formdata['gender'],
+         'birthdate' =>  $birthdate,
+         'desc' => $formdata['desc'],
+          ]);
+        if ($filerequest->hasFile('image')) {
+            $file= $filerequest->file('image');
+            $this->storeImage( $file, $id);
+        }
+        if(isset($formdata['password'])){
+            $password = trim($formdata['password']);
+            Expert::find($id)->update([
+              'password' => bcrypt($password),
+            ]);
+          }      
+         return response()->json($id);
+      }
+    }  
+    }
+
+    public function storeImage($file, $id)
+    {
+      $imagemodel = Expert::find($id);
+      $oldimage = $imagemodel->image;
+      $oldimagename = basename($oldimage);
+      $strgCtrlr=new StorageController();
+      $path=$strgCtrlr->path['experts'];
+      $oldimagepath = $path . '/' . $oldimagename;
+      //save photo
+  
+      if ($file !== null) {
+        //  $filename= rand(10000, 99999).".".$file->getClientOriginalExtension();
+        $filename = rand(10000, 99999) . $id . ".webp";
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read($file);
+        $image = $image->toWebp(75);
+        if (!File::isDirectory(Storage::url('/' .  $path))) {
+          Storage::makeDirectory('public/' .  $path);
+        }
+        $image->save(storage_path('app/public') . '/' .  $path . '/' . $filename);
+        //   $url = url('storage/app/public' . '/' . $this->path . '/' . $filename);
+        Expert::find($id)->update([
+          "image" => $filename
+        ]);
+        Storage::delete("public/" .  $path . '/' . $oldimagename);
+      }
+      return 1;
     }
 }

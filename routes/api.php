@@ -33,8 +33,8 @@ Route::middleware('authExpert:api')->group(function () {
   Route::prefix('/expert')->group(function () {
     Route::post('/view', [ExpertController::class, 'index']);
     Route::post('/getexpert', [ExpertController::class, 'getexpert']);
-
     Route::post('/deleteaccount', [ExpertController::class, 'deleteaccount']);
+    Route::post('/updateprofile', [ExpertController::class, 'updateprofile']);
  //   Route::post('/getloguser', [ClientController::class, 'getloguser']);
 });
 });
