@@ -31,14 +31,16 @@
             <div class="card  box-shadow-0">
                 <div class="card-header mb-2 d-flex justify-content-between">
                     <h3 class="card-title mb-1">{{ __('general.order details') }}</h3>
-                @if ($selectedservice->answer_state == 'wait')
-                    <span class="text-warning">{{ __('general.wait') }}</span>
-                @elseif ($selectedservice->answer_state == 'reject')
+                @if ($selectedservice->form_state == 'wait')
+                    <span class="text-warning" id="span_wait">{{ __('general.wait') }}</span>
+                @elseif ($selectedservice->form_state == 'reject')
                     <span class="text-danger">{{ __('general.reject') }}</span>
                 @else
                     <span class="text-success">{{ __('general.agree') }}</span>
                 @endif
-                </div>
+                <span class="text-success agree-state"   style="display: none">{{ __('general.agree') }}</span>
+                <span class="text-danger reject-state" style="display: none">{{ __('general.reject') }}</span>
+            </div>
                 <div class="card-body pt-0">
                     <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="User Icon SVG Vector Icon"
                                 fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
@@ -69,44 +71,41 @@
                         </audio>
                     @endforeach
                     @if ($selectedservice->form_state == 'wait')
-                        <form class="form-horizontal" name="create_form"
-                            action="{{ route('order.update', $selectedservice->id) }}" method="POST" id="update_form">
-                            @csrf
+                        <div class="form-horizontal"  id="div_btns">
+                         
                             <div class="form-group mb-0 mt-3 justify-content-end">
                                 <div>
-                                    <button type="submit" name="agree" id="btn_update_state"
+                                   
+                                    <button type="submit" name="btn_agree_state" id="btn_agree_state" form="agree_form"
                                         class="btn btn-primary">موافقة</button>
-                                    <button type="button" name="reject" id="btn_cancel"
+                                   
+                                    <button type="button" name="btn_reject_state"  data-target="#scrollmodal" data-toggle="modal" 
                                         class="btn btn-danger">رفض</button>
                                 </div>
                             </div>
-                            <div class="mb-4" id="reason-div" style="display: none;">
-                                <select name="form_reject_reason" id="form_reject_reason" class="form-control  ">
-                                    <!--placeholder-->
-                                    <option title="" class="text-muted">اختر سبب الرفض</option>
-                                    @foreach ($reasons as $reason)
-                                        <option value="{{ $reason->id }}">{{ $reason->content }}</option>
-                                    @endforeach
-                                </select>
-                                <ul class="parsley-errors-list filled">
-                                    <li class="parsley-required" id="form_reject_reason_error"></li>
-                                </ul>
-                            </div>
-                        </form>
+                          
+                        </div>
                     @else
-                        <label
-                            class="col-sm-12 ">{{ __('general.status') }}:{{ ' ' . $selectedservice->form_state_conv }}</label>
+                        <label class="col-sm-12 "  >{{ __('general.status') }}: <span >{{$selectedservice->form_state_conv }}</span></label>
                         @if ($selectedservice->form_state == 'reject')
-                            <label class="col-sm-12 ">سبب الرفض:{{ ' ' . $selectedservice->form_reject_reason }}</label>
+                            <label class="col-sm-12 " >سبب الرفض:<span  >{{ ' ' . $selectedservice->form_reject_reason }}</span></label>
                         @endif
                     @endif
-
+                    <label class="col-sm-12 agree-state" style="display: none" >{{ __('general.status') }}:   <span >{{ __('general.status.agree') }}</span></label>
+                    <label class="col-sm-12 reject-state"  style="display: none" >{{ __('general.status') }}:    <span >{{ __('general.status.reject') }}</span></label>
+                    <label class="col-sm-12 reject-state" style="display: none" >سبب الرفض:<span id="span_reason"></span></label>
+                    
                     {{--
 								<div class="pd-20 clearfix">
 									<img alt="" id="imgshow" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0"
                                     src="@if ($selectedservice->image == ''){{URL::asset('assets/img/photos/1.jpg')}}@else {{ $selectedservice->fullpathimg }} @endif" >
 								</div>
                                  --}}
+                                 <form  name="agree_form"  id="agree_form"
+                                 action="{{ route('order.agree', $selectedservice->id) }}" method="POST">
+                                 @csrf
+                                 </form>
+                                
                 </div>
             </div>
         </div>
@@ -115,7 +114,58 @@
     </div>
     <!-- Container closed -->
     </div>
+
     <!-- main-content closed -->
+
+    	<!-- Scroll with content modal -->
+		<div class="modal" id="scrollmodal">
+			<div class="modal-dialog modal-dialog-scrollable" role="document">
+				<div class="modal-content modal-content-demo">
+					<div class="modal-header">
+						<h6 class="modal-title">سبب رفض الطلب</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body">
+                        <!-- row -->
+                        <div class="row row-sm">
+                            <div class="col">
+                                <div class="card  box-shadow-0">
+                                    <div class="card-body pt-4">
+                                        <form  name="reject_form" id="reject_form"
+                                        action="{{ route('order.reject', $selectedservice->id) }}" method="POST" >
+                                          @csrf                                           
+                                            <div class="form-group mb-3">
+                                                <select name="form_reject_reason" id="form_reject_reason" class="form-control">
+                                                    <!--placeholder-->
+                                                    <option title="" class="text-muted">اختر سبب الرفض</option>
+                                                    @foreach ($reasons as $reason)
+                                                        <option value="{{ $reason->id }}">{{ $reason->content }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <ul class="parsley-errors-list filled">
+                                                    <li class="parsley-required" id="form_reject_reason_error"></li>
+                                                </ul>
+                                            </div>
+ 
+                                          
+                                        </form>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!-- row -->
+					</div>
+					<div class="modal-footer">
+						<button class="btn ripple btn-primary" name="btn_reject_state" id="btn_reject_state" form="reject_form" type="submit">حفظ</button>
+						<button class="btn ripple btn-secondary" data-dismiss="modal"  name="btn_cancel_field" id="btn_cancel_field" type="button"> إلغاء</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--End Scroll with content modal -->
+ 
 @endsection
 @section('js')
     <!--Internal  Datepicker js -->
@@ -150,7 +200,7 @@
         var emptyimg = "{{ URL::asset('assets/img/photos/1.jpg') }}";
 
         $('#expertdate').datepicker("option", "altFormat", "yy-mm-dd");
-
+agreeval='{{ __('general.agree') }}';
         var lightbox = $('.gallery a').simpleLightbox({
             // default source attribute
             sourceAttr: 'href',

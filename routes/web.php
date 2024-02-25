@@ -133,12 +133,15 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         //الطلبات
         Route::resource('order', OrderController::class, ['except' => ['update']]);
         Route::prefix('order')->group(function () {          
-            Route::post('/update/{id}', [OrderController::class, 'update'])->name('order.update');
+            Route::post('/agree/{id}', [OrderController::class, 'agreemethod'])->name('order.agree');
+            Route::post('/reject/{id}', [OrderController::class, 'rejectmethod'])->name('order.reject');
         });
         //ردود الخبير
         Route::resource('answer', AnswerController::class, ['except' => ['update']]);
         Route::prefix('answer')->group(function () {          
-            Route::post('/update/{id}', [AnswerController::class, 'update'])->name('answer.update');
+      
+            Route::post('/agree/{id}', [AnswerController::class, 'agreemethod'])->name('answer.agree');
+            Route::post('/reject/{id}', [AnswerController::class, 'rejectmethod'])->name('answer.reject');
         });
       
     });

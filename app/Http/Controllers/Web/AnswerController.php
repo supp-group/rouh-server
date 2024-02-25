@@ -96,7 +96,97 @@ class AnswerController extends Controller
     /**
      * Update the specified resource in storage.
      */
+/*
     public function update(UpdateAnswerStateRequest $request, $id)
+    {
+      $formdata = $request->all();
+      //validate
+      $validator = Validator::make(
+        $formdata,
+        $request->rules(),
+        $request->messages()
+      );
+      if ($validator->fails()) {
+    
+                      return response()->json($validator);
+  
+      } else {
+       // $imagemodel = Expert::find($id);
+        
+        DB::transaction(function ()use( $formdata,$id) {
+          $pointobj=Pointtransfer::where('selectedservice_id',$id)
+          ->where('state','wait')
+          ->where('side','from-client')->first();
+
+          $selectedObj= Selectedservice::find($id);
+          $answerObj=Answer::where('selectedservice_id',$id)->where('answer_state','wait')->first();
+
+          if($formdata['answer_state']=='agree'){
+
+  Answer::find($answerObj->id)->update([
+    'answer_state'=>  $formdata['form_state'],
+                  
+  ]);
+  $comprofitperc= 100-$selectedObj->expert_cost;
+  $comprofitval=   $selectedObj->points -$selectedObj->expert_cost_value;
+    Selectedservice::find($id)->update([
+      'status'=> 'agree',  
+      'company_profit_percent'=>  $comprofitperc ,
+      'company_profit'=> $comprofitval,
+              
+    ]);
+//add cach transfer to company
+$companyCach = new Cashtransfer();
+$companyCach->cash = $selectedObj->points;
+$companyCach->cashtype =  'd';
+$companyCach->fromtype = '';
+$companyCach->totype = 'company'; 
+$companyCach->status = 'agree';
+$companyCach->selectedservice_id = $id;
+ 
+$companyCach->save();
+//add cash to company balance
+$comObj=Company::find(1);
+  
+Company::find(1)->update([
+  'cash_balance'=> $comObj->cash_balance +$comprofitval,
+  'cash_profit'=> $comObj->cash_profit +$comprofitval,
+  ]              
+);
+// add expert cash 
+$expertCach = new Cashtransfer();
+$expertCach->cash = $selectedObj->expert_cost_value;
+$expertCach->cashtype =  'p';
+$expertCach->fromtype = 'company';
+$expertCach->totype = 'expert'; 
+$expertCach->status = 'agree';
+$expertCach->selectedservice_id = $id;
+ 
+$expertCach->save();
+////add cost to expert balance
+$expertObj=Expert::find($selectedObj->expert_id);
+Expert::find($selectedObj->expert_id)->update([
+  'cash_balance'=> $expertObj->cash_balance+$selectedObj->expert_cost_value,
+  'cash_balance_todate'=> $expertObj->cash_balance_todate + $selectedObj->expert_cost_value
+  ]              
+);
+
+}else{
+  //reject
+  $reason=Reason::find($formdata['answer_reject_reason']);
+   
+  Answer::find($answerObj->id)->update([
+    'answer_state'=>  $formdata['form_state'],
+    'answer_reject_reason'=>  $reason->content,          
+  ]); 
+}
+        });        
+        return response()->json("ok");
+        
+      }
+    }
+    */
+    public function agreemethod(UpdateAnswerStateRequest $request, $id)
     {
       $formdata = $request->all();
       //validate
@@ -188,7 +278,98 @@ Expert::find($selectedObj->expert_id)->update([
         
       }
     }
+    public function rejectmethod(UpdateAnswerStateRequest $request, $id)
+    {
+      $formdata = $request->all();
+      //validate
+      $validator = Validator::make(
+        $formdata,
+        $request->rules(),
+        $request->messages()
+      );
+      if ($validator->fails()) {
+        /*
+          return redirect('/cpanel/users/add')
+          ->withErrors($validator)
+                      ->withInput();
+                      */
+                      return response()->json($validator);
+  
+      } else {
+       // $imagemodel = Expert::find($id);
+        
+        DB::transaction(function ()use( $formdata,$id) {
+          $pointobj=Pointtransfer::where('selectedservice_id',$id)
+          ->where('state','wait')
+          ->where('side','from-client')->first();
 
+          $selectedObj= Selectedservice::find($id);
+          $answerObj=Answer::where('selectedservice_id',$id)->where('answer_state','wait')->first();
+
+          if($formdata['answer_state']=='agree'){
+
+  Answer::find($answerObj->id)->update([
+    'answer_state'=>  $formdata['form_state'],
+                  
+  ]);
+  $comprofitperc= 100-$selectedObj->expert_cost;
+  $comprofitval=   $selectedObj->points -$selectedObj->expert_cost_value;
+    Selectedservice::find($id)->update([
+      'status'=> 'agree',  
+      'company_profit_percent'=>  $comprofitperc ,
+      'company_profit'=> $comprofitval,
+              
+    ]);
+//add cach transfer to company
+$companyCach = new Cashtransfer();
+$companyCach->cash = $selectedObj->points;
+$companyCach->cashtype =  'd';
+$companyCach->fromtype = '';
+$companyCach->totype = 'company'; 
+$companyCach->status = 'agree';
+$companyCach->selectedservice_id = $id;
+ 
+$companyCach->save();
+//add cash to company balance
+$comObj=Company::find(1);
+  
+Company::find(1)->update([
+  'cash_balance'=> $comObj->cash_balance +$comprofitval,
+  'cash_profit'=> $comObj->cash_profit +$comprofitval,
+  ]              
+);
+// add expert cash 
+$expertCach = new Cashtransfer();
+$expertCach->cash = $selectedObj->expert_cost_value;
+$expertCach->cashtype =  'p';
+$expertCach->fromtype = 'company';
+$expertCach->totype = 'expert'; 
+$expertCach->status = 'agree';
+$expertCach->selectedservice_id = $id;
+ 
+$expertCach->save();
+////add cost to expert balance
+$expertObj=Expert::find($selectedObj->expert_id);
+Expert::find($selectedObj->expert_id)->update([
+  'cash_balance'=> $expertObj->cash_balance+$selectedObj->expert_cost_value,
+  'cash_balance_todate'=> $expertObj->cash_balance_todate + $selectedObj->expert_cost_value
+  ]              
+);
+
+}else{
+  //reject
+  $reason=Reason::find($formdata['answer_reject_reason']);
+   
+  Answer::find($answerObj->id)->update([
+    'answer_state'=>  $formdata['form_state'],
+    'answer_reject_reason'=>  $reason->content,          
+  ]); 
+}
+        });        
+        return response()->json("ok");
+        
+      }
+    }
     /**
      * Remove the specified resource from storage.
      */

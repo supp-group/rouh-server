@@ -25,9 +25,9 @@ class UpdateFormStateRequest extends FormRequest
        
       
        return[
-         'form_state'=>'required|in:agree,reject', 
-         'form_reject_reason'=>'exclude_unless:form_state,reject|required|integer', //exclude_if
-        
+       //  'form_state'=>'required|in:agree,reject', 
+         'form_reject_reason'=>'required|integer', //exclude_if
+        // 'form_reject_reason'=>'exclude_unless:form_state,reject|required|integer', //exclude_if
        ];   
     
     }
@@ -41,8 +41,8 @@ public function messages(): array
 {
   
    return[   
-      'form_state.required'=> __('messages.this field is required')  ,
-      'form_state.in'=> __('messages.this field is required')  ,
+      //'form_state.required'=> __('messages.this field is required')  ,
+   //  'form_state.in'=> __('messages.this field is required')  ,
       'form_reject_reason.required'=>  __('messages.this field is required') ,
       'form_reject_reason.integer'=>  __('messages.this field is required') ,     
  
