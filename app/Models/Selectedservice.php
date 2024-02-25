@@ -38,7 +38,7 @@ class Selectedservice extends Model
     $conv="";
     switch($this->form_state) {
         case('wait'):
-            $conv = __('general.status.wait');
+            $conv = __('general.wait');
            break;
            case('agree'):
             $conv =__('general.status.agree');
@@ -85,7 +85,7 @@ class Selectedservice extends Model
     }else if ($this->answer_state=='agree'){
         $conv=__('general.status.agree');
     }else if($this->answer_state=='wait'){
-        $conv=__('general.status.wait');;
+        $conv=__('general.wait');;
     }
  
      

@@ -200,7 +200,7 @@
         var emptyimg = "{{ URL::asset('assets/img/photos/1.jpg') }}";
 
         $('#expertdate').datepicker("option", "altFormat", "yy-mm-dd");
-agreeval='{{ __('general.agree') }}';
+ 
         var lightbox = $('.gallery a').simpleLightbox({
             // default source attribute
             sourceAttr: 'href',

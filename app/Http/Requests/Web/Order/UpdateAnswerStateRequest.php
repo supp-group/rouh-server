@@ -23,8 +23,9 @@ class UpdateAnswerStateRequest extends FormRequest
     public function rules(): array
     {
        return[
-         'answer_state'=>'required|in:agree,reject', 
-         'answer_reject_reason'=>'exclude_unless:answer_state,reject|required|integer', //exclude_if
+      //   'answer_state'=>'required|in:agree,reject', 
+         'answer_reject_reason'=>'required|integer',
+      //   'answer_reject_reason'=>'exclude_unless:answer_state,reject|required|integer', //exclude_if
         
        ];   
     
@@ -39,8 +40,8 @@ public function messages(): array
 {
   
    return[   
-      'answer_state.required'=> __('messages.this field is required')  ,
-      'answer_state.in'=> __('messages.this field is required')  ,
+    //  'answer_state.required'=> __('messages.this field is required')  ,
+      //'answer_state.in'=> __('messages.this field is required')  ,
       'answer_reject_reason.required'=>  __('messages.this field is required') ,
       'answer_reject_reason.integer'=>  __('messages.this field is required') ,     
  

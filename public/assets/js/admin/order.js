@@ -1,8 +1,6 @@
 var urlval = "";
  
-var agreeval = "";
-var rejectval = "";
-var reasonval = "";
+ 
 $(document).ready(function () {
 	$('#btn_agree_state').on('click', function (e) {
 		e.preventDefault();
