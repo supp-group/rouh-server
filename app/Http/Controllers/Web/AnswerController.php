@@ -99,7 +99,13 @@ class AnswerController extends Controller
     //return dd($object);
     return view('admin.answer.edit', ['selectedservice' => $object, 'reasons' => $reasons]);
   }
-
+  public function getbyselectedid($id)
+  {
+    //  $url =url(Storage::url($this->path)).'/';
+    $list = Selectedservice::find($id)->answers->sortByDesc('created_at');     
+    //return dd($object);
+  return view('admin.answer.showanswers', ['answers' => $list ]);
+  }
   /**
    * Update the specified resource in storage.
    */
@@ -195,7 +201,7 @@ class AnswerController extends Controller
       */
   public function agreemethod(Request $request, $id)
   {
-
+ 
     DB::transaction(function () use ($id) {
       $pointobj = Pointtransfer::where('selectedservice_id', $id)
         ->where('state', 'wait')
@@ -251,11 +257,14 @@ class AnswerController extends Controller
         ]
       );
     });
+
+   
     return response()->json("ok");
 
   }
   public function rejectmethod(UpdateAnswerStateRequest $request, $id)
   {
+
     $formdata = $request->all();
     //validate
     $validator = Validator::make(
@@ -268,8 +277,7 @@ class AnswerController extends Controller
       return response()->json($validator);
 
     } else {
-
-
+ 
       DB::transaction(function () use ($formdata, $id) {
         $pointobj = Pointtransfer::where('selectedservice_id', $id)
           ->where('state', 'wait')
@@ -287,6 +295,7 @@ class AnswerController extends Controller
           'answer_reject_reason' => $reason->content,
         ]);
       });
+     
       return response()->json("ok");
     }
   }

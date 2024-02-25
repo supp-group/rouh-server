@@ -142,6 +142,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
       
             Route::post('/agree/{id}', [AnswerController::class, 'agreemethod'])->name('answer.agree');
             Route::post('/reject/{id}', [AnswerController::class, 'rejectmethod'])->name('answer.reject');
+            Route::get('/getbyid/{id}', [AnswerController::class, 'getbyselectedid']) ;
         });
       
     });

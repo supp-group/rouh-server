@@ -75,15 +75,16 @@
                         </audio>
                     @endforeach
                     @if ($selectedservice->answer_state == 'wait')
+                    <div id="div_last_answer">
                     <label class="col-sm-12 "> {{ __('general.answer') }}</label>
                    
                         <label class="col-sm-12 ">{{ $selectedservice->answers->where('answer_state','wait')->first()->content }}</label>
                         <audio controls class="col-sm-12 ">
                             <source src="{{ $selectedservice->answers->where('answer_state','wait')->first()->record_path }}" type="audio/mpeg">
                         </audio>
+                    </div>
+                
                     @endif
-                   
-                    <label class="col-sm-12 "> {{ __('general.status') }}:  {{ $selectedservice->answer_state_conv }}</label>
                     @if ($selectedservice->answer_state != 'no_answer')
                     @if ($selectedservice->answer_state == 'wait')
 
@@ -92,7 +93,7 @@
                             <div class="form-group mb-0 mt-3 justify-content-end">
                                 <div>
                                    
-                                    <button type="submit" name="btn_agree_state" id="btn_agree_state" form="agree_form"
+                                    <button type="submit" name="btn_agree_answer" id="btn_agree_answer" form="answer_agree_form"
                                         class="btn btn-primary">موافقة</button>
                                    
                                     <button type="button" name="btn_reject_state"  data-target="#scrollmodal" data-toggle="modal" 
@@ -102,8 +103,7 @@
                           
                         </div>
             @else
-                <label
-                    class="col-sm-12 ">{{ __('general.status') }}:{{ ' ' . $selectedservice->answer_state_conv }}</label>
+                <label class="col-sm-12 ">{{ __('general.status') }}:{{ ' ' . $selectedservice->answer_state_conv }}</label>
                 @if ($selectedservice->answer_state == 'reject')
                     <label class="col-sm-12 ">سبب الرفض:{{ ' ' . $selectedservice->answers->first()->answer_reject_reason }}</label>
                 @endif
@@ -115,6 +115,7 @@
             
             @if ($selectedservice->answer_state != 'no_answer')
             <label class="col-sm-12 "> الردود السابقة</label>
+               <div id="div_answer_table"> 
             <div class="table-responsive">
                 <table   class="table text-md-nowrap">
                     <thead>
@@ -142,7 +143,12 @@
                 </tbody>
                 </table>
             </div>
+        </div>
             @endif
+            <form  name="answer_agree_form"  id="answer_agree_form"
+            action="{{ route('answer.agree', $selectedservice->id) }}" method="POST">
+            @csrf
+            </form>
                 </div>
             </div>
         </div>
@@ -165,8 +171,8 @@
                     <div class="col">
                         <div class="card  box-shadow-0">
                             <div class="card-body pt-4">
-                                <form  name="reject_answer_form" id="reject_answer_form"
-                                action="{{ route('order.reject', $selectedservice->id) }}" method="POST" >
+                                <form  name="reject-answer-f" id="reject-answer-f"
+                                action="{{ route('answer.reject', $selectedservice->id) }}" method="POST" >
                                   @csrf                                           
                                     <div class="form-group mb-3">
                                         <select name="answer_reject_reason" id="answer_reject_reason" class="form-control">
@@ -177,11 +183,9 @@
                                             @endforeach
                                         </select>
                                         <ul class="parsley-errors-list filled">
-                                            <li class="parsley-required" id="form_reject_reason_error"></li>
+                                            <li class="parsley-required" id="answer_reject_reason_error"></li>
                                         </ul>
-                                    </div>
-
-                                  
+                                    </div>                                 
                                 </form>
                             </div>
 
@@ -223,19 +227,21 @@
     <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
 
     <script src="{{ URL::asset('assets/js/admin/validate.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/admin/order.js') }}"></script>
+  
     <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
     <script src="{{ URL::asset('assets/js/simple-lightbox.js') }}"></script>
     <!-- For legacy browsers -->
     <script src="{{ URL::asset('assets/js/simple-lightbox.legacy.min.js') }}"></script>
     <!-- As A jQuery Plugin -->
-    <script src="{{ URL::asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+   
     <script src="{{ URL::asset('assets/js/simple-lightbox.jquery.min.js') }}"></script>
-
+    <script src="{{ URL::asset('assets/js/admin/order.js') }}"></script>
     <script>
         var emptyimg = "{{ URL::asset('assets/img/photos/1.jpg') }}";
 
-        $('#expertdate').datepicker("option", "altFormat", "yy-mm-dd");
+     var answerurlval='{{url("admin/answer/getbyid",$selectedservice->id)}}';
+      //  answerurlval = answerurlval.replace("[itemid]", thisId);
+   //     $('#expertdate').datepicker("option", "altFormat", "yy-mm-dd");
 
         var lightbox = $('.gallery a').simpleLightbox({
             // default source attribute
@@ -318,7 +324,7 @@
             disableRightClick: false,
 
             // disable page scroll
-            disable<a href="https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a>: true,
+          //  disable<a href="https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a>: true,
 
             // show an alert if image was not found
             alertError:  true,
@@ -358,4 +364,5 @@
             focus: true,
         });
     </script>
+ 
 @endsection
