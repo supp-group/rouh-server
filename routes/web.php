@@ -15,6 +15,9 @@ use App\Http\Controllers\Web\ExpertsServiceController;
 use App\Http\Controllers\Web\SettingController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Web\AnswerController;
+use App\Http\Controllers\Web\ReasonController;
+use App\Http\Controllers\Web\CommentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -143,6 +146,16 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/agree/{id}', [AnswerController::class, 'agreemethod'])->name('answer.agree');
             Route::post('/reject/{id}', [AnswerController::class, 'rejectmethod'])->name('answer.reject');
             Route::get('/getbyid/{id}', [AnswerController::class, 'getbyselectedid']) ;
+        });
+
+        Route::resource('reason', ReasonController::class, ['except' => ['update']]);
+        Route::prefix('reason')->group(function () {
+            Route::post('/update/{id}', [ReasonController::class, 'update'])->name('reason.update');
+        });
+        
+        Route::resource('comment', CommentController::class, ['except' => ['update']]);
+        Route::prefix('comment')->group(function () {
+            Route::post('/update/{id}', [CommentController::class, 'update'])->name('comment.update');
         });
       
     });

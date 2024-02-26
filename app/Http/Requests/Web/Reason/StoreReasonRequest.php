@@ -21,8 +21,33 @@ class StoreReasonRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+       
+      
+       return[
+         'content'=>'required|string', 
+         'type'=>'required|in:form,answer,comment', 
+     
+      //  'is_active'=>'required',  
+          
+       ];   
+    
     }
+    /**
+ * Get the error messages for the defined validation rules.
+ *
+ * @return array<string, string>
+ */
+public function messages(): array
+{
+  
+   return[   
+      'content.required'=> __('messages.this field is required') ,
+      'content.string'=> __('messages.this field is required') ,
+      'type.required'=>__('messages.this field is required') ,   
+  'type.in'=>__('messages.this field is required') ,
+      
+ 
+    ];
+    
+}
 }

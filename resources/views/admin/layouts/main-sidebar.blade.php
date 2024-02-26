@@ -95,7 +95,7 @@
 							<span class="side-menu__label"> الطلبات</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ route('order.index') }}"> {{ __('general.show') }}</a></li>
-							<li><a class="slide-item" href="#"> {{ __('general.add') }}</a></li>
+					
 
 						</ul>
 					</li>
@@ -113,7 +113,7 @@
 							<span class="side-menu__label">الاعدادات</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ url('admin/setting') }}">تعديل</a></li>
-						
+							<li><a class="slide-item" href="{{ route('reason.index') }}">اسباب الرفض</a></li>
 						</ul>
 					</li>
 				</ul>

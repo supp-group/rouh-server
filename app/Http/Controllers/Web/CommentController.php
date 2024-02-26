@@ -1,0 +1,189 @@
+<?php
+
+namespace App\Http\Controllers\Web;
+
+use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\Reason;
+use Illuminate\Http\Request;
+use App\Models\ValueService;
+use App\Models\Selectedservice;
+use Illuminate\Support\Facades\DB; 
+use File;
+use Illuminate\Support\Facades\Validator; 
+use Illuminate\Support\Carbon;
+
+use App\Http\Requests\Web\Order\UpdateFormStateRequest;
+use App\Models\Pointtransfer;
+use App\Models\Client;
+//use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Api\StorageController;
+class CommentController extends Controller
+{ 
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+      $list =Selectedservice::with('expert','client','service')->orderByDesc('comment_state')->get();
+    //  return  $list;
+        return view('admin.comment.show', ['selectedservices' => $list]);     
+    }
+  
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+      return view('admin.comment.create');
+    }
+  
+    /**
+     * Store a newly created resource in storage.
+     */
+    
+  
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+     
+    }
+  
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+      //
+    }
+  
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+    //  $url =url(Storage::url($this->path)).'/';
+      $object =Selectedservice::with(['expert','client',       
+      'valueservices' => function ($q){
+        $q->orderByDesc('ispersonal');
+    }
+     ] )->find($id);
+      $reasons=Reason::where('type','comment')->get();
+     //return dd($object);
+      return view('admin.comment.edit', ['selectedservice' => $object,'reasons'=> $reasons]);
+    }
+  
+    /**
+     * Update the specified resource in storage.
+     */
+    public function agreemethod(Request $request, $id)
+    {     
+      /*
+        DB::transaction(function ()use($id) {
+          $selectedObj= Selectedservice::find($id);
+          if(  $selectedObj->form_state=='wait'){
+          $pointobj=Pointtransfer::where('selectedservice_id',$id)
+          ->where('state','wait')
+          ->where('side','from-client')->first(); 
+  Selectedservice::find($id)->update([
+    'form_state'=>'agree',
+                  
+  ]);
+  Pointtransfer::find( $pointobj->id)->update([
+    'state'=> 'agree',                
+  ]);
+
+  $count= $pointobj->count ;
+  // change state to agree
+  Pointtransfer::find($pointobj->id)->update([
+    'state'=>  'agree']              
+  );
+  //add points to company
+  $bobj=Company::find(1);
+  $newblnce=$bobj->point_balance+ $count;
+Company::find(1)->update([
+  'point_balance'=> $newblnce]              
+);
+}
+        });  
+        */   
+        return response()->json("ok");       
+      
+    }
+    public function rejectmethod(UpdateFormStateRequest $request, $id)
+    {
+ 
+      $formdata = $request->all();
+      //validate
+      $validator = Validator::make(
+        $formdata,
+        $request->rules(),
+        $request->messages()
+      );
+      if ($validator->fails()) {      
+          return response()->json($validator);  
+      } else {
+       // $imagemodel = Expert::find($id);
+       /*
+        DB::transaction(function ()use( $formdata,$id) {
+          $selectedObj= Selectedservice::find($id);
+          if(  $selectedObj->form_state=='wait'){
+          $pointobj=Pointtransfer::where('selectedservice_id',$id)
+          ->where('state','wait')
+          ->where('side','from-client')->first();
+      
+  //reject
+  $reason=Reason::find($formdata['form_reject_reason']);
+  Selectedservice::find($id)->update([
+    'form_state'=> 'reject',
+    'form_reject_reason'=>  $reason->content,              
+  ]);
+
+  Pointtransfer::find($pointobj->id)->update([
+    'state'=>  'reject']              
+  );
+ 
+$returnPoint = new Pointtransfer();
+ 
+$returnPoint->client_id =  $selectedObj->client_id;
+$returnPoint->expert_id = $selectedObj->expert_id;
+$returnPoint->service_id = $selectedObj->service_id;
+$returnPoint->count = $pointobj->count;
+$returnPoint->status = 1;
+$returnPoint->selectedservice_id = $id;
+$returnPoint->side = 'to-client';
+$returnPoint->state = 'reject-return';
+$returnPoint->type = 'p';
+$returnPoint->source_id = $pointobj->id;
+$returnPoint->save();
+
+//add point to client
+$client = Client::find( $selectedObj->client_id);
+$client->points_balance = $client->points_balance + $pointobj->count;
+$client->save();
+}
+        });   
+          */
+        return response()->json("ok");
+        
+     
+      }
+
+
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+    
+      return redirect()->route('comment.index');
+      // return  $this->index();
+      //   return redirect()->route('users.index');
+  
+    }
+
+}

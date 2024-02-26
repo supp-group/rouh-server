@@ -623,6 +623,22 @@ $(document).ready(function () {
 			return true;
 		}
 	});
+	$("#content").focusout(function (e) {
+		if (!validatempty($(this))) {
+			return false;
+		} else {
+
+			return true;
+		}
+	});
+	$("#type").focusout(function (e) {
+		if (!validatempty($(this))) {
+			return false;
+		} else {
+
+			return true;
+		}
+	});
 	//add input text dynamicly
 	var i = 1;
 	$('#btn_add_option').on('click', function () {
