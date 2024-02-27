@@ -26,9 +26,22 @@ class CommentController extends Controller
      */
     public function index()
     {
-      $list =Selectedservice::with('expert','client','service')->orderByDesc('comment_state')->get();
+    // $list =Selectedservice::with('expert','client','service')->orderByDesc('comment_state')->get();
     //  return  $list;
-        return view('admin.comment.show', ['selectedservices' => $list]);     
+    $list = Selectedservice::with([
+      'expert',
+      'client',
+      'service',
+      'answers'
+      /*
+      'answers' => function ($q){
+          $q->latest()->first();
+      }
+      */
+    ])->whereNotNull('comment')->whereNot('comment','')->orderByDesc('comment_state')->get()->where('answer_state', 'agree');
+
+    //   return  $list;
+    return view('admin.comment.show', ['selectedservices' => $list]);   
     }
   
     /**
@@ -65,15 +78,19 @@ class CommentController extends Controller
      */
     public function edit(string $id)
     {
-    //  $url =url(Storage::url($this->path)).'/';
-      $object =Selectedservice::with(['expert','client',       
-      'valueservices' => function ($q){
-        $q->orderByDesc('ispersonal');
-    }
-     ] )->find($id);
-      $reasons=Reason::where('type','comment')->get();
-     //return dd($object);
-      return view('admin.comment.edit', ['selectedservice' => $object,'reasons'=> $reasons]);
+      $object = Selectedservice::with([
+        'expert',
+        'client',
+        'valueservices' => function ($q) {
+          $q->orderByDesc('ispersonal');
+        },
+        'answers' => function ($q) {
+          $q->orderByDesc('created_at');
+        }
+      ])->find($id);
+      $reasons = Reason::where('type', 'comment')->get();
+      //return dd($object);
+      return view('admin.answer.edit', ['selectedservice' => $object, 'reasons' => $reasons]);
     }
   
     /**

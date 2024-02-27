@@ -33,7 +33,7 @@ return [
   'experts' => 'الخبراء',
   'services' => 'الخدمات',
   'clients' => 'العملاء',
-  'points' => 'النقاط',
+  'points' => 'شرائح النقاط',
   'accounts' => 'المعاملات المالية',
   'notifications' => 'التنبيهات',
   //path
@@ -78,8 +78,8 @@ return [
    'action'=>'العملية',
    'price' => 'السعر',
 'new point'=> 'نقاط جديدة',
-'manage points'=>'ادارة النقاط',
-'point info'=>'بيانات النقاط',
+'manage points'=>'ادارة شرائح النقاط',
+'point info'=>'بيانات شرائح النقاط',
 'pointscount'=>'عدد النقاط',
 'pointsbefor'=>'النقاط قبل العرض',
 'manage services'=>'ادارة الخدمات',
@@ -114,6 +114,8 @@ return [
 'settings' => 'الاعدادات',
 'new' => 'جديد',
 'comments' => 'التعليقات',
+'comment' => 'التعليق',
+'comment name' => 'اسم المعلق',
 ];
 /*
 

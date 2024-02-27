@@ -37,7 +37,7 @@ class AnswerController extends Controller
    */
   public function index()
   {
-    $list = User::latest()->first();
+   // $list = User::latest()->first();
 
     $list = Selectedservice::with([
       'expert',
@@ -211,7 +211,7 @@ class AnswerController extends Controller
 
       Answer::find($answerObj->id)->update(
         [
-          'answer_state' => 'agree'
+          'answer_state' => 'agree',         
         ],
       );
       $comprofitperc = 100 - $selectedObj->expert_cost;
@@ -220,6 +220,7 @@ class AnswerController extends Controller
         'status' => 'agree',
         'company_profit_percent' => $comprofitperc,
         'company_profit' => $comprofitval,
+        'comment_state' => 'no-comment',
       ]);
       //add cach transfer to company
       $companyCach = new Cashtransfer();
