@@ -80,7 +80,8 @@ class ClientController extends Controller
             'nationality',
             'birthdate',
             'gender',
-            'marital_status',             
+            'marital_status',
+            'points_balance',       
             'is_active',
           //  DB::raw("CONCAT('$url',image)  AS image")           
             DB::raw("(CASE 
