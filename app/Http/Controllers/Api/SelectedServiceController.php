@@ -22,7 +22,8 @@ use App\Models\ValueService;
 use App\Models\Pointtransfer;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Api\ValueService\StoreImageRequest;
-
+use App\Http\Requests\Api\Comment\AddCommentRequest;
+ 
 use App\Http\Controllers\Api\StorageController;
 //use Illuminate\Support\Str;
 class SelectedServiceController extends Controller
@@ -259,5 +260,45 @@ if(isset($formdata["record_inputservice_id"]) ){
     {
         $newObject->save();
         return $newObject;
+    }
+    public function addcomment()
+    {
+        $authuser = auth()->user();
+        $request = request();
+
+        $formdata = $request->all();
+
+        $storrequest = new AddCommentRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+
+            return response()->json($validator->errors());
+            //   return redirect()->back()->withErrors($validator)->withInput();
+
+        } else {
+ 
+            $selectedservice= Selectedservice::find($formdata['selectedservice_id']);
+            if ($authuser->id == $selectedservice->client_id ) {
+if($selectedservice->comment_state=='no-comment'){
+    DB::transaction(function ()use( $selectedservice,$formdata)  {
+    $now= Carbon::now();
+    Selectedservice::find($selectedservice->id)->update(
+        ['comment' => $formdata['comment'],
+         'comment_date' =>$now,
+         'comment_state' =>'wait' ,
+        ]);
+ } );
+}      
+                return response()->json("ok");
+                
+            } else {
+                return response()->json(['error' => 'Unauthenticated'], 401);
+            }
+        }
     }
 }

@@ -33,7 +33,7 @@ class Selectedservice extends Model
         'company_profit_percent',
         'form_reject_reason',
     ];  
- protected $appends= ['form_state_conv','answer_state','answer_state_conv'];
+ protected $appends= ['form_state_conv','answer_state','answer_state_conv','comment_state_conv'];
  public function getFormStateConvAttribute(){
     $conv="";
     switch($this->form_state) {
@@ -91,7 +91,25 @@ class Selectedservice extends Model
      
         return  $conv;
  }
- 
+ public function getCommentStateConvAttribute(){
+    $conv="";
+    switch($this->comment_state) {
+        case('wait'):
+            $conv = __('general.wait');
+           break;
+           case('agree'):
+            $conv =__('general.comment')." ".__('general.status.agree');
+           break;
+           case('reject'):
+            $conv = __('general.comment')." ".__('general.status.reject');
+           break;
+
+        default:
+        $conv = $this->comment_state;
+    }
+        return  $conv;
+ }
+
 
  
 

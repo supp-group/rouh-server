@@ -98,7 +98,7 @@ class ValueServiceController extends Controller
     public function storerecord($file, $id)
     {
       $imagemodel = ValueService::find($id);
-      $oldimage = $imagemodel->icon;
+      $oldimage = $imagemodel->value;
       $oldimagename = basename($oldimage);
       $strgCtrlr=new StorageController();
       $recpath=$strgCtrlr->recordpath['values_services'];

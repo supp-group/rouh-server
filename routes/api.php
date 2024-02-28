@@ -35,7 +35,9 @@ Route::middleware('authExpert:api')->group(function () {
     Route::post('/getexpert', [ExpertController::class, 'getexpert']);
     Route::post('/deleteaccount', [ExpertController::class, 'deleteaccount']);
     Route::post('/updateprofile', [ExpertController::class, 'updateprofile']);
- //   Route::post('/getloguser', [ClientController::class, 'getloguser']);
+    Route::post('/uploadrecord', [ExpertController::class, 'uploadrecord']);
+    Route::post('/uploadanswer', [ExpertController::class, 'uploadanswer']);
+ //   Route::post('/getloguser', [ClientController::class, 'getloguser']);uploadanswer
 });
 });
 //Route::get('getloguser', [ClientController::class, 'getloguser']);
@@ -47,6 +49,9 @@ Route::middleware('authClient:api_clients')->group(function () {
         Route::post('/getbymobile', [ClientController::class, 'getbymobile']);
         Route::post('/updateprofile', [ClientController::class, 'updateprofile']);
         Route::post('/deleteaccount', [ClientController::class, 'deleteaccount']);
+        Route::post('/addcomment', [SelectedServiceController::class, 'addcomment']);
+        
+        
 //api/client/service
         Route::prefix('/service')->group(function () {
             Route::post('/viewall', [serviceController::class, 'index']); 

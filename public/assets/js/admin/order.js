@@ -3,14 +3,13 @@ var urlval = "";
  
 $(document).ready(function () {
 	$('#btn_agree_state').on('click', function (e) {
-		e.preventDefault();
-	 
+		e.preventDefault();	 
 		sendform('#agree_form');
 		});
-
+	
 		$('#btn_reject_state').on('click', function (e) {
 			e.preventDefault();
-			sendfromModal('#reject_form');
+			sendfromModal('#reject_form','#form_reject_reason');
 			});
 	 /////////
 
@@ -22,7 +21,15 @@ $(document).ready(function () {
 			e.preventDefault();
 			sendrejectfromModal('#reject-answer-f');
 			});
-	 
+	 //////// commemt
+	 $('#btn_agree_comment').on('click', function (e) {
+		e.preventDefault();	 
+		sendform('#agree_comment_form');
+		});
+		$('#btn_reject_comment').on('click', function (e) {
+			e.preventDefault();
+			sendfromModal('#reject_comment_form','#comment_reject_reason');
+			});
 	function ClearErrors() {
 
 		$('.parsley-required').html('');
@@ -86,8 +93,9 @@ $(document).ready(function () {
 
 	 
 	}
-
-	function sendfromModal(formid) {
+// #form_reject_reason'
+//#comment_reject_reason
+	function sendfromModal(formid,selectid) {
 		//startLoading();
 		ClearErrors();
 	//	$formid='#create_form';
@@ -116,7 +124,7 @@ $(document).ready(function () {
 					noteSuccess();					
 					$('#span_wait').hide();					
 					$('#div_btns').remove();
-					var option=$('#form_reject_reason').find(":selected").text();
+					var option=$(selectid).find(":selected").text();
 				 $('#span_reason').html(option);
 				 $('.reject-state').show();	
 					$("#btn_cancel_field").trigger("click");

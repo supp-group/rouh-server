@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 use App\Models\Expert;
 use App\Models\Expertfavorite;
@@ -21,7 +22,9 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Models\Service;
 use App\Http\Controllers\Api\StorageController;
 use App\Http\Requests\Api\Expertfavorite\StoreRequest;
-use  App\Http\Requests\Api\Expert\UpdateExpertRequest;
+use App\Http\Requests\Api\Expert\UpdateExpertRequest;
+use App\Http\Requests\Api\Expert\UploadAnswerRequest;
+use App\Http\Requests\Api\Expert\UploadRecordRequest;
 class ExpertController extends Controller
 {
 
@@ -30,6 +33,7 @@ class ExpertController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public $id = 0;
     public function index()
     {
         $users = DB::table('experts')->get();
@@ -49,7 +53,7 @@ class ExpertController extends Controller
         $recurl = $strgCtrlr->ExpertPath('record');
         $defaultimg = $strgCtrlr->DefaultPath('image');
         $user = Expert::where('user_name', request(['user_name']))->
-            where('is_active',1)->
+            where('is_active', 1)->
             select(
                 'id',
                 'user_name',
@@ -79,8 +83,8 @@ class ExpertController extends Controller
             WHEN image is NULL THEN '$defaultimg'                    
             ELSE CONCAT('$url',image)
             END) AS image"),
-            'first_name',
-            'last_name',
+                'first_name',
+                'last_name',
             )->first();
 
         $authuser = auth()->user();
@@ -167,7 +171,7 @@ class ExpertController extends Controller
                         );
                     }
                     ,
-                    'selectedservices' => function ($q){
+                    'selectedservices' => function ($q) {
                         $q->where('comment_state', 'agree')->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date');
                     }
                     ,
@@ -723,94 +727,206 @@ class ExpertController extends Controller
     public function deleteaccount()
     {
         $formdata = request(['id']);
-        $id=$formdata["id"];           
-     $authuser = auth()->user();
-     if (!( $authuser->id == $id)) {
-        return response()->json('notexist', 401);
-    }else{     
-     Expert::find($id)->update([
-            'is_active'=>0,           
-          ]);
-         auth('api')->logout();      
-         return response()->json($id);
-      }
+        $id = $formdata["id"];
+        $authuser = auth()->user();
+        if (!($authuser->id == $id)) {
+            return response()->json('notexist', 401);
+        } else {
+            Expert::find($id)->update([
+                'is_active' => 0,
+            ]);
+            auth('api')->logout();
+            return response()->json($id);
+        }
     }
 
     public function updateprofile(Request $filerequest)
-    {       
+    {
         $formdata = $filerequest->all();
-        $id=0;
-     if(isset($formdata["id"])){
-        $id=$formdata["id"];
-     }   
-     
-   
- 
-      $storrequest=new UpdateExpertRequest();
-  
-      $validator = Validator::make($formdata,
-      $storrequest->rules($id),
-      $storrequest->messages()
-    );
-    if ($validator->fails()) {       
-                      return response()->json($validator->errors()); 
-      } else {           
-     $authuser = auth()->user();
-     if (!( $authuser->id == $id)) {
-        return response()->json('notexist', 401);
-    }else{
-     $birthdate= Carbon::create($formdata["birthdate"])->format('Y-m-d');
-     Expert::find($id)->update([
-        'first_name'=>  $formdata['first_name'],
-        'last_name'=>  $formdata['last_name'],
-        'email'=>  $formdata['email'],
-         //   'user_name'=>  $formdata['user_name'],
-         'mobile' => $formdata['mobile'],
-         'gender' =>(int) $formdata['gender'],
-         'birthdate' =>  $birthdate,
-         'desc' => $formdata['desc'],
-          ]);
-        if ($filerequest->hasFile('image')) {
-            $file= $filerequest->file('image');
-            $this->storeImage( $file, $id);
+        $id = 0;
+        if (isset($formdata["id"])) {
+            $id = $formdata["id"];
         }
-        if(isset($formdata['password'])){
-            $password = trim($formdata['password']);
-            Expert::find($id)->update([
-              'password' => bcrypt($password),
-            ]);
-          }      
-         return response()->json($id);
-      }
-    }  
+
+
+
+        $storrequest = new UpdateExpertRequest();
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules($id),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        } else {
+            $authuser = auth()->user();
+            if (!($authuser->id == $id)) {
+                return response()->json('notexist', 401);
+            } else {
+                $birthdate = Carbon::create($formdata["birthdate"])->format('Y-m-d');
+                Expert::find($id)->update([
+                    'first_name' => $formdata['first_name'],
+                    'last_name' => $formdata['last_name'],
+                    'email' => $formdata['email'],
+                    //   'user_name'=>  $formdata['user_name'],
+                    'mobile' => $formdata['mobile'],
+                    'gender' => (int) $formdata['gender'],
+                    'birthdate' => $birthdate,
+                    'desc' => $formdata['desc'],
+                ]);
+                if ($filerequest->hasFile('image')) {
+                    $file = $filerequest->file('image');
+                    $this->storeImage($file, $id);
+                }
+                if (isset($formdata['password'])) {
+                    $password = trim($formdata['password']);
+                    Expert::find($id)->update([
+                        'password' => bcrypt($password),
+                    ]);
+                }
+                return response()->json($id);
+            }
+        }
     }
 
     public function storeImage($file, $id)
     {
-      $imagemodel = Expert::find($id);
-      $oldimage = $imagemodel->image;
-      $oldimagename = basename($oldimage);
-      $strgCtrlr=new StorageController();
-      $path=$strgCtrlr->path['experts'];
-      $oldimagepath = $path . '/' . $oldimagename;
-      //save photo
-  
-      if ($file !== null) {
-        //  $filename= rand(10000, 99999).".".$file->getClientOriginalExtension();
-        $filename = rand(10000, 99999) . $id . ".webp";
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($file);
-        $image = $image->toWebp(75);
-        if (!File::isDirectory(Storage::url('/' .  $path))) {
-          Storage::makeDirectory('public/' .  $path);
+        $imagemodel = Expert::find($id);
+        $oldimage = $imagemodel->image;
+        $oldimagename = basename($oldimage);
+        $strgCtrlr = new StorageController();
+        $path = $strgCtrlr->path['experts'];
+        $oldimagepath = $path . '/' . $oldimagename;
+        //save photo
+
+        if ($file !== null) {
+            //  $filename= rand(10000, 99999).".".$file->getClientOriginalExtension();
+            $filename = rand(10000, 99999) . $id . ".webp";
+            $manager = new ImageManager(new Driver());
+            $image = $manager->read($file);
+            $image = $image->toWebp(75);
+            if (!File::isDirectory(Storage::url('/' . $path))) {
+                Storage::makeDirectory('public/' . $path);
+            }
+            $image->save(storage_path('app/public') . '/' . $path . '/' . $filename);
+            //   $url = url('storage/app/public' . '/' . $this->path . '/' . $filename);
+            Expert::find($id)->update([
+                "image" => $filename
+            ]);
+            Storage::delete("public/" . $path . '/' . $oldimagename);
         }
-        $image->save(storage_path('app/public') . '/' .  $path . '/' . $filename);
-        //   $url = url('storage/app/public' . '/' . $this->path . '/' . $filename);
-        Expert::find($id)->update([
-          "image" => $filename
+        return 1;
+    }
+    public function storeExpertRecord($file, $id)
+    {
+        $model = Expert::find($id);
+        $oldfile = $model->record;
+        $oldfilename = basename($oldfile);
+        $strgCtrlr = new StorageController();
+        $recpath = $strgCtrlr->recordpath['experts'];
+        if ($file !== null) {
+            $filename = rand(10000, 99999) . $id . "." . $file->getClientOriginalExtension();
+            if (!File::isDirectory(Storage::url('/' . $recpath))) {
+                Storage::makeDirectory('public/' . $recpath);
+            }
+            $path = $file->storeAs(
+                $recpath,
+                $filename,
+                'public'
+            );
+
+            Expert::find($id)->update([
+                "record" => $filename
+            ]);
+            Storage::delete("public/" . $recpath . '/' . $oldfilename);
+        }
+        return 1;
+    }
+    public function storeAnswerRecord($file, $id)
+    {
+        $model = Answer::find($id);
+        $oldfile = $model->record;
+        $oldfilename = basename($oldfile);
+        $strgCtrlr = new StorageController();
+        $recpath = $strgCtrlr->recordpath['answers'];
+        if ($file !== null) {
+            $filename = rand(10000, 99999) . $id . "." . $file->getClientOriginalExtension();
+            if (!File::isDirectory(Storage::url('/' . $recpath))) {
+                Storage::makeDirectory('public/' . $recpath);
+            }
+            $path = $file->storeAs(
+                $recpath,
+                $filename,
+                'public'
+            );
+            Answer::find($id)->update([
+                "record" => $filename
+            ]);
+            Storage::delete("public/" . $recpath . '/' . $oldfilename);
+        }
+        return 1;
+    }
+
+
+    public function uploadanswer(Request $request)
+    {
+        //
+        $formdata = $request->all();
+
+        $storrequest = new UploadAnswerRequest();
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        } else {
+            DB::transaction(function () use ($request, $formdata) {
+
+                if ($request->hasFile('record')) {
+                    $newObj = new Answer();
+                    $newObj->answer_reject_reason = "";
+                    $newObj->selectedservice_id = $formdata['selectedservice_id'];
+                    $newObj->answer_state = 'wait';
+                    $newObj->save();
+                    $file = $request->file('record');
+                    $this->storeAnswerRecord($file, $newObj->id);
+                    $this->id = $newObj->id;
+                }
+            });
+        }
+        return response()->json([
+            "message" => $this->id
+
         ]);
-        Storage::delete("public/" .  $path . '/' . $oldimagename);
-      }
-      return 1;
+    }
+    public function uploadrecord(Request $request)
+    {
+        //
+        $formdata = $request->all();
+        $storrequest = new UploadRecordRequest();
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        } else {
+            DB::transaction(function () use ($request, $formdata) {
+
+                if ($request->hasFile('record')) {                     
+                    $file = $request->file('record');
+                    $this->storeExpertRecord($file,$formdata['id']);                   
+                    $this->id = $formdata['id'];
+                }
+            });
+        }
+        return response()->json([
+            "message" => $this->id
+        ]);
     }
 }

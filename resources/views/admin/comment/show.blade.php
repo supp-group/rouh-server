@@ -55,7 +55,7 @@
 												<td>{{$selectedservice->service->name }}</td>
 												<td>{{ $selectedservice->expert->full_name }}</td>
                                                
-                                                <td>{{ $selectedservice->comment_state}}</td>
+                                                <td>{{ $selectedservice->comment_state_conv}}</td>
                                                 <td>
 													<a href="{{route('comment.edit', $selectedservice->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a> 
                                                 </td>

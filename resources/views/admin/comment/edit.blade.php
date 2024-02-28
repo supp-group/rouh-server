@@ -34,14 +34,14 @@
                 @if ($selectedservice->comment_state == 'wait')
                     <span class="text-warning" id="span_wait">{{ __('general.wait') }}</span>
                 @elseif ($selectedservice->comment_state == 'reject')
-                    <span class="text-danger">{{ __('general.reject') }}</span>
+                    <span class="text-danger">{{ __('general.comment').' '.__('general.status.reject')}}</span>
                     @elseif ($selectedservice->comment_state == 'agree')
-                    <span class="text-success">{{ __('general.agree') }}</span>
+                    <span class="text-success">{{ __('general.comment').' '.__('general.status.agree') }}</span>
                 @else
                     <span class="text-warning"></span>
                 @endif
-                <span class="text-success agree-state"   style="display: none">{{ __('general.agree') }}</span>
-                <span class="text-danger reject-state" style="display: none">{{ __('general.reject') }}</span>
+                <span class="text-success agree-state"   style="display: none">{{ __('general.comment').' '.__('general.status.agree') }}</span>
+                <span class="text-danger reject-state" style="display: none">{{ __('general.comment').' '.__('general.status.reject')}}</span>
             </div>
                 <div class="card-body pt-0">
                     <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="User Icon SVG Vector Icon"
@@ -55,50 +55,32 @@
                             <p><span class="badge badge-light px-3 py-2"><img alt="User Icon SVG Vector Icon" fetchpriority="high"
                                 decoding="async" data-nimg="1" style="width:20px;height:20px"
                                 src="{{ asset('storage/images/inputs/icons/username.svg') }}">
-                            {{ ' ' . __('general.expert') }}</span>{{ ' ' . $selectedservice->client->user_name }}</p>
-////////////////////////////////
-                            @foreach ($selectedservice->valueServices->whereNotIn('type', ['image', 'record']) as $valueService)
-                        <p><span class="badge badge-light badge-lg px-3 py-2"><img fetchpriority="high" decoding="async"
-                                    data-nimg="1" style="color:white;width:20px;height:20px"
-                                    src="{{ $valueService->svg_path }}">
-                                {{ ' ' . $valueService->tooltipe }}</span>{{ ' ' . $valueService->value_conv }}</p>
-                    @endforeach
-                    <div class="gallery mb-3">
-                        @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
-                        <a href="{{ $valueService->full_path_conv }}" class="big" rel="rel1">
-                            <img src="{{ $valueService->full_path_conv }}" alt="" title="">
-                        </a>
-                        @endforeach
-                    </div>
-                    @foreach ($selectedservice->valueServices->where('type', 'record') as $valueService)
-                        <label class="col-sm-12 ">تسجيل صوتي</label>
-                        <audio controls class="col-sm-12 ">
-                            <source src="{{ $valueService->full_path_conv }}" type="audio/mpeg">
-                        </audio>
-                    @endforeach
-                    @if ($selectedservice->form_state == 'wait')
+                            {{ ' ' . __('general.comment name') }}</span>{{ ' ' . $selectedservice->client->user_name }}</p>
+ 
+                       
+                            <label class="col-sm-12 "  >{{ __('general.comment') }}: <span >{{$selectedservice->comment }}</span></label>
+               
+                    @if ($selectedservice->comment_state == 'wait')
                         <div class="form-horizontal"  id="div_btns">
                          
                             <div class="form-group mb-0 mt-3 justify-content-end">
                                 <div>
                                    
-                                    <button type="submit" name="btn_agree_state" id="btn_agree_state" form="agree_form"
+                                    <button type="submit" name="btn_agree_comment" id="btn_agree_comment" form="agree_comment_form"
                                         class="btn btn-primary">موافقة</button>
                                    
-                                    <button type="button" name="btn_reject_state"  data-target="#scrollmodal" data-toggle="modal" 
+                                    <button type="button" name="btn_reject"  data-target="#scrollmodal" data-toggle="modal" 
                                         class="btn btn-danger">رفض</button>
                                 </div>
                             </div>
                           
                         </div>
                     @else
-                        <label class="col-sm-12 "  >{{ __('general.status') }}: <span >{{$selectedservice->form_state_conv }}</span></label>
-                        @if ($selectedservice->form_state == 'reject')
-                            <label class="col-sm-12 " >سبب الرفض:<span  >{{ ' ' . $selectedservice->form_reject_reason }}</span></label>
+                        
+                        @if ($selectedservice->comment_state == 'reject')
+                            <label class="col-sm-12 " >سبب الرفض:<span  >{{ ' ' . $selectedservice->comment_reject_reason }}</span></label>
                         @endif
-                    @endif
-                    <label class="col-sm-12 agree-state" style="display: none" >{{ __('general.status') }}:   <span >{{ __('general.status.agree') }}</span></label>
-                    <label class="col-sm-12 reject-state"  style="display: none" >{{ __('general.status') }}:    <span >{{ __('general.status.reject') }}</span></label>
+                    @endif                     
                     <label class="col-sm-12 reject-state" style="display: none" >سبب الرفض:<span id="span_reason"></span></label>
                     
                     {{--
@@ -107,8 +89,8 @@
                                     src="@if ($selectedservice->image == ''){{URL::asset('assets/img/photos/1.jpg')}}@else {{ $selectedservice->fullpathimg }} @endif" >
 								</div>
                                  --}}
-                                 <form  name="agree_form"  id="agree_form"
-                                 action="{{ route('order.agree', $selectedservice->id) }}" method="POST">
+                                 <form  name="agree_comment_form"  id="agree_comment_form"
+                                 action="{{ route('comment.agree', $selectedservice->id) }}" method="POST">
                                  @csrf
                                  </form>
                                 
@@ -136,11 +118,11 @@
                             <div class="col">
                                 <div class="card  box-shadow-0">
                                     <div class="card-body pt-4">
-                                        <form  name="reject_form" id="reject_form"
-                                        action="{{ route('order.reject', $selectedservice->id) }}" method="POST" >
+                                        <form  name="reject_comment_form" id="reject_comment_form"
+                                        action="{{ route('comment.reject', $selectedservice->id) }}" method="POST" >
                                           @csrf                                           
                                             <div class="form-group mb-3">
-                                                <select name="form_reject_reason" id="form_reject_reason" class="form-control">
+                                                <select name="comment_reject_reason" id="comment_reject_reason" class="form-control">
                                                     <!--placeholder-->
                                                     <option title="" class="text-muted">اختر سبب الرفض</option>
                                                     @foreach ($reasons as $reason)
@@ -148,7 +130,7 @@
                                                     @endforeach
                                                 </select>
                                                 <ul class="parsley-errors-list filled">
-                                                    <li class="parsley-required" id="form_reject_reason_error"></li>
+                                                    <li class="parsley-required" id="comment_reject_reason_error"></li>
                                                 </ul>
                                             </div>
  
@@ -161,10 +143,10 @@
 
                             </div>
                         </div>
-                        <!-- row -->
+                        <!-- row --> 
 					</div>
 					<div class="modal-footer">
-						<button class="btn ripple btn-primary" name="btn_reject_state" id="btn_reject_state" form="reject_form" type="submit">حفظ</button>
+						<button class="btn ripple btn-primary" name="btn_reject_comment" id="btn_reject_comment" form="reject_comment_form" type="submit">حفظ</button>
 						<button class="btn ripple btn-secondary" data-dismiss="modal"  name="btn_cancel_field" id="btn_cancel_field" type="button"> إلغاء</button>
 					</div>
 				</div>

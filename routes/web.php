@@ -156,6 +156,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::resource('comment', CommentController::class, ['except' => ['update']]);
         Route::prefix('comment')->group(function () {
             Route::post('/update/{id}', [CommentController::class, 'update'])->name('comment.update');
+            Route::post('/agree/{id}', [CommentController::class, 'agreemethod'])->name('comment.agree');
+            Route::post('/reject/{id}', [CommentController::class, 'rejectmethod'])->name('comment.reject');
+       
         });
       
     });
