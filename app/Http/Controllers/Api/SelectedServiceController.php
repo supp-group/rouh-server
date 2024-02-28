@@ -47,31 +47,31 @@ class SelectedServiceController extends Controller
      * Store a newly created resource in storage.
      */
     public $id = 0;
+    public $msg = "";
     public function store(Request $request)
     {
         //
     }
     public function savewithvalues()
     {
-        //
-
-
-        DB::transaction(function () {
+        //      
+        DB::transaction(function ()  {
             $request = request();
-
             $data = json_decode($request->getContent(), true);
             //check client balance
             $client = Client::find($data['client_id']);
             $expertService = ExpertService::where('expert_id', $data['expert_id'])->where('service_id', $data['service_id'])->first();
 $service=Service::find( $expertService->service_id);
             if ($client->points_balance < $expertService->points) {
+                $this->msg="nopoints";/*
                 return response()->json([
                     "error" => "nopoints",
                     "message" => 0
                     // 'user'=> $user,   
                 ]);
+*/
             } else {
-
+               
                 //save selected service
                 $newObj = new Selectedservice;
                 $newObj->client_id = $client->id;
@@ -130,11 +130,18 @@ $service=Service::find( $expertService->service_id);
                 $pointtransfer->save();
                 //  }
             }
-
         });
-        return response()->json([
-            "message" => $this->id
-        ]);
+        $res=[];
+        if( $this->msg=="nopoints"){
+           $res=[
+            "message" =>0,
+            "error" =>"nopoints",
+        ];            
+        }else{
+           $res=["message" =>$this->id];
+        }
+        return response()->json( $res);
+
     }
   
     public function uploadfilesvalue(Request $request)
