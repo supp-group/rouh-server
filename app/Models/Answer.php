@@ -36,10 +36,10 @@ class Answer extends Model
                 $conv = __('general.status.wait');
                break;
                case('agree'):
-                $conv =__('general.status.agree');
+                $conv=__('general.the answer')." ".__('general.status.agree');
                break;
                case('reject'):
-                $conv = __('general.status.reject');
+                $conv=__('general.the answer')." ".__('general.status.reject');
                break;
     
             default:

@@ -96,10 +96,11 @@ return [
 'status.reject'=>'مرفوض',
 'status.no_answer'=>'لم يرد',
 'orders'=>'الطلبات',
+'order'=>'الطلب',
 'order details'=>'تفاصيل الطلب',
 'answers'=>'الردود',
 'answer'=>'رد الخبير',
-
+'the answer'=>'الرد',
 'single'=>'اعزب',
 'married'=>'متزوج',
 'divorced'=>'مطلق',

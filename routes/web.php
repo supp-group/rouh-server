@@ -158,6 +158,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/update/{id}', [CommentController::class, 'update'])->name('comment.update');
             Route::post('/agree/{id}', [CommentController::class, 'agreemethod'])->name('comment.agree');
             Route::post('/reject/{id}', [CommentController::class, 'rejectmethod'])->name('comment.reject');
+            Route::post('/rate/{id}', [CommentController::class, 'ratemethod'])->name('comment.rate');
        
         });
       

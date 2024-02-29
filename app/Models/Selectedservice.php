@@ -41,10 +41,10 @@ class Selectedservice extends Model
             $conv = __('general.wait');
            break;
            case('agree'):
-            $conv =__('general.status.agree');
+            $conv =__('general.order')." ".__('general.status.agree');
            break;
            case('reject'):
-            $conv = __('general.status.reject');
+            $conv = __('general.order')." ".__('general.status.reject');
            break;
 
         default:
@@ -81,13 +81,12 @@ class Selectedservice extends Model
         $conv=__('general.status.no_answer');
     }       
     else if( $this->answer_state=='reject'){
-        $conv=__('general.status.reject');
+        $conv=__('general.the answer')." ".__('general.status.reject');
     }else if ($this->answer_state=='agree'){
-        $conv=__('general.status.agree');
+        $conv=__('general.the answer')." ".__('general.status.agree');
     }else if($this->answer_state=='wait'){
         $conv=__('general.wait');;
-    }
- 
+    } 
      
         return  $conv;
  }

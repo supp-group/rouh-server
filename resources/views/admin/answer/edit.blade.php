@@ -33,14 +33,14 @@
                     @if ($selectedservice->answer_state == 'wait')
                     <span class="text-warning" id="span_wait">{{ __('general.wait') }}</span>
                 @elseif ($selectedservice->answer_state == 'reject')
-                    <span class="text-danger">{{ __('general.reject') }}</span>
+                    <span class="text-danger">{{ __('general.the answer')." ".__('general.status.reject') }}</span>
                     @elseif ($selectedservice->answer_state == 'agree')
-                    <span class="text-success">{{ __('general.agree') }}</span>
+                    <span class="text-success">{{ __('general.the answer')." ".__('general.status.agree') }}</span>
                     @else 
                     <span class="text-warning" >{{ __('general.status.no_answer') }}</span>
                 @endif
-                <span class="text-success agree-state"   style="display: none">{{ __('general.agree') }}</span>
-                <span class="text-danger reject-state" style="display: none">{{ __('general.reject') }}</span>
+                <span class="text-success agree-state"   style="display: none">{{ __('general.the answer')." ".__('general.status.agree') }}</span>
+                <span class="text-danger reject-state" style="display: none">{{ __('general.the answer')." ".__('general.status.reject') }}</span>
             
                 </div>
                 <div class="card-body pt-0">
@@ -103,14 +103,13 @@
                           
                         </div>
             @else
-                <label class="col-sm-12 ">{{ __('general.status') }}:{{ ' ' . $selectedservice->answer_state_conv }}</label>
+               
                 @if ($selectedservice->answer_state == 'reject')
                     <label class="col-sm-12 ">سبب الرفض:{{ ' ' . $selectedservice->answers->first()->answer_reject_reason }}</label>
                 @endif
             @endif       
             @endif 
-            <label class="col-sm-12 agree-state" style="display: none" >{{ __('general.status') }}:   <span >{{ __('general.status.agree') }}</span></label>
-            <label class="col-sm-12 reject-state"  style="display: none" >{{ __('general.status') }}:    <span >{{ __('general.status.reject') }}</span></label>
+
             <label class="col-sm-12 reject-state" style="display: none" >سبب الرفض:<span id="span_reason"></span></label>
             
             @if ($selectedservice->answer_state != 'no_answer')
@@ -121,7 +120,7 @@
                     <thead>
                         <tr>
 
-                            <th class="border-bottom-0">{{ __('general.answer') }}</th>
+                         
                             <th class="border-bottom-0">الرد الصوتي</th>
                             <th class="border-bottom-0">تاريخ الرد</th>
                             <th class="border-bottom-0">{{ __('general.status') }}</th>
@@ -131,7 +130,7 @@
                         @foreach ($selectedservice->answers->whereNotIn('answer_state',['wait']) as $answer)
                         <tr>
 
-                            <td>{{$answer->content}}</td>
+                           
                             <td> <audio controls >
                                 <source src="{{ $answer->record_path }}" type="audio/mpeg">
                             </audio></td>

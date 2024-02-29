@@ -86,13 +86,12 @@
                           
                         </div>
                     @else
-                        <label class="col-sm-12 "  >{{ __('general.status') }}: <span >{{$selectedservice->form_state_conv }}</span></label>
+                       
                         @if ($selectedservice->form_state == 'reject')
                             <label class="col-sm-12 " >سبب الرفض:<span  >{{ ' ' . $selectedservice->form_reject_reason }}</span></label>
                         @endif
                     @endif
-                    <label class="col-sm-12 agree-state" style="display: none" >{{ __('general.status') }}:   <span >{{ __('general.status.agree') }}</span></label>
-                    <label class="col-sm-12 reject-state"  style="display: none" >{{ __('general.status') }}:    <span >{{ __('general.status.reject') }}</span></label>
+                   
                     <label class="col-sm-12 reject-state" style="display: none" >سبب الرفض:<span id="span_reason"></span></label>
                     
                     {{--

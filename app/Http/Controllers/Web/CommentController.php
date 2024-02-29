@@ -145,6 +145,24 @@ class CommentController extends Controller
       return response()->json("ok");
     }
   }
+  public function ratemethod(Request $request, $id)
+  {
+     
+    DB::transaction(function () use ($id) {
+      $selectedObj = Selectedservice::find($id);
+      if ($selectedObj->comment_state == 'agree') {
+/*
+        Selectedservice::find($id)->update([
+          'comment_state' => 'agree',
+          'comment_user_id' => Auth::user()->id,
+        ]);
+        */
+      }
+    });
+    
+    return response()->json("ok");
+
+  }
   /**
    * Remove the specified resource from storage.
    */

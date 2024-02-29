@@ -60,29 +60,27 @@
                        
                             <label class="col-sm-12 "  >{{ __('general.comment') }}: <span >{{$selectedservice->comment }}</span></label>
                
-                    @if ($selectedservice->comment_state == 'wait')
                         <div class="form-horizontal"  id="div_btns">
                          
                             <div class="form-group mb-0 mt-3 justify-content-end">
                                 <div>
                                    
+                    @if ($selectedservice->comment_state == 'wait')
                                     <button type="submit" name="btn_agree_comment" id="btn_agree_comment" form="agree_comment_form"
                                         class="btn btn-primary">موافقة</button>
-                                   
-                                    <button type="button" name="btn_reject"  data-target="#scrollmodal" data-toggle="modal" 
-                                        class="btn btn-danger">رفض</button>
+                                        @endif  
+
+                                        @if ($selectedservice->comment_state == 'agree')
+                                    <button type="button" name="btn_rate_modal"  data-target="#scrollmodal" data-toggle="modal" 
+                                    class="btn btn-primary">تقييم</button>
+@endif
                                 </div>
                             </div>
                           
                         </div>
-                    @else
-                        
-                        @if ($selectedservice->comment_state == 'reject')
-                            <label class="col-sm-12 " >سبب الرفض:<span  >{{ ' ' . $selectedservice->comment_reject_reason }}</span></label>
-                        @endif
-                    @endif                     
-                    <label class="col-sm-12 reject-state" style="display: none" >سبب الرفض:<span id="span_reason"></span></label>
                     
+                                      
+                  
                     {{--
 								<div class="pd-20 clearfix">
 									<img alt="" id="imgshow" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0"
@@ -110,7 +108,7 @@
 			<div class="modal-dialog modal-dialog-scrollable" role="document">
 				<div class="modal-content modal-content-demo">
 					<div class="modal-header">
-						<h6 class="modal-title">سبب رفض الطلب</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+						<h6 class="modal-title">تقييم التعليق</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<div class="modal-body">
                         <!-- row -->
@@ -118,19 +116,24 @@
                             <div class="col">
                                 <div class="card  box-shadow-0">
                                     <div class="card-body pt-4">
-                                        <form  name="reject_comment_form" id="reject_comment_form"
-                                        action="{{ route('comment.reject', $selectedservice->id) }}" method="POST" >
+                                        <form  name="rate_comment_form" id="rate_comment_form"
+                                        action="{{ route('comment.rate', $selectedservice->id) }}" method="POST" >
                                           @csrf                                           
                                             <div class="form-group mb-3">
-                                                <select name="comment_reject_reason" id="comment_reject_reason" class="form-control">
+                                                <select name="comment_rate" id="comment_rate" class="form-control">
                                                     <!--placeholder-->
-                                                    <option title="" class="text-muted">اختر سبب الرفض</option>
-                                                    @foreach ($reasons as $reason)
-                                                        <option value="{{ $reason->id }}">{{ $reason->content }}</option>
-                                                    @endforeach
+                                                    <option title="" class="text-muted">اختر</option>
+                                                 
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                      
+                                                    
                                                 </select>
                                                 <ul class="parsley-errors-list filled">
-                                                    <li class="parsley-required" id="comment_reject_reason_error"></li>
+                                                    <li class="parsley-required" id="comment_rate_error"></li>
                                                 </ul>
                                             </div>
  
@@ -146,7 +149,7 @@
                         <!-- row --> 
 					</div>
 					<div class="modal-footer">
-						<button class="btn ripple btn-primary" name="btn_reject_comment" id="btn_reject_comment" form="reject_comment_form" type="submit">حفظ</button>
+						<button class="btn ripple btn-primary" name="btn_rate_comment" id="btn_rate_comment" form="rate_comment_form" type="submit">حفظ</button>
 						<button class="btn ripple btn-secondary" data-dismiss="modal"  name="btn_cancel_field" id="btn_cancel_field" type="button"> إلغاء</button>
 					</div>
 				</div>
