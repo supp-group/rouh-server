@@ -50,6 +50,8 @@ Route::middleware('authClient:api_clients')->group(function () {
         Route::post('/updateprofile', [ClientController::class, 'updateprofile']);
         Route::post('/deleteaccount', [ClientController::class, 'deleteaccount']);
         Route::post('/addcomment', [SelectedServiceController::class, 'addcomment']);
+        Route::post('/changebalance', [ClientController::class, 'changebalance']);
+        
         
         
 //api/client/service

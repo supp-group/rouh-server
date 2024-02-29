@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Client;
+use App\Models\Pointtransfer;
 use File;
 
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +18,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\StorageController;
 use App\Http\Requests\Api\Client\UpdateClientRequest;
+use App\Http\Requests\Api\Client\ChangeBalanceRequest;
 /*
 use App\Http\Requests\Web\Client\StoreClientRequest;
 use App\Http\Requests\Web\Client\UpdateClientRequest;
@@ -232,6 +234,61 @@ class ClientController extends Controller
       }
     }
 
-    
+    public function changebalance()
+    {
+        $authuser = auth()->user();
+        $request = request();
+
+        $formdata = $request->all();
+//client_id
+//points
+        $storrequest = new ChangeBalanceRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+
+            return response()->json($validator->errors());
+            //   return redirect()->back()->withErrors($validator)->withInput();
+
+        } else {
+ 
+           $client= Client::find($formdata['client_id']);
+         //   if ($authuser->id == $client->id ) {
+ 
+    DB::transaction(function ()use( $client,$formdata)  {
+ 
+//add points to client 
+   $newblnce= $client->points_balance+$formdata['points'];
+    Client::find($client->id)->update(
+        [ 
+         'points_balance' =>$newblnce,
+        
+        ]);
+        //add point transfer for client
+        $pointtransfer = new Pointtransfer();
+      $pointtransfer->point_id = isset($formdata["point_id"]) ? $formdata['point_id'] : null;
+        $pointtransfer->client_id = $client->id;
+      //  $pointtransfer->expert_id = $expertService->expert_id;
+       // $pointtransfer->service_id = $expertService->service_id;
+        $pointtransfer->count =$formdata['points'];
+        $pointtransfer->status = 1;
+       // $pointtransfer->selectedservice_id = $newObj->id;
+        $pointtransfer->side = 'to-client';
+        $pointtransfer->state = 'agree';
+        $pointtransfer->type = 'p';
+        $pointtransfer->save();
+ } );
+      
+                return response()->json("ok");
+                
+         //   } else {
+           //     return response()->json(['error' => 'Unauthenticated'], 401);
+          //  }
+        }
+    } 
 
 }
