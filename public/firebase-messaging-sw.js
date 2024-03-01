@@ -8,10 +8,10 @@ if (firebase.messaging.isSupported()) {
     // Initialize the Firebase app in the service worker by passing in the
     // messagingSenderId.
     firebase.initializeApp({
-        'messagingSenderId': "876460279982",
-        'apiKey': "AIzaSyDty2rMks5aAgxbb86GEAeV1H7-KJzkrf0",
-        'projectId': "notify-507ab",	
-        'appId':  "1:876460279982:web:3db5dfc9ec1fddcc21453f"
+        'messagingSenderId': "1005936827413",
+        'apiKey': "AIzaSyAu00t4wAHnmdrPfFpbMhKvsaU96f-l-r4",
+        'projectId': "rouh-app",	
+        'appId': "1:1005936827413:web:ff97a7ec1b190354f3421c"
     });
 
     // Retrieve an instance of Firebase Messaging so that it can handle background messages.

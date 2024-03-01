@@ -82,12 +82,13 @@
 
 	// Your web app's Firebase configuration
 	const firebaseConfig = {
-    apiKey: "AIzaSyDty2rMks5aAgxbb86GEAeV1H7-KJzkrf0",
-    authDomain: "notify-507ab.firebaseapp.com",
-    projectId: "notify-507ab",
-    storageBucket: "notify-507ab.appspot.com",
-    messagingSenderId: "876460279982",
-    appId: "1:876460279982:web:3db5dfc9ec1fddcc21453f"
+		apiKey: "AIzaSyAu00t4wAHnmdrPfFpbMhKvsaU96f-l-r4",
+    authDomain: "rouh-app.firebaseapp.com",
+    projectId: "rouh-app",
+    storageBucket: "rouh-app.appspot.com",
+    messagingSenderId: "1005936827413",
+    appId: "1:1005936827413:web:ff97a7ec1b190354f3421c",
+    measurementId: "G-DBQZ0Q3M8H"
   };
     firebase.initializeApp(firebaseConfig);
     const messaging = firebase.messaging();
