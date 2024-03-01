@@ -31,123 +31,127 @@
                 <div class="card-header mb-2 d-flex justify-content-between">
                     <h3 class="card-title mb-1">{{ __('general.order details') }}</h3>
                     @if ($selectedservice->answer_state == 'wait')
-                    <span class="text-warning" id="span_wait">{{ __('general.wait') }}</span>
-                @elseif ($selectedservice->answer_state == 'reject')
-                    <span class="text-danger">{{ __('general.the answer')." ".__('general.status.reject') }}</span>
+                        <span class="text-warning" id="span_wait">{{ __('general.wait') }}</span>
+                    @elseif ($selectedservice->answer_state == 'reject')
+                        <span class="text-danger">{{ __('general.the answer') . ' ' . __('general.status.reject') }}</span>
                     @elseif ($selectedservice->answer_state == 'agree')
-                    <span class="text-success">{{ __('general.the answer')." ".__('general.status.agree') }}</span>
-                    @else 
-                    <span class="text-warning" >{{ __('general.status.no_answer') }}</span>
-                @endif
-                <span class="text-success agree-state"   style="display: none">{{ __('general.the answer')." ".__('general.status.agree') }}</span>
-                <span class="text-danger reject-state" style="display: none">{{ __('general.the answer')." ".__('general.status.reject') }}</span>
-            
+                        <span class="text-success">{{ __('general.the answer') . ' ' . __('general.status.agree') }}</span>
+                    @else
+                        <span class="text-warning">{{ __('general.status.no_answer') }}</span>
+                    @endif
+                    <span class="text-success agree-state"
+                        style="display: none">{{ __('general.the answer') . ' ' . __('general.status.agree') }}</span>
+                    <span class="text-danger reject-state"
+                        style="display: none">{{ __('general.the answer') . ' ' . __('general.status.reject') }}</span>
+
                 </div>
                 <div class="card-body pt-0">
 
-                   
+
                     <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="User Icon SVG Vector Icon"
-                        fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
-                        src="{{$selectedservice->service->svg_path }}">
-                    {{ ' ' . __('general.service') }}</span>{{ ' ' . $selectedservice->service->name }}</p>
-            <p><span class="badge badge-light px-3 py-2"><img alt="User Icon SVG Vector Icon" fetchpriority="high"
-                        decoding="async" data-nimg="1" style="width:20px;height:20px"
-                        src="{{ asset('storage/images/inputs/icons/username.svg') }}">
-                    {{ ' ' . __('general.expert') }}</span>{{ ' ' . $selectedservice->expert->full_name }}</p>
-          
+                                fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
+                                src="{{ $selectedservice->service->svg_path }}">
+                            {{ ' ' . __('general.service') }}</span>{{ ' ' . $selectedservice->service->name }}</p>
+                    <p><span class="badge badge-light px-3 py-2"><img alt="User Icon SVG Vector Icon" fetchpriority="high"
+                                decoding="async" data-nimg="1" style="width:20px;height:20px"
+                                src="{{ asset('storage/images/inputs/icons/username.svg') }}">
+                            {{ ' ' . __('general.expert') }}</span>{{ ' ' . $selectedservice->expert->full_name }}</p>
+
                     @foreach ($selectedservice->valueServices->whereNotIn('type', ['image', 'record']) as $valueService)
-                <p><span class="badge badge-light badge-lg px-3 py-2"><img fetchpriority="high" decoding="async"
-                            data-nimg="1" style="color:white;width:20px;height:20px"
-                            src="{{ $valueService->svg_path }}">
-                        {{ ' ' . $valueService->tooltipe }}</span>{{ ' ' . $valueService->value_conv }}</p>
-            @endforeach
-            <div class="gallery mb-3">
-                @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
-                <a href="{{ $valueService->full_path_conv }}" class="big" rel="rel1">
-                    <img src="{{ $valueService->full_path_conv }}" alt="" title="">
-                </a>
-                @endforeach
-            </div>
+                        <p><span class="badge badge-light badge-lg px-3 py-2"><img fetchpriority="high" decoding="async"
+                                    data-nimg="1" style="color:white;width:20px;height:20px"
+                                    src="{{ $valueService->svg_path }}">
+                                {{ ' ' . $valueService->tooltipe }}</span>{{ ' ' . $valueService->value_conv }}</p>
+                    @endforeach
+                    <div class="gallery mb-3">
+                        @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
+                            <a href="{{ $valueService->full_path_conv }}" class="big" rel="rel1">
+                                <img src="{{ $valueService->full_path_conv }}" alt="" title="">
+                            </a>
+                        @endforeach
+                    </div>
                     @foreach ($selectedservice->valueServices->where('type', 'record') as $valueService)
-                        <label class="col-sm-12 ">تسجيل صوتي</label>
+                        <h3 class="card-title mb-1">تسجيل صوتي</h3>
                         <audio controls class="col-sm-12 ">
                             <source src="{{ $valueService->full_path_conv }}" type="audio/mpeg">
                         </audio>
                     @endforeach
                     @if ($selectedservice->answer_state == 'wait')
-                    <div id="div_last_answer">
-                    <label class="col-sm-12 "> {{ __('general.answer') }}</label>
-                   
-                        <label class="col-sm-12 ">{{ $selectedservice->answers->where('answer_state','wait')->first()->content }}</label>
-                        <audio controls class="col-sm-12 ">
-                            <source src="{{ $selectedservice->answers->where('answer_state','wait')->first()->record_path }}" type="audio/mpeg">
-                        </audio>
-                    </div>
-                
+                        <div id="div_last_answer">
+                            <h3 class="card-title mb-1 border-top pt-3">{{ __('general.answer') }}</h3>
+
+                            <label
+                                class="col-sm-12 ">{{ $selectedservice->answers->where('answer_state', 'wait')->first()->content }}</label>
+                            <audio controls class="col-sm-12 ">
+                                <source
+                                    src="{{ $selectedservice->answers->where('answer_state', 'wait')->first()->record_path }}"
+                                    type="audio/mpeg">
+                            </audio>
+                        </div>
                     @endif
                     @if ($selectedservice->answer_state != 'no_answer')
-                    @if ($selectedservice->answer_state == 'wait')
+                        @if ($selectedservice->answer_state == 'wait')
+                            <div class="form-horizontal" id="div_btns">
 
-                  <div class="form-horizontal"  id="div_btns">
-                         
-                            <div class="form-group mb-0 mt-3 justify-content-end">
-                                <div>
-                                   
-                                    <button type="submit" name="btn_agree_answer" id="btn_agree_answer" form="answer_agree_form"
-                                        class="btn btn-primary">موافقة</button>
-                                   
-                                    <button type="button" name="btn_reject_state"  data-target="#scrollmodal" data-toggle="modal" 
-                                        class="btn btn-danger">رفض</button>
+                                <div class="form-group mb-0 mt-3 justify-content-end">
+                                    <div>
+
+                                        <button type="submit" name="btn_agree_answer" id="btn_agree_answer"
+                                            form="answer_agree_form" class="btn btn-primary">موافقة</button>
+
+                                        <button type="button" name="btn_reject_state" data-target="#scrollmodal"
+                                            data-toggle="modal" class="btn btn-danger">رفض</button>
+                                    </div>
                                 </div>
+
                             </div>
-                          
+                        @else
+                            @if ($selectedservice->answer_state == 'reject')
+                                <label class="col-sm-12 ">سبب
+                                    الرفض:{{ ' ' . $selectedservice->answers->first()->answer_reject_reason }}</label>
+                            @endif
+                        @endif
+                    @endif
+
+                    <label class="col-sm-12 reject-state" style="display: none">سبب الرفض:<span
+                            id="span_reason"></span></label>
+
+                    @if ($selectedservice->answer_state != 'no_answer')
+                        <h3 class="card-title my-3 border-top pt-3">الردود السابقة</h3>
+                        <div id="div_answer_table">
+                            <div class="table-responsive">
+                                <table class="table text-md-nowrap">
+                                    <thead>
+                                        <tr>
+
+
+                                            <th class="border-bottom-0">الرد الصوتي</th>
+                                            <th class="border-bottom-0">تاريخ الرد</th>
+                                            <th class="border-bottom-0">{{ __('general.status') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($selectedservice->answers->whereNotIn('answer_state', ['wait']) as $answer)
+                                            <tr>
+
+
+                                                <td> <audio controls>
+                                                        <source src="{{ $answer->record_path }}" type="audio/mpeg">
+                                                    </audio></td>
+                                                <td>{{ $answer->created_at }}</td>
+                                                <td>{{ $answer->answer_state_conv }}</td>
+
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-            @else
-               
-                @if ($selectedservice->answer_state == 'reject')
-                    <label class="col-sm-12 ">سبب الرفض:{{ ' ' . $selectedservice->answers->first()->answer_reject_reason }}</label>
-                @endif
-            @endif       
-            @endif 
-
-            <label class="col-sm-12 reject-state" style="display: none" >سبب الرفض:<span id="span_reason"></span></label>
-            
-            @if ($selectedservice->answer_state != 'no_answer')
-            <label class="col-sm-12 "> الردود السابقة</label>
-               <div id="div_answer_table"> 
-            <div class="table-responsive">
-                <table   class="table text-md-nowrap">
-                    <thead>
-                        <tr>
-
-                         
-                            <th class="border-bottom-0">الرد الصوتي</th>
-                            <th class="border-bottom-0">تاريخ الرد</th>
-                            <th class="border-bottom-0">{{ __('general.status') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($selectedservice->answers->whereNotIn('answer_state',['wait']) as $answer)
-                        <tr>
-
-                           
-                            <td> <audio controls >
-                                <source src="{{ $answer->record_path }}" type="audio/mpeg">
-                            </audio></td>
-                            <td>{{ $answer->created_at}}</td>
-                            <td>{{ $answer->answer_state_conv}}</td>                     
-
-                        </tr>
-                        @endforeach
-                </tbody>
-                </table>
-            </div>
-        </div>
-            @endif
-            <form  name="answer_agree_form"  id="answer_agree_form"
-            action="{{ route('answer.agree', $selectedservice->id) }}" method="POST">
-            @csrf
-            </form>
+                    @endif
+                    <form name="answer_agree_form" id="answer_agree_form"
+                        action="{{ route('answer.agree', $selectedservice->id) }}" method="POST">
+                        @csrf
+                    </form>
                 </div>
             </div>
         </div>
@@ -157,52 +161,56 @@
     <!-- Container closed -->
     </div>
     <!-- main-content closed -->
-<!-- Scroll with content modal -->
-<div class="modal" id="scrollmodal">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content modal-content-demo">
-            <div class="modal-header">
-                <h6 class="modal-title">سبب رفض الرد</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <!-- row -->
-                <div class="row row-sm">
-                    <div class="col">
-                        <div class="card  box-shadow-0">
-                            <div class="card-body pt-4">
-                                <form  name="reject-answer-f" id="reject-answer-f"
-                                action="{{ route('answer.reject', $selectedservice->id) }}" method="POST" >
-                                  @csrf                                           
-                                    <div class="form-group mb-3">
-                                        <select name="answer_reject_reason" id="answer_reject_reason" class="form-control">
-                                            <!--placeholder-->
-                                            <option title="" class="text-muted">اختر سبب الرفض</option>
-                                            @foreach ($reasons as $reason)
-                                                <option value="{{ $reason->id }}">{{ $reason->content }}</option>
-                                            @endforeach
-                                        </select>
-                                        <ul class="parsley-errors-list filled">
-                                            <li class="parsley-required" id="answer_reject_reason_error"></li>
-                                        </ul>
-                                    </div>                                 
-                                </form>
+    <!-- Scroll with content modal -->
+    <div class="modal" id="scrollmodal">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">سبب رفض الرد</h6><button aria-label="Close" class="close"
+                        data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- row -->
+                    <div class="row row-sm">
+                        <div class="col">
+                            <div class="card  box-shadow-0">
+                                <div class="card-body pt-4">
+                                    <form name="reject-answer-f" id="reject-answer-f"
+                                        action="{{ route('answer.reject', $selectedservice->id) }}" method="POST">
+                                        @csrf
+                                        <div class="form-group mb-3">
+                                            <select name="answer_reject_reason" id="answer_reject_reason"
+                                                class="form-control">
+                                                <!--placeholder-->
+                                                <option title="" class="text-muted">اختر سبب الرفض</option>
+                                                @foreach ($reasons as $reason)
+                                                    <option value="{{ $reason->id }}">{{ $reason->content }}</option>
+                                                @endforeach
+                                            </select>
+                                            <ul class="parsley-errors-list filled">
+                                                <li class="parsley-required" id="answer_reject_reason_error"></li>
+                                            </ul>
+                                        </div>
+                                    </form>
+                                </div>
+
                             </div>
 
+
                         </div>
-
-
                     </div>
+                    <!-- row -->
                 </div>
-                <!-- row -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn ripple btn-primary" name="btn_reject_answer" id="btn_reject_answer" form="reject_answer_form" type="submit">حفظ</button>
-                <button class="btn ripple btn-secondary" data-dismiss="modal"  name="btn_cancel_field" id="btn_cancel_field" type="button"> إلغاء</button>
+                <div class="modal-footer">
+                    <button class="btn ripple btn-primary" name="btn_reject_answer" id="btn_reject_answer"
+                        form="reject_answer_form" type="submit">حفظ</button>
+                    <button class="btn ripple btn-secondary" data-dismiss="modal" name="btn_cancel_field"
+                        id="btn_cancel_field" type="button"> إلغاء</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!--End Scroll with content modal -->
+    <!--End Scroll with content modal -->
 
 @endsection
 @section('js')
@@ -226,21 +234,21 @@
     <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
 
     <script src="{{ URL::asset('assets/js/admin/validate.js') }}"></script>
-  
+
     <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
     <script src="{{ URL::asset('assets/js/simple-lightbox.js') }}"></script>
     <!-- For legacy browsers -->
     <script src="{{ URL::asset('assets/js/simple-lightbox.legacy.min.js') }}"></script>
     <!-- As A jQuery Plugin -->
-   
+
     <script src="{{ URL::asset('assets/js/simple-lightbox.jquery.min.js') }}"></script>
     <script src="{{ URL::asset('assets/js/admin/order.js') }}"></script>
     <script>
         var emptyimg = "{{ URL::asset('assets/img/photos/1.jpg') }}";
 
-     var answerurlval='{{url("admin/answer/getbyid",$selectedservice->id)}}';
-      //  answerurlval = answerurlval.replace("[itemid]", thisId);
-   //     $('#expertdate').datepicker("option", "altFormat", "yy-mm-dd");
+        var answerurlval = '{{ url('admin/answer/getbyid', $selectedservice->id) }}';
+        //  answerurlval = answerurlval.replace("[itemid]", thisId);
+        //     $('#expertdate').datepicker("option", "altFormat", "yy-mm-dd");
 
         var lightbox = $('.gallery a').simpleLightbox({
             // default source attribute
@@ -256,7 +264,7 @@
             nav: true,
 
             // text for navigation arrows
-            navText: ['&larr;','&rarr;'],
+            navText: ['&larr;', '&rarr;'],
 
             // shows image captions
             captions: true,
@@ -298,13 +306,13 @@
             enableKeyboard: true,
 
             // endless looping
-            loop:  true,
+            loop: true,
 
             // group images by rel attribute of link with same selector
             rel: false,
 
             // closes the lightbox when clicking outside
-            docClose:  true,
+            docClose: true,
 
             // how much pixel you have to swipe
             swipeTolerance: 50,
@@ -323,10 +331,10 @@
             disableRightClick: false,
 
             // disable page scroll
-          //  disable<a href="https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a>: true,
+            //  disable<a href="https://www.jqueryscript.net/tags.php?/Scroll/">Scroll</a>: true,
 
             // show an alert if image was not found
-            alertError:  true,
+            alertError: true,
 
             // alert message
             alertErrorMessage: 'Image not found, next image will be loaded',
@@ -363,5 +371,4 @@
             focus: true,
         });
     </script>
- 
 @endsection

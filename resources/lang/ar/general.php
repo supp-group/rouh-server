@@ -94,7 +94,7 @@ return [
 'status.wait'=>'انتظار',
 'status.agree'=>'موافق',
 'status.reject'=>'مرفوض',
-'status.no_answer'=>'لم يرد',
+'status.no_answer'=>'بانتظار الرد',
 'orders'=>'الطلبات',
 'order'=>'الطلب',
 'order details'=>'تفاصيل الطلب',

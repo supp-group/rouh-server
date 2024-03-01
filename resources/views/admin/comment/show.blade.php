@@ -13,10 +13,10 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">{{ __('general.comments') }}</h4> 
+							<h4 class="content-title mb-0 my-auto">{{ __('general.comments') }}</h4>
 						</div>
 					</div>
-					 
+
 				</div>
 				<!-- breadcrumb -->
 @endsection
@@ -29,7 +29,7 @@
 					<div class="col-xl-12">
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
-								 
+
 									</div>
 							<div class="card-body">
 								<div class="table-responsive">
@@ -41,8 +41,8 @@
 												<th class="border-bottom-0">{{ __('general.comment name') }}</th>
 												<th class="border-bottom-0">{{ __('general.service') }}</th>
 												<th class="border-bottom-0">{{ __('general.expert') }}</th>
-											
-                                              
+
+
                                                 <th class="border-bottom-0">{{ __('general.status') }}</th>
                                                 <th class="border-bottom-0">{{ __('general.action') }}</th>
 											</tr>
@@ -50,14 +50,14 @@
 										<tbody>
 											@foreach ($selectedservices as $selectedservice)
 											<tr>
-												<td>{{$selectedservice->comment }}</td>
+												<td>{{Str::limit($selectedservice->comment, 20) }}</td>
 												<td>{{$selectedservice->client->user_name  }}</td>
 												<td>{{$selectedservice->service->name }}</td>
 												<td>{{ $selectedservice->expert->full_name }}</td>
-                                               
+
                                                 <td>{{ $selectedservice->comment_state_conv}}</td>
                                                 <td>
-													<a href="{{route('comment.edit', $selectedservice->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a> 
+													<a href="{{route('comment.edit', $selectedservice->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a>
                                                 </td>
 
 											</tr>
