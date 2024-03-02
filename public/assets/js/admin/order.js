@@ -4,12 +4,12 @@ var urlval = "";
 $(document).ready(function () {
 	$('#btn_agree_state').on('click', function (e) {
 		e.preventDefault();	 
-		sendform('#agree_form');
+		sendform('#agree_form','form');
 		});
 	
 		$('#btn_reject_state').on('click', function (e) {
 			e.preventDefault();
-			sendfromModal('#reject_form','#form_reject_reason');
+			sendfromModal('#reject_form','#form_reject_reason','form');
 			});
 	 /////////
 
@@ -24,11 +24,12 @@ $(document).ready(function () {
 	 //////// commemt
 	 $('#btn_agree_comment').on('click', function (e) {
 		e.preventDefault();	 
-		sendform('#agree_comment_form');
+		sendform('#agree_comment_form','comment');
 		});
-		$('#btn_reject_comment').on('click', function (e) {
+		// rate comment
+		$('#btn_rate_comment').on('click', function (e) {
 			e.preventDefault();
-			sendfromModal('#reject_comment_form','#comment_reject_reason');
+			sendfromModal('#rate_comment_form','#comment_rate','rate');
 			});
 	function ClearErrors() {
 
@@ -36,7 +37,7 @@ $(document).ready(function () {
 		$(":input").removeClass('parsley-error');
 	}
   
-	function sendform(formid) {
+	function sendform(formid,type) {
 		startLoading();
 	//	ClearErrors();
 	//	$formid='#create_form';
@@ -62,10 +63,14 @@ $(document).ready(function () {
 				if (data.length == 0) {
 					noteError();
 				} else if (data == "ok") {
-					noteSuccess();					
-					$('#span_wait').hide();
-					$('.agree-state').show();
-					$('#div_btns').remove();
+
+					noteSuccess();	
+					if(type=='form'){
+						afterOkForm();
+					}	else if(type=='comment'){
+						afterOkComment();
+					}			
+				
 					
 				//	ClearErrors();
 				}
@@ -93,19 +98,42 @@ $(document).ready(function () {
 
 	 
 	}
+	function afterOkComment() {
+		$('#span_wait').hide();
+		$('.agree-state').show();
+		$('#btn_agree_comment').remove();
+		$('.rate-btn').show();
+	}
+	function afterOkCommentRate(selectid) {	 		 				
+		$('.rated-hide').remove();
+		var option=$(selectid).find(":selected").text();
+	 $('#p_rate_value').html(option);
+	 $('.rated-h').show();	
+	 $('#p_rate_value').show();		 
+	}
+
+	function afterOkForm() {
+		$('#span_wait').hide();
+		$('.agree-state').show();
+		$('#div_btns').remove();
+	}
+	function afterOkFormReject(selectid) {	 
+		$('#span_wait').hide();					
+		$('#div_btns').remove();
+		var option=$(selectid).find(":selected").text();
+	 $('#span_reason').html(option);
+	 $('.reject-state').show();	
+	}
 // #form_reject_reason'
 //#comment_reject_reason
-	function sendfromModal(formid,selectid) {
+	function sendfromModal(formid,selectid,type) {
 		//startLoading();
 		ClearErrors();
-	//	$formid='#create_form';
-		 
+	//	$formid='#create_form';		 
 		var form = $(formid)[0];
 		var formData = new FormData(form);
-		urlval = $(formid).attr("action")
-	 
-
-		$.ajax({
+		urlval = $(formid).attr("action");
+				$.ajax({
 			url: urlval,
 			type: "POST",
 
@@ -121,12 +149,14 @@ $(document).ready(function () {
 				if (data.length == 0) {
 					noteError();
 				} else if (data == "ok") {
-					noteSuccess();					
-					$('#span_wait').hide();					
-					$('#div_btns').remove();
-					var option=$(selectid).find(":selected").text();
-				 $('#span_reason').html(option);
-				 $('.reject-state').show();	
+					noteSuccess();
+if(type=='form'){
+	afterOkFormReject(selectid);
+}else if(type=='rate'){
+	afterOkCommentRate(selectid);
+}
+
+
 					$("#btn_cancel_field").trigger("click");
 					ClearErrors();
 				}
@@ -162,7 +192,7 @@ $(document).ready(function () {
 		 
 		var form = $(formid)[0];
 		var formData = new FormData(form);
-		urlval = $(formid).attr("action")
+		urlval = $(formid).attr("action");
 	 
 
 		$.ajax({

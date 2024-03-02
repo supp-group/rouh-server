@@ -20,6 +20,7 @@ use App\Models\Client;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\StorageController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Web\Order\UpdateCommentRateRequest;
 
 class CommentController extends Controller
 {
@@ -100,18 +101,19 @@ class CommentController extends Controller
    */
   public function agreemethod(Request $request, $id)
   {
-     
+
     DB::transaction(function () use ($id) {
       $selectedObj = Selectedservice::find($id);
       if ($selectedObj->comment_state == 'wait') {
-
+        $now = Carbon::now();
         Selectedservice::find($id)->update([
           'comment_state' => 'agree',
           'comment_user_id' => Auth::user()->id,
+          'comment_admin_date' => $now,
         ]);
       }
     });
-    
+
     return response()->json("ok");
 
   }
@@ -128,39 +130,55 @@ class CommentController extends Controller
     if ($validator->fails()) {
       return response()->json($validator);
     } else {
- 
+
       DB::transaction(function () use ($formdata, $id) {
         $selectedObj = Selectedservice::find($id);
         if ($selectedObj->comment_state == 'wait') {
           //reject
+          $now = Carbon::now();
           $reason = Reason::find($formdata['comment_reject_reason']);
           Selectedservice::find($id)->update([
             'comment_state' => 'reject',
             'comment_reject_reason' => $reason->content,
             'comment_user_id' => Auth::user()->id,
+            'comment_admin_date' => $now,
           ]);
         }
       });
-      
+
       return response()->json("ok");
     }
   }
-  public function ratemethod(Request $request, $id)
+  public function ratemethod(UpdateCommentRateRequest $request, $id)
   {
-     
-    DB::transaction(function () use ($id) {
-      $selectedObj = Selectedservice::find($id);
-      if ($selectedObj->comment_state == 'agree') {
-/*
-        Selectedservice::find($id)->update([
-          'comment_state' => 'agree',
-          'comment_user_id' => Auth::user()->id,
-        ]);
-        */
-      }
-    });
-    
-    return response()->json("ok");
+    $formdata = $request->all();
+    //validate
+    $validator = Validator::make(
+      $formdata,
+      $request->rules(),
+      $request->messages()
+    );
+    if ($validator->fails()) {
+      return response()->json($validator);
+    } else {
+
+      DB::transaction(function () use ($formdata, $id) {
+        $selectedObj = Selectedservice::find($id);
+        if ($selectedObj->comment_state == 'agree' && $selectedObj->comment_rate == 0) {
+        
+          $now = Carbon::now();
+          Selectedservice::find($id)->update([
+            'comment_rate' => $formdata['comment_rate'],
+            'comment_rate_admin_id' => Auth::user()->id,
+            'comment_rate_date' => $now,
+          ]);
+ 
+        }
+
+      });
+
+      return response()->json("ok");
+    }
 
   }
   /**

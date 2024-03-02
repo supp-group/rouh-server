@@ -17,6 +17,9 @@ class Answer extends Model
         'answer_state',
         'selectedservice_id',
         'updateuser_id',
+        'answer_admin_date',
+'answer_date',
+
            
     ];
     protected $appends= ['record_path','answer_state_conv'];

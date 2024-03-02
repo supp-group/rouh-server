@@ -23,7 +23,8 @@ use App\Models\Pointtransfer;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Api\ValueService\StoreImageRequest;
 use App\Http\Requests\Api\Comment\AddCommentRequest;
- 
+use App\Http\Requests\Api\Comment\AddRateRequest;
+
 use App\Http\Controllers\Api\StorageController;
 //use Illuminate\Support\Str;
 class SelectedServiceController extends Controller
@@ -72,7 +73,7 @@ $service=Service::find( $expertService->service_id);
                 ]);
 */
             } else {
-               
+                $now= Carbon::now();
                 //save selected service
                 $newObj = new Selectedservice;
                 $newObj->client_id = $client->id;
@@ -93,6 +94,8 @@ $service=Service::find( $expertService->service_id);
                 $newObj->cost_type = $expertService->cost_type;
              //   $newObj->expert_cost_value = $expertService->expert_cost_value;
                 $newObj->expert_cost_value =StorageController::CalcPercentVal($service->expert_percent,$expertService->points);
+                $newObj->order_num = "";//////////////////
+                $newObj->order_date =$now;
                 $newObj->save();
                 $this->id = $newObj->id;
 
@@ -299,6 +302,39 @@ if($selectedservice->comment_state=='no-comment'){
             } else {
                 return response()->json(['error' => 'Unauthenticated'], 401);
             }
+        }
+    }
+    public function addrate()
+    {
+        $authuser = auth()->user();
+        $request = request();
+        $formdata = $request->all();
+        $storrequest = new AddRateRequest(); 
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+            //   return redirect()->back()->withErrors($validator)->withInput();
+
+        } else { 
+            $selectedservice= Selectedservice::find($formdata['selectedservice_id']);
+            if ($authuser->id == $selectedservice->client_id ) {
+if($selectedservice->answer_state=='agree' && $selectedservice->rate==0){
+    DB::transaction(function ()use( $selectedservice,$formdata)  {
+    $now= Carbon::now();
+    Selectedservice::find($selectedservice->id)->update(
+        ['rate' => $formdata['rate'],
+         'rate_date' =>$now,        
+        ]);
+ } );
+}      
+                return response()->json("ok");                
+            } else {
+                return response()->json(['error' => 'Unauthenticated'], 401);
+            }        
         }
     }
 }

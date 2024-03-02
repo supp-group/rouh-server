@@ -208,10 +208,12 @@ class AnswerController extends Controller
         ->where('side', 'from-client')->first();
       $selectedObj = Selectedservice::find($id);
       $answerObj = Answer::where('selectedservice_id', $id)->where('answer_state', 'wait')->first();
-
+      $now= Carbon::now();
       Answer::find($answerObj->id)->update(
         [
-          'answer_state' => 'agree',         
+          'answer_state' => 'agree',    
+          'updateuser_id'=>auth()->user()->id,
+          'answer_admin_date'=>$now,
         ],
       );
       $comprofitperc = 100 - $selectedObj->expert_cost;
@@ -290,10 +292,12 @@ class AnswerController extends Controller
 
         //reject
         $reason = Reason::find($formdata['answer_reject_reason']);
-
+        $now= Carbon::now();
         Answer::find($answerObj->id)->update([
           'answer_state' => 'reject',
           'answer_reject_reason' => $reason->content,
+          'updateuser_id'=>auth()->user()->id,
+          'answer_admin_date'=>$now,
         ]);
       });
      

@@ -17,7 +17,8 @@ class Cashtransfer extends Model
         'client_id',
         'expert_id',
         'pointtransfer_id',
-           'selectedservice_id',          
+           'selectedservice_id',   
+           'cash_num',       
     ];
     public function expert(): BelongsTo
     {

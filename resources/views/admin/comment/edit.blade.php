@@ -43,8 +43,7 @@
                     @endif
                     <span class="text-success agree-state"
                         style="display: none">{{ __('general.comment') . ' ' . __('general.status.agree') }}</span>
-                    <span class="text-danger reject-state"
-                        style="display: none">{{ __('general.comment') . ' ' . __('general.status.reject') }}</span>
+      
                 </div>
                 <div class="card-body pt-0">
                     <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="User Icon SVG Vector Icon"
@@ -63,11 +62,15 @@
 
                     <h6 class="font-weight-bold mb-2">نص التعليق</h6>
                     <p>{{ $selectedservice->comment }}</p>
-
-
+                  
+                    @if ($selectedservice->comment_state == 'agree' && $selectedservice->comment_rate > 0)
+                    <h6 class="font-weight-bold mb-2 ">التقييم</h6>
+                    <p >{{ $selectedservice->comment_rate }}</p>
+                @endif
+                <h6 class="font-weight-bold mb-2 rated-h" style="display: none">التقييم</h6>
+                <p id="p_rate_value" style="display: none"></p>
 
                     <div class="form-horizontal" id="div_btns">
-
                         <div class="form-group mb-0 mt-3 justify-content-end">
                             <div>
 
@@ -76,10 +79,12 @@
                                         form="agree_comment_form" class="btn btn-primary">موافقة</button>
                                 @endif
 
-                                @if ($selectedservice->comment_state == 'agree')
+                                @if ($selectedservice->comment_state == 'agree' && $selectedservice->comment_rate == 0)
                                     <button type="button" name="btn_rate_modal" data-target="#scrollmodal"
-                                        data-toggle="modal" class="btn btn-primary">تقييم</button>
+                                        data-toggle="modal" class="btn btn-primary rated-hide">تقييم</button>
                                 @endif
+                                <button type="button" name="btn_rate_modal" data-target="#scrollmodal"
+                                data-toggle="modal" class="btn btn-primary rate-btn rated-hide" style="display: none">تقييم</button>
                             </div>
                         </div>
 

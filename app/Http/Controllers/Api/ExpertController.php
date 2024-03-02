@@ -860,8 +860,10 @@ class ExpertController extends Controller
                 $filename,
                 'public'
             );
+            $now= Carbon::now();
             Answer::find($id)->update([
-                "record" => $filename
+                "record" => $filename,
+                "answer_date"=> $now,
             ]);
             Storage::delete("public/" . $recpath . '/' . $oldfilename);
         }

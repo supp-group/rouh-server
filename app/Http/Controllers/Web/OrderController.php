@@ -82,14 +82,17 @@ class OrderController extends Controller
     public function agreemethod(Request $request, $id)
     {     
         DB::transaction(function ()use($id) {
+         
           $selectedObj= Selectedservice::find($id);
           if(  $selectedObj->form_state=='wait'){
+            $now= Carbon::now();
           $pointobj=Pointtransfer::where('selectedservice_id',$id)
           ->where('state','wait')
           ->where('side','from-client')->first(); 
   Selectedservice::find($id)->update([
     'form_state'=>'agree',
-                  
+    'order_admin_date'=> $now,
+    'order_admin_id'=>auth()->user()->id,                  
   ]);
   Pointtransfer::find( $pointobj->id)->update([
     'state'=> 'agree',                
@@ -129,6 +132,7 @@ Company::find(1)->update([
         DB::transaction(function ()use( $formdata,$id) {
           $selectedObj= Selectedservice::find($id);
           if(  $selectedObj->form_state=='wait'){
+            $now= Carbon::now();
           $pointobj=Pointtransfer::where('selectedservice_id',$id)
           ->where('state','wait')
           ->where('side','from-client')->first();
@@ -137,7 +141,9 @@ Company::find(1)->update([
   $reason=Reason::find($formdata['form_reject_reason']);
   Selectedservice::find($id)->update([
     'form_state'=> 'reject',
-    'form_reject_reason'=>  $reason->content,              
+    'form_reject_reason'=>  $reason->content,   
+    'order_admin_date'=> $now,
+    'order_admin_id'=>auth()->user()->id,              
   ]);
 
   Pointtransfer::find($pointobj->id)->update([
