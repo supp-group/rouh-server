@@ -36,7 +36,7 @@
 									<table id="example" class="table text-md-nowrap">
 										<thead>
 											<tr>
-
+												<th class="border-bottom-0">{{ __('general.order num') }}</th>
 												<th class="border-bottom-0">{{ __('general.service') }}</th>
 												<th class="border-bottom-0">{{ __('general.expert') }}</th>
 											
@@ -48,7 +48,7 @@
 										<tbody>
 											@foreach ($selectedservices as $selectedservice)
 											<tr>
-
+												<td>{{$selectedservice->order_num }}</td>
 												<td>{{$selectedservice->service->name }}</td>
 												<td>{{ $selectedservice->expert->full_name }}</td>
                                                 <td>{{ $selectedservice->client->user_name }}</td>

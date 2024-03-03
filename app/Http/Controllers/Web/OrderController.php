@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Reason;
 use Illuminate\Http\Request;
-use App\Models\ValueService;
+
 use App\Models\Selectedservice;
 use Illuminate\Support\Facades\DB; 
-use File;
+// use File;
 use Illuminate\Support\Facades\Validator; 
 use Illuminate\Support\Carbon;
 
@@ -17,8 +17,9 @@ use App\Http\Requests\Web\Order\UpdateFormStateRequest;
 use App\Models\Pointtransfer;
 use App\Models\Client;
 //use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Api\StorageController;
+// use Illuminate\Support\Facades\Storage;
+// use App\Http\Controllers\Api\StorageController;
+use App\Http\Controllers\Api\PointTransferController;
 class OrderController extends Controller
 { 
     /**
@@ -151,7 +152,11 @@ Company::find(1)->update([
   );
  
 $returnPoint = new Pointtransfer();
- 
+$pntctrlr=new PointTransferController();
+$type='p';
+$firstLetters=$type.'cl-';
+$newpnum= $pntctrlr->GenerateCode($firstLetters);
+
 $returnPoint->client_id =  $selectedObj->client_id;
 $returnPoint->expert_id = $selectedObj->expert_id;
 $returnPoint->service_id = $selectedObj->service_id;
@@ -160,8 +165,9 @@ $returnPoint->status = 1;
 $returnPoint->selectedservice_id = $id;
 $returnPoint->side = 'to-client';
 $returnPoint->state = 'reject-return';
-$returnPoint->type = 'p';
+$returnPoint->type =$type;
 $returnPoint->source_id = $pointobj->id;
+$returnPoint->num =$newpnum;
 $returnPoint->save();
 
 //add point to client

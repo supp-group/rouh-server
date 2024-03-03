@@ -7,28 +7,21 @@ use App\Models\Answer;
 use App\Models\Cashtransfer;
 use App\Models\Expert;
 use Illuminate\Http\Request;
-
-
-
 use App\Models\Reason;
 
-use App\Models\User;
-
-
-use App\Models\ValueService;
 use App\Models\Selectedservice;
 use Illuminate\Support\Facades\DB;
-use File;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 use App\Http\Requests\Web\Order\UpdateAnswerStateRequest;
 
 use App\Models\Pointtransfer;
 use App\Models\Company;
-use App\Models\Client;
+
 //use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Api\StorageController;
+
+use App\Http\Controllers\Api\CashTransferController;
 
 class AnswerController extends Controller
 {
@@ -37,7 +30,7 @@ class AnswerController extends Controller
    */
   public function index()
   {
-   // $list = User::latest()->first();
+    // $list = User::latest()->first();
 
     $list = Selectedservice::with([
       'expert',
@@ -102,9 +95,9 @@ class AnswerController extends Controller
   public function getbyselectedid($id)
   {
     //  $url =url(Storage::url($this->path)).'/';
-    $list = Selectedservice::find($id)->answers->sortByDesc('created_at');     
+    $list = Selectedservice::find($id)->answers->sortByDesc('created_at');
     //return dd($object);
-  return view('admin.answer.showanswers', ['answers' => $list ]);
+    return view('admin.answer.showanswers', ['answers' => $list]);
   }
   /**
    * Update the specified resource in storage.
@@ -201,19 +194,19 @@ class AnswerController extends Controller
       */
   public function agreemethod(Request $request, $id)
   {
- 
+
     DB::transaction(function () use ($id) {
       $pointobj = Pointtransfer::where('selectedservice_id', $id)
         ->where('state', 'wait')
         ->where('side', 'from-client')->first();
       $selectedObj = Selectedservice::find($id);
       $answerObj = Answer::where('selectedservice_id', $id)->where('answer_state', 'wait')->first();
-      $now= Carbon::now();
+      $now = Carbon::now();
       Answer::find($answerObj->id)->update(
         [
-          'answer_state' => 'agree',    
-          'updateuser_id'=>auth()->user()->id,
-          'answer_admin_date'=>$now,
+          'answer_state' => 'agree',
+          'updateuser_id' => auth()->user()->id,
+          'answer_admin_date' => $now,
         ],
       );
       $comprofitperc = 100 - $selectedObj->expert_cost;
@@ -225,13 +218,19 @@ class AnswerController extends Controller
         'comment_state' => 'no-comment',
       ]);
       //add cach transfer to company
+      $cashtype1 = 'd';
+      $cashtrctrlr = new CashTransferController();
+      $firstLetters = $cashtype1 . 'com-';
+      $comCode = $cashtrctrlr->GenerateCode($firstLetters);
       $companyCach = new Cashtransfer();
+
       $companyCach->cash = $selectedObj->points;
-      $companyCach->cashtype = 'd';
+      $companyCach->cashtype = $cashtype1;
       $companyCach->fromtype = '';
       $companyCach->totype = 'company';
       $companyCach->status = 'agree';
       $companyCach->selectedservice_id = $id;
+      $companyCach->cash_num = $comCode;
       $companyCach->save();
       //add cash to company balance
       $comObj = Company::find(1);
@@ -243,13 +242,18 @@ class AnswerController extends Controller
       );
       // add expert cash 
       $expertCach = new Cashtransfer();
+      $cashtype2 = 'p';
+
+      $firstLetters = $cashtype2 . 'exp-';
+      $expCode = $cashtrctrlr->GenerateCode($firstLetters);
       $expertCach->cash = $selectedObj->expert_cost_value;
       $expertCach->cashtype = 'p';
       $expertCach->fromtype = 'company';
       $expertCach->totype = 'expert';
       $expertCach->status = 'agree';
-      $expertCach->selectedservice_id = $id;
 
+      $expertCach->selectedservice_id = $id;
+      $expertCach->cash_num = $expCode;
       $expertCach->save();
       ////add cost to expert balance
       $expertObj = Expert::find($selectedObj->expert_id);
@@ -261,7 +265,7 @@ class AnswerController extends Controller
       );
     });
 
-   
+
     return response()->json("ok");
 
   }
@@ -280,27 +284,29 @@ class AnswerController extends Controller
       return response()->json($validator);
 
     } else {
- 
+
       DB::transaction(function () use ($formdata, $id) {
+        /*
         $pointobj = Pointtransfer::where('selectedservice_id', $id)
           ->where('state', 'wait')
           ->where('side', 'from-client')->first();
 
         $selectedObj = Selectedservice::find($id);
+        */
         $answerObj = Answer::where('selectedservice_id', $id)->where('answer_state', 'wait')->first();
 
 
         //reject
         $reason = Reason::find($formdata['answer_reject_reason']);
-        $now= Carbon::now();
+        $now = Carbon::now();
         Answer::find($answerObj->id)->update([
           'answer_state' => 'reject',
           'answer_reject_reason' => $reason->content,
-          'updateuser_id'=>auth()->user()->id,
-          'answer_admin_date'=>$now,
+          'updateuser_id' => auth()->user()->id,
+          'answer_admin_date' => $now,
         ]);
       });
-     
+
       return response()->json("ok");
     }
   }

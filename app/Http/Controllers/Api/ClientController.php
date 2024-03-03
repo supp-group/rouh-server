@@ -270,6 +270,10 @@ class ClientController extends Controller
         ]);
         //add point transfer for client
         $pointtransfer = new Pointtransfer();
+        $pntctrlr=new PointTransferController();
+$type='p';
+$firstLetters=$type.'cl-';
+$newpnum= $pntctrlr->GenerateCode($firstLetters);
       $pointtransfer->point_id = isset($formdata["point_id"]) ? $formdata['point_id'] : null;
         $pointtransfer->client_id = $client->id;
       //  $pointtransfer->expert_id = $expertService->expert_id;
@@ -279,7 +283,7 @@ class ClientController extends Controller
        // $pointtransfer->selectedservice_id = $newObj->id;
         $pointtransfer->side = 'to-client';
         $pointtransfer->state = 'agree';
-        $pointtransfer->type = 'p';
+        $pointtransfer->type = $type;
         $pointtransfer->save();
  } );
       

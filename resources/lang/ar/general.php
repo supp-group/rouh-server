@@ -117,6 +117,7 @@ return [
 'comments' => 'التعليقات',
 'comment' => 'التعليق',
 'comment name' => 'اسم المعلق',
+'order num' => 'رقم الطلب',
 ];
 /*
 

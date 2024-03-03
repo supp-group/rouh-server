@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ExpertController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SelectedServiceController;
 use App\Http\Controllers\Api\PointController;
+use App\Http\Controllers\Api\PointTransferController;
  //use App\Http\Middleware\Api\AuthenticateClient;
 
 /*
@@ -53,7 +54,7 @@ Route::middleware('authClient:api_clients')->group(function () {
         Route::post('/addrate', [SelectedServiceController::class, 'addrate']);
         Route::post('/changebalance', [ClientController::class, 'changebalance']);
         
-        
+        Route::post('/store', [PointTransferController::class, 'store']);
         
 //api/client/service
         Route::prefix('/service')->group(function () {

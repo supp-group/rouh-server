@@ -140,5 +140,17 @@ class StorageController extends Controller
       $val=$total*$percent/100;
       return $val;
   }
+  public static function addZeros($number)
+  {
+      $number = (int) $number;
+      $numLength = strlen($number);
+      if ($numLength < 6) {
+          $zeroslen = 6 - $numLength;
+          $paddedNumber = str_pad($number, 6, '0', STR_PAD_LEFT);
+      } else {
+          $paddedNumber = str_pad($number, $numLength + 1, '0', STR_PAD_LEFT);
+      }
+      return $paddedNumber;
+  }
   //
 }
