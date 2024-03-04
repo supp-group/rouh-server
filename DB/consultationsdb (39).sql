@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 29, 2024 at 04:10 PM
+-- Generation Time: Mar 04, 2024 at 03:10 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.2.0
 
@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS `answers` (
   `updateuser_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `answer_admin_date` datetime DEFAULT NULL,
+  `answer_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -45,24 +47,24 @@ CREATE TABLE IF NOT EXISTS `answers` (
 -- Dumping data for table `answers`
 --
 
-INSERT INTO `answers` (`id`, `record`, `content`, `answer_reject_reason`, `answer_state`, `selectedservice_id`, `updateuser_id`, `created_at`, `updated_at`) VALUES
-(1, 'rec.mp3', 'بحاجة الى جلسات', NULL, 'agree', 33, NULL, '2024-02-21 20:06:28', '2024-02-27 13:15:20'),
-(2, 'sdsd.mp3', 'casvasc', NULL, 'reject', 33, NULL, '2024-01-18 20:06:28', NULL),
-(3, 'sdsd.mp3', 'laaassttt', NULL, 'agree', 34, NULL, '2024-02-18 20:06:28', '2024-02-28 18:42:32'),
-(4, 'sdsd.mp3', 'casvasc', NULL, 'reject', 34, NULL, '2024-01-18 20:06:28', NULL),
-(6, 'rec.mp3', 'بحاجة الى جلسات', NULL, 'agree', 36, NULL, '2024-02-27 20:06:28', '2024-02-27 13:15:40'),
-(7, 'rec.mp3', 'بحاجة الى جلسات', NULL, 'agree', 38, NULL, '2024-02-27 20:06:28', '2024-02-27 13:14:56'),
-(9, '955769.mp3', NULL, '', 'agree', 50, NULL, '2024-02-28 14:31:13', '2024-02-28 14:46:35'),
-(10, '8658110.mp3', NULL, 'غير مطابق للشروط والاحكام', 'reject', 39, NULL, '2024-02-28 14:36:59', '2024-02-28 14:41:04'),
-(11, '6581811.mp3', NULL, '', 'agree', 41, NULL, '2024-02-28 14:38:04', '2024-02-28 14:45:21'),
-(12, '9716112.mp3', NULL, '', 'agree', 42, NULL, '2024-02-28 14:38:11', '2024-02-28 14:45:42'),
-(13, '1552113.mp3', NULL, '', 'wait', 43, NULL, '2024-02-28 14:38:19', '2024-02-28 14:38:19'),
-(14, '7877714.mp3', NULL, '', 'wait', 44, NULL, '2024-02-28 14:38:24', '2024-02-28 14:38:24'),
-(15, '9876115.mp3', NULL, '', 'wait', 45, NULL, '2024-02-28 14:38:29', '2024-02-28 14:38:29'),
-(16, '4283616.mp3', NULL, '', 'wait', 46, NULL, '2024-02-28 14:38:34', '2024-02-28 14:38:34'),
-(17, '6333117.mp3', NULL, 'اسباب اخرى', 'reject', 39, NULL, '2024-02-28 14:43:07', '2024-02-28 14:43:33'),
-(18, '8560318.mp3', NULL, '', 'agree', 39, NULL, '2024-02-28 14:43:54', '2024-02-28 14:44:23'),
-(19, '3514519.mp3', NULL, 'غير مطابق للشروط والاحكام', 'reject', 47, NULL, '2024-02-29 12:54:12', '2024-02-29 12:54:46');
+INSERT INTO `answers` (`id`, `record`, `content`, `answer_reject_reason`, `answer_state`, `selectedservice_id`, `updateuser_id`, `created_at`, `updated_at`, `answer_admin_date`, `answer_date`) VALUES
+(1, 'rec.mp3', 'بحاجة الى جلسات', NULL, 'agree', 33, NULL, '2024-02-21 20:06:28', '2024-02-27 13:15:20', NULL, NULL),
+(2, 'sdsd.mp3', 'casvasc', NULL, 'reject', 33, NULL, '2024-01-18 20:06:28', NULL, NULL, NULL),
+(3, 'sdsd.mp3', 'laaassttt', NULL, 'agree', 34, NULL, '2024-02-18 20:06:28', '2024-02-28 18:42:32', NULL, NULL),
+(4, 'sdsd.mp3', 'casvasc', NULL, 'reject', 34, NULL, '2024-01-18 20:06:28', NULL, NULL, NULL),
+(6, 'rec.mp3', 'بحاجة الى جلسات', NULL, 'agree', 36, NULL, '2024-02-27 20:06:28', '2024-02-27 13:15:40', NULL, NULL),
+(7, 'rec.mp3', 'بحاجة الى جلسات', NULL, 'agree', 38, NULL, '2024-02-27 20:06:28', '2024-02-27 13:14:56', NULL, NULL),
+(9, '955769.mp3', NULL, '', 'agree', 50, NULL, '2024-02-28 14:31:13', '2024-02-28 14:46:35', NULL, NULL),
+(10, '8658110.mp3', NULL, 'غير مطابق للشروط والاحكام', 'reject', 39, NULL, '2024-02-28 14:36:59', '2024-02-28 14:41:04', NULL, NULL),
+(11, '6581811.mp3', NULL, '', 'agree', 41, NULL, '2024-02-28 14:38:04', '2024-02-28 14:45:21', NULL, NULL),
+(12, '9716112.mp3', NULL, '', 'agree', 42, NULL, '2024-02-28 14:38:11', '2024-02-28 14:45:42', NULL, NULL),
+(13, '1552113.mp3', NULL, '', 'agree', 43, 1, '2024-02-28 14:38:19', '2024-03-02 11:23:13', '2024-03-02 13:23:13', NULL),
+(14, '7877714.mp3', NULL, '', 'wait', 44, NULL, '2024-02-28 14:38:24', '2024-02-28 14:38:24', NULL, NULL),
+(15, '9876115.mp3', NULL, '', 'wait', 45, NULL, '2024-02-28 14:38:29', '2024-02-28 14:38:29', NULL, NULL),
+(16, '4283616.mp3', NULL, '', 'wait', 46, NULL, '2024-02-28 14:38:34', '2024-02-28 14:38:34', NULL, NULL),
+(17, '6333117.mp3', NULL, 'اسباب اخرى', 'reject', 39, NULL, '2024-02-28 14:43:07', '2024-02-28 14:43:33', NULL, NULL),
+(18, '8560318.mp3', NULL, '', 'agree', 39, NULL, '2024-02-28 14:43:54', '2024-02-28 14:44:23', NULL, NULL),
+(19, '3514519.mp3', NULL, 'غير مطابق للشروط والاحكام', 'reject', 47, NULL, '2024-02-29 12:54:12', '2024-02-29 12:54:46', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -85,30 +87,33 @@ CREATE TABLE IF NOT EXISTS `cashtransfers` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `selectedservice_id` bigint UNSIGNED DEFAULT NULL,
   `source_id` bigint UNSIGNED DEFAULT NULL,
+  `cash_num` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `cashtransfers`
 --
 
-INSERT INTO `cashtransfers` (`id`, `cash`, `cashtype`, `fromtype`, `totype`, `status`, `client_id`, `expert_id`, `pointtransfer_id`, `created_at`, `updated_at`, `selectedservice_id`, `source_id`) VALUES
-(1, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-27 13:14:56', '2024-02-27 13:14:56', 38, NULL),
-(2, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-27 13:14:56', '2024-02-27 13:14:56', 38, NULL),
-(3, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-27 13:15:20', '2024-02-27 13:15:20', 33, NULL),
-(4, '50.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-27 13:15:20', '2024-02-27 13:15:20', 33, NULL),
-(5, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-27 13:15:40', '2024-02-27 13:15:40', 36, NULL),
-(6, '50.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-27 13:15:40', '2024-02-27 13:15:40', 36, NULL),
-(7, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 14:44:23', '2024-02-28 14:44:23', 39, NULL),
-(8, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 14:44:23', '2024-02-28 14:44:23', 39, NULL),
-(9, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 14:45:21', '2024-02-28 14:45:21', 41, NULL),
-(10, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 14:45:21', '2024-02-28 14:45:21', 41, NULL),
-(11, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 14:45:42', '2024-02-28 14:45:42', 42, NULL),
-(12, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 14:45:42', '2024-02-28 14:45:42', 42, NULL),
-(13, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 14:46:35', '2024-02-28 14:46:35', 50, NULL),
-(14, '20.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 14:46:35', '2024-02-28 14:46:35', 50, NULL),
-(15, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 18:42:32', '2024-02-28 18:42:32', 34, NULL),
-(16, '50.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 18:42:33', '2024-02-28 18:42:33', 34, NULL);
+INSERT INTO `cashtransfers` (`id`, `cash`, `cashtype`, `fromtype`, `totype`, `status`, `client_id`, `expert_id`, `pointtransfer_id`, `created_at`, `updated_at`, `selectedservice_id`, `source_id`, `cash_num`) VALUES
+(1, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-27 13:14:56', '2024-02-27 13:14:56', 38, NULL, NULL),
+(2, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-27 13:14:56', '2024-02-27 13:14:56', 38, NULL, NULL),
+(3, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-27 13:15:20', '2024-02-27 13:15:20', 33, NULL, NULL),
+(4, '50.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-27 13:15:20', '2024-02-27 13:15:20', 33, NULL, NULL),
+(5, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-27 13:15:40', '2024-02-27 13:15:40', 36, NULL, NULL),
+(6, '50.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-27 13:15:40', '2024-02-27 13:15:40', 36, NULL, NULL),
+(7, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 14:44:23', '2024-02-28 14:44:23', 39, NULL, NULL),
+(8, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 14:44:23', '2024-02-28 14:44:23', 39, NULL, NULL),
+(9, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 14:45:21', '2024-02-28 14:45:21', 41, NULL, NULL),
+(10, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 14:45:21', '2024-02-28 14:45:21', 41, NULL, NULL),
+(11, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 14:45:42', '2024-02-28 14:45:42', 42, NULL, NULL),
+(12, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 14:45:42', '2024-02-28 14:45:42', 42, NULL, NULL),
+(13, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 14:46:35', '2024-02-28 14:46:35', 50, NULL, NULL),
+(14, '20.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 14:46:35', '2024-02-28 14:46:35', 50, NULL, NULL),
+(15, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-02-28 18:42:32', '2024-02-28 18:42:32', 34, NULL, NULL),
+(16, '50.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-02-28 18:42:33', '2024-02-28 18:42:33', 34, NULL, NULL),
+(17, '200.00', 'd', '', 'company', 'agree', NULL, NULL, NULL, '2024-03-02 11:23:13', '2024-03-02 11:23:13', 43, NULL, NULL),
+(18, '40.00', 'p', 'company', 'expert', 'agree', NULL, NULL, NULL, '2024-03-02 11:23:13', '2024-03-02 11:23:13', 43, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -135,20 +140,22 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `updateuser_id` bigint UNSIGNED DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `clients`
 --
 
 INSERT INTO `clients` (`id`, `user_name`, `password`, `mobile`, `email`, `nationality`, `birthdate`, `gender`, `marital_status`, `image`, `token`, `points_balance`, `created_at`, `updated_at`, `updateuser_id`, `is_active`) VALUES
-(10, 'احمد', NULL, '0533494872', 'dfc@uy.com', 'syr', '2000-01-20 00:00:00', 1, 'single', '5947810.webp', NULL, 15200, '2024-01-18 20:06:28', '2024-02-29 12:08:09', NULL, 1),
-(12, 'احمد2', NULL, '0533494777', 'dfc@uy.com', 'syr', '2005-01-05 00:00:00', 1, 'single', '8576212.webp', NULL, 9600, '2024-01-18 20:27:48', '2024-02-28 12:37:54', NULL, 1),
-(13, 'احمد3', NULL, '0533497777', 'dfc@uy.com', 'syr', '2005-05-01 00:00:00', 1, 'single', '9227313.webp', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luY2xpZW50IiwiaWF0IjoxNzA3NDA3MTU3LCJuYmYiOjE3MDc0MDcxNTcsImp0aSI6IkZvUFZYMllrT2VqMHJ1TjkiLCJzdWIiOiIxMyIsInBydiI6IjQxZWZiN2JhZDdmNmY2MzJlMjQwNWJkM2E3OTNiOGE2YmRlYzY3NzcifQ.rWvpuHg5-DBfWxrubaCDIUXlBgOJcRfyhqHhZZpliXA', 1000, '2024-01-18 20:29:12', '2024-02-08 13:45:57', NULL, 1),
-(14, 'raghad', NULL, '021458700000', 'ra@email.com', 'syria', '2000-05-18 00:00:00', 2, 'single', '9782114.webp', NULL, 20000, '2024-02-01 07:12:20', '2024-02-01 07:12:21', NULL, 1),
-(15, 'tesyyyt', NULL, '213777777777', 'hhel@hh.lo', 'الجزائر', '2024-02-16 00:00:00', 2, NULL, '7137915.webp', NULL, 9800, '2024-02-15 22:08:38', '2024-02-28 12:41:47', NULL, 1),
-(16, 'dina test', NULL, '213111111111', 'dina@gmail.com', 'الجزائر', '2024-01-01 00:00:00', 2, 'Married', '8632416.webp', NULL, 800, '2024-02-16 17:31:55', '2024-02-28 12:41:40', NULL, 1),
-(17, 'ahmadd', NULL, '213944917252', 'abc@xyz.com', 'سوريا', '2000-10-20 00:00:00', 1, 'married', '4385517.webp', NULL, 800, '2024-02-17 12:09:04', '2024-02-28 12:41:32', NULL, 1);
+(10, 'احمد', NULL, '0533494872', 'dfc@uy.com', 'syr', '2000-01-20 00:00:00', 1, 'single', '5947810.webp', NULL, 15100, '2024-01-18 20:06:28', '2024-03-03 13:32:37', NULL, 1),
+(12, 'احمد2', NULL, '0533494777', 'dfc@uy.com', 'syr', '2005-01-05 00:00:00', 1, 'single', '8576212.webp', NULL, 0, '2024-01-18 20:27:48', '2024-01-18 20:27:48', NULL, 1),
+(13, 'احمد3', NULL, '0533497777', 'dfc@uy.com', 'syr', '2005-05-01 00:00:00', 1, 'single', '9227313.webp', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luY2xpZW50IiwiaWF0IjoxNzA3NDA3MTU3LCJuYmYiOjE3MDc0MDcxNTcsImp0aSI6IkZvUFZYMllrT2VqMHJ1TjkiLCJzdWIiOiIxMyIsInBydiI6IjQxZWZiN2JhZDdmNmY2MzJlMjQwNWJkM2E3OTNiOGE2YmRlYzY3NzcifQ.rWvpuHg5-DBfWxrubaCDIUXlBgOJcRfyhqHhZZpliXA', 0, '2024-01-18 20:29:12', '2024-02-08 13:45:57', NULL, 1),
+(14, 'raghad', NULL, '021458700000', 'ra@email.com', 'syria', '2000-05-18 00:00:00', 2, 'single', '9782114.webp', NULL, 0, '2024-02-01 07:12:20', '2024-02-01 07:12:21', NULL, 1),
+(15, 'tesyyyt', NULL, '213777777777', 'hhel@hh.lo', 'الجزائر', '2024-02-16 00:00:00', 2, NULL, '7137915.webp', NULL, 200, '2024-02-15 22:08:38', '2024-03-03 13:15:38', NULL, 1),
+(16, 'dina test', NULL, '213111111111', 'dina@gmail.com', 'الجزائر', '2024-01-01 00:00:00', 2, 'Married', '8632416.webp', NULL, 200, '2024-02-16 17:31:55', '2024-03-03 13:19:19', NULL, 0),
+(17, 'ahmadd', NULL, '213944917252', 'abc@xyz.com', 'سوريا', '2000-10-20 00:00:00', 1, 'married', '4385517.webp', NULL, 0, '2024-02-17 12:09:04', '2024-02-19 13:59:22', NULL, 1),
+(20, 'dina test', NULL, '213111111111', 'dina@gmail.com', 'الجزائر', '2024-02-25 00:00:00', 2, 'Married', NULL, NULL, 0, '2024-02-25 11:03:53', '2024-02-25 11:04:20', NULL, 0),
+(21, 'test test', NULL, '213222222222', 'test@gmil.com', 'الجزائر', '2024-02-28 00:00:00', 2, 'Single', NULL, NULL, 225, '2024-02-28 08:57:40', '2024-03-01 13:14:57', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `companies` (
 --
 
 INSERT INTO `companies` (`id`, `point_balance`, `point_profit`, `cash_balance`, `cash_profit`, `notes`, `created_at`, `updated_at`) VALUES
-(1, '1800.00', '0.00', '1270.00', '1270.00', '', NULL, '2024-02-29 12:51:46');
+(1, '2200.00', '0.00', '1430.00', '1430.00', '', NULL, '2024-03-04 12:33:07');
 
 -- --------------------------------------------------------
 
@@ -216,9 +223,9 @@ CREATE TABLE IF NOT EXISTS `experts` (
 --
 
 INSERT INTO `experts` (`id`, `user_name`, `mobile`, `email`, `nationality`, `birthdate`, `gender`, `marital_status`, `image`, `points_balance`, `cash_balance`, `cash_balance_todate`, `rates`, `desc`, `call_cost`, `token`, `password`, `created_at`, `updated_at`, `is_active`, `answer_speed`, `first_name`, `last_name`, `record`) VALUES
-(1, 'expert1', '0969459459', 'experwwt@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '352171.webp', 0, '330.00', '330.00', '4.00', 'انا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقة', 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-02-28 18:42:33', 1, '0.00', 'محمد', 'السعيد', '602631.mp3'),
+(1, 'expert1', '0969459459', 'experwwt@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '352171.webp', 0, '370.00', '370.00', '4.00', 'انا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقةانا دكتور في علم الطاقة', 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-03-02 11:23:13', 1, '0.00', 'محمد', 'السعيد', '602631.mp3'),
 (2, 'expert2', '0265498789', 'expert2012@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '331772.webp', 0, '0.00', '0.00', '0.00', NULL, 0, NULL, '$2y$12$A3aKZ9WoZKtDQvTDsxqxx.FucOJGrS0sqiFjtduiIrJuY6K.JTNuq', NULL, '2024-02-23 06:56:56', 1, '0.00', 'ahmad', 'ms', '15562135.mp3'),
-(3, 'expert3', '0969459441', 'expert2011@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '240733.webp', 0, '0.00', '0.00', '0.00', 'asc', 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-02-04 15:30:23', 1, '0.00', 'ahmad', 'ms', NULL),
+(3, 'expert3', '0969459441', 'expert2011@gmail.com', 'Syrian', '2000-01-01 00:00:00', 1, 'm', '240733.webp', 0, '0.00', '0.00', '0.00', 'asc', 0, NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', NULL, '2024-03-03 16:10:49', 0, '0.00', 'ahmad', 'ms', NULL),
 (6, 'sdvsdv', '8111123456', 'dssfvw@ononon.com', NULL, '2024-01-01 00:00:00', 2, NULL, '984116.webp', 0, '0.00', '0.00', '0.00', 'gregregfv', 0, NULL, '$2y$12$z6uPd0zfxseoukPrIAUXXub2mVSI2/8IuGcnvnXGx7GYoWXJElw3.', '2024-01-28 11:55:25', '2024-01-28 12:22:53', 1, '0.00', '1ahmad', '1ms', NULL),
 (7, 'expert-4', '0956464987', 'dsssw@ononon.com', NULL, '2000-02-05 00:00:00', 1, NULL, NULL, 0, '0.00', '0.00', '0.00', NULL, 0, NULL, '$2y$12$AY0yFfKsCh1o0q/ucYa1b.Z8OsmWLWHg50H7CDTeJ6HrMUT3CRtJS', '2024-02-09 20:04:35', '2024-02-10 15:13:08', 1, '0.00', 'احمد', 'السالم', NULL),
 (13, 'expert10', '213265489758', 'abc@ononon.com', NULL, '1990-10-20 00:00:00', 1, NULL, '5988313.webp', 0, '0.00', '0.00', '0.00', 'xyz abc xyz abc', 0, NULL, '$2y$12$06BJ6yVqan1kfa.ByoHxdeZb0nQ1eWeMZCcc111qez0QKWT1A8uc.', '2024-02-24 12:34:30', '2024-02-24 13:33:11', 1, '0.00', 'احمد', 'نجار', NULL);
@@ -267,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `experts_services` (
   `cost_type` int DEFAULT '0',
   `expert_cost_value` decimal(8,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `experts_services`
@@ -281,7 +288,8 @@ INSERT INTO `experts_services` (`id`, `expert_id`, `service_id`, `created_at`, `
 (6, 3, 1, NULL, NULL, 200, '0.00', 0, '0.00'),
 (49, 1, 2, '2024-02-12 20:17:29', '2024-02-28 13:05:33', 200, '0.00', 0, '0.00'),
 (50, 7, 2, '2024-02-12 20:22:32', '2024-02-12 20:22:32', 100, '0.00', 0, '0.00'),
-(52, 1, 23, '2024-02-22 13:41:02', '2024-02-22 13:41:02', 200, '0.00', 0, '0.00');
+(52, 1, 23, '2024-02-22 13:41:02', '2024-02-22 13:41:02', 200, '0.00', 0, '0.00'),
+(53, 7, 20, '2024-03-02 13:08:05', '2024-03-02 13:08:05', 200, '0.00', 0, '0.00');
 
 -- --------------------------------------------------------
 
@@ -437,7 +445,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -522,7 +530,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (76, '2024_02_20_165438_create_notifications_users_table', 45),
 (77, '2024_02_21_152603_add_source_id_to_pointstransfers_table', 46),
 (78, '2024_02_22_131501_add_selectedservice_id_to_cashtransfers_table', 47),
-(79, '2024_02_22_133725_add_source_id_to_cashtransfers_table', 48);
+(79, '2024_02_22_133725_add_source_id_to_cashtransfers_table', 48),
+(80, '2024_03_01_212640_add_order_num_to_selectedservices_table', 49),
+(81, '2024_03_02_103549_add_rate_date_to_selectedservices_table', 50);
 
 -- --------------------------------------------------------
 
@@ -693,33 +703,43 @@ CREATE TABLE IF NOT EXISTS `pointstransfers` (
   `state` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `type` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `source_id` bigint UNSIGNED DEFAULT NULL,
+  `num` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `pointstransfers`
 --
 
-INSERT INTO `pointstransfers` (`id`, `point_id`, `client_id`, `expert_id`, `service_id`, `count`, `status`, `selectedservice_id`, `created_at`, `updated_at`, `side`, `state`, `type`, `source_id`) VALUES
-(21, NULL, 10, 1, 1, 200, 1, 33, '2024-02-07 14:21:33', '2024-02-27 13:12:24', 'from-client', 'agree', NULL, NULL),
-(23, NULL, 10, 1, 23, 200, 1, 38, '2024-02-23 08:03:50', '2024-02-23 13:04:13', 'from-client', 'agree', 'd', NULL),
-(24, NULL, 10, 1, 1, 200, 1, 36, '2024-02-07 14:21:33', '2024-02-27 13:12:45', 'from-client', 'agree', NULL, NULL),
-(25, NULL, 10, 1, 23, 200, 1, 39, '2024-02-28 12:07:40', '2024-02-28 13:11:34', 'from-client', 'agree', 'd', NULL),
-(26, NULL, 12, 1, 23, 200, 1, 40, '2024-02-28 12:08:12', '2024-02-28 13:13:34', 'from-client', 'agree', 'd', NULL),
-(27, NULL, 10, 1, 23, 200, 1, 41, '2024-02-28 12:29:48', '2024-02-28 13:13:53', 'from-client', 'agree', 'd', NULL),
-(28, NULL, 10, 1, 23, 200, 1, 42, '2024-02-28 12:29:55', '2024-02-28 13:14:15', 'from-client', 'agree', 'd', NULL),
-(29, NULL, 10, 1, 23, 200, 1, 43, '2024-02-28 12:30:10', '2024-02-28 18:41:53', 'from-client', 'agree', 'd', NULL),
-(30, NULL, 10, 1, 23, 200, 1, 44, '2024-02-28 12:30:58', '2024-02-29 12:08:09', 'from-client', 'reject', 'd', NULL),
-(31, NULL, 10, 1, 23, 200, 1, 45, '2024-02-28 12:37:45', '2024-02-28 12:37:45', 'from-client', 'wait', 'd', NULL),
-(32, NULL, 12, 1, 23, 200, 1, 46, '2024-02-28 12:37:54', '2024-02-28 12:37:54', 'from-client', 'wait', 'd', NULL),
-(33, NULL, 17, 1, 23, 200, 1, 47, '2024-02-28 12:41:32', '2024-02-29 12:51:46', 'from-client', 'agree', 'd', NULL),
-(34, NULL, 16, 1, 23, 200, 1, 48, '2024-02-28 12:41:40', '2024-02-28 12:41:40', 'from-client', 'wait', 'd', NULL),
-(35, NULL, 15, 1, 23, 200, 1, 49, '2024-02-28 12:41:47', '2024-02-28 12:41:47', 'from-client', 'wait', 'd', NULL),
-(36, NULL, 10, 1, 2, 0, 1, 50, '2024-02-28 13:03:59', '2024-02-28 13:13:09', 'from-client', 'agree', 'd', NULL),
-(37, NULL, 10, 1, 2, 0, 1, 51, '2024-02-28 13:04:02', '2024-02-28 13:04:02', 'from-client', 'wait', 'd', NULL),
-(38, 2, 10, NULL, NULL, 100, 1, NULL, '2024-02-29 12:04:13', '2024-02-29 12:04:13', 'to-client', 'agree', 'p', NULL),
-(39, NULL, 10, NULL, NULL, 100, 1, NULL, '2024-02-29 12:06:26', '2024-02-29 12:06:26', 'to-client', 'agree', 'p', NULL),
-(40, NULL, 10, 1, 23, 200, 1, 44, '2024-02-29 12:08:09', '2024-02-29 12:08:09', 'to-client', 'reject-return', 'p', 30);
+INSERT INTO `pointstransfers` (`id`, `point_id`, `client_id`, `expert_id`, `service_id`, `count`, `status`, `selectedservice_id`, `created_at`, `updated_at`, `side`, `state`, `type`, `source_id`, `num`) VALUES
+(21, NULL, 10, 1, 1, 200, 1, 33, '2024-02-07 14:21:33', '2024-02-27 13:12:24', 'from-client', 'agree', NULL, NULL, NULL),
+(23, NULL, 10, 1, 23, 200, 1, 38, '2024-02-23 08:03:50', '2024-02-23 13:04:13', 'from-client', 'agree', 'd', NULL, NULL),
+(24, NULL, 10, 1, 1, 200, 1, 36, '2024-02-07 14:21:33', '2024-02-27 13:12:45', 'from-client', 'agree', NULL, NULL, NULL),
+(25, NULL, 10, 1, 23, 200, 1, 39, '2024-02-28 12:07:40', '2024-02-28 13:11:34', 'from-client', 'agree', 'd', NULL, NULL),
+(26, NULL, 12, 1, 23, 200, 1, 40, '2024-02-28 12:08:12', '2024-02-28 13:13:34', 'from-client', 'agree', 'd', NULL, NULL),
+(27, NULL, 10, 1, 23, 200, 1, 41, '2024-02-28 12:29:48', '2024-02-28 13:13:53', 'from-client', 'agree', 'd', NULL, NULL),
+(28, NULL, 10, 1, 23, 200, 1, 42, '2024-02-28 12:29:55', '2024-02-28 13:14:15', 'from-client', 'agree', 'd', NULL, NULL),
+(29, NULL, 10, 1, 23, 200, 1, 43, '2024-02-28 12:30:10', '2024-02-28 18:41:53', 'from-client', 'agree', 'd', NULL, NULL),
+(30, NULL, 10, 1, 23, 200, 1, 44, '2024-02-28 12:30:58', '2024-02-29 12:08:09', 'from-client', 'reject', 'd', NULL, NULL),
+(31, NULL, 10, 1, 23, 200, 1, 45, '2024-02-28 12:37:45', '2024-03-02 11:24:25', 'from-client', 'agree', 'd', NULL, NULL),
+(32, NULL, 12, 1, 23, 200, 1, 46, '2024-02-28 12:37:54', '2024-03-04 12:33:07', 'from-client', 'agree', 'd', NULL, NULL),
+(33, NULL, 17, 1, 23, 200, 1, 47, '2024-02-28 12:41:32', '2024-02-29 12:51:46', 'from-client', 'agree', 'd', NULL, NULL),
+(34, NULL, 16, 1, 23, 200, 1, 48, '2024-02-28 12:41:40', '2024-03-03 13:19:19', 'from-client', 'reject', 'd', NULL, NULL),
+(35, NULL, 15, 1, 23, 200, 1, 49, '2024-02-28 12:41:47', '2024-03-03 13:15:38', 'from-client', 'reject', 'd', NULL, NULL),
+(36, NULL, 10, 1, 2, 0, 1, 50, '2024-02-28 13:03:59', '2024-02-28 13:13:09', 'from-client', 'agree', 'd', NULL, NULL),
+(37, NULL, 10, 1, 2, 0, 1, 51, '2024-02-28 13:04:02', '2024-02-28 13:04:02', 'from-client', 'wait', 'd', NULL, NULL),
+(38, 2, 10, NULL, NULL, 100, 1, NULL, '2024-02-29 12:04:13', '2024-02-29 12:04:13', 'to-client', 'agree', 'p', NULL, NULL),
+(39, NULL, 10, NULL, NULL, 100, 1, NULL, '2024-02-29 12:06:26', '2024-02-29 12:06:26', 'to-client', 'agree', 'p', NULL, NULL),
+(40, NULL, 10, 1, 23, 200, 1, 44, '2024-02-29 12:08:09', '2024-02-29 12:08:09', 'to-client', 'reject-return', 'p', 30, NULL),
+(41, NULL, 10, 1, 23, 200, 1, 52, '2024-03-01 14:32:13', '2024-03-01 14:32:13', 'from-client', 'wait', 'd', NULL, NULL),
+(42, NULL, 10, 1, 23, 200, 1, 53, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'from-client', 'wait', 'd', NULL, NULL),
+(102, NULL, 10, 1, 23, 200, 1, 56, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'from-client', 'wait', 'd', NULL, NULL),
+(103, NULL, 10, 1, 23, 200, 1, 57, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'from-client', 'wait', 'd', NULL, NULL),
+(104, NULL, 10, 1, 23, 200, 1, 58, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'from-client', 'wait', 'd', NULL, 'DCL-000001'),
+(105, NULL, 10, 1, 23, 200, 1, 59, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'from-client', 'wait', 'd', NULL, 'DCL-000002'),
+(106, NULL, 15, 1, 23, 200, 1, 49, '2024-03-03 13:15:38', '2024-03-03 13:15:38', 'to-client', 'reject-return', 'p', 35, 'PCL-000001'),
+(107, NULL, 16, 1, 23, 200, 1, 48, '2024-03-03 13:19:19', '2024-03-03 13:19:19', 'to-client', 'reject-return', 'p', 34, 'PCL-000002'),
+(108, NULL, 10, 1, 23, 200, 1, 60, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'from-client', 'wait', 'd', NULL, 'DCL-000003');
 
 -- --------------------------------------------------------
 
@@ -766,48 +786,63 @@ CREATE TABLE IF NOT EXISTS `selectedservices` (
   `service_id` bigint UNSIGNED DEFAULT NULL,
   `points` int DEFAULT '0',
   `rate` decimal(8,2) DEFAULT '0.00',
-  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `order_num` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `form_state` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `form_reject_reason` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_date` datetime DEFAULT NULL,
+  `order_admin_date` datetime DEFAULT NULL,
+  `order_admin_id` bigint UNSIGNED DEFAULT NULL,
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `comment_date` datetime DEFAULT NULL,
+  `comment_state` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comment_reject_reason` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `comment_rate` int NOT NULL DEFAULT '0',
   `status` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expert_cost` decimal(8,2) DEFAULT '0.00',
   `cost_type` decimal(8,2) DEFAULT '0.00',
   `expert_cost_value` decimal(8,2) DEFAULT '0.00',
-  `comment_date` datetime DEFAULT NULL,
-  `comment_state` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `comment_reject_reason` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_state` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `comment_user_id` bigint UNSIGNED DEFAULT NULL,
   `company_profit` decimal(8,2) DEFAULT '0.00',
   `company_profit_percent` decimal(8,2) DEFAULT '0.00',
-  `form_reject_reason` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comment_user_id` bigint UNSIGNED DEFAULT NULL,
+  `comment_admin_date` datetime DEFAULT NULL,
+  `rate_date` datetime DEFAULT NULL,
+  `comment_rate_date` datetime DEFAULT NULL,
+  `comment_rate_admin_id` bigint UNSIGNED DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `selectedservices`
 --
 
-INSERT INTO `selectedservices` (`id`, `client_id`, `expert_id`, `service_id`, `points`, `rate`, `comment`, `created_at`, `updated_at`, `comment_rate`, `status`, `expert_cost`, `cost_type`, `expert_cost_value`, `comment_date`, `comment_state`, `comment_reject_reason`, `form_state`, `comment_user_id`, `company_profit`, `company_profit_percent`, `form_reject_reason`) VALUES
-(33, 10, 1, 1, 200, '0.00', 'الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير', '2024-02-07 14:21:33', '2024-02-27 13:15:20', 0, 'agree', '50.00', '1.00', '50.00', '2024-02-14 14:21:33', 'agree', NULL, 'agree', NULL, '150.00', '50.00', NULL),
-(34, 10, 1, 1, 200, '0.00', 'الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد ', '2024-02-07 14:21:33', '2024-02-28 18:46:31', 0, 'agree', '50.00', '1.00', '50.00', '2024-02-14 18:21:33', 'agree', NULL, 'agree', 1, '150.00', '50.00', NULL),
-(35, 13, 1, 1, 200, '0.00', 'الخبير جيد الخبير الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتازبير جيد الخبير', '2024-02-07 14:21:33', '2024-02-07 14:21:33', 0, 'created', '50.00', '1.00', '50.00', '2024-02-14 14:21:33', 'agree', NULL, 'reject', NULL, '0.00', '0.00', 'غير مطابق للشروط والاحكام'),
-(36, 10, 1, 1, 200, '0.00', 'الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد ', '2024-02-07 14:21:33', '2024-02-28 17:26:04', 0, 'agree', '50.00', '1.00', '50.00', '2024-02-14 18:21:33', 'agree', 'غير مطابق للشروط والاحكام', 'agree', 1, '150.00', '50.00', NULL),
-(38, 10, 1, 23, 200, '0.00', '', '2024-02-23 08:03:50', '2024-02-27 13:14:56', 0, 'agree', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'agree', NULL, '160.00', '80.00', NULL),
-(39, 10, 1, 23, 200, '0.00', 'هذه الخدمة ممتازة والخبير جيد', '2024-02-28 12:07:40', '2024-02-28 17:27:39', 0, 'agree', '20.00', '0.00', '40.00', '2024-02-28 17:01:23', 'agree', NULL, 'agree', 1, '160.00', '80.00', NULL),
-(40, 12, 1, 23, 200, '0.00', '', '2024-02-28 12:08:12', '2024-02-28 13:13:34', 0, 'created', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'agree', NULL, '0.00', '0.00', NULL),
-(41, 10, 1, 23, 200, '0.00', 'hi hellow comment', '2024-02-28 12:29:48', '2024-02-28 18:40:44', 0, 'agree', '20.00', '0.00', '40.00', '2024-02-28 20:30:45', 'agree', 'غير مطابق للشروط والاحكام', 'agree', 1, '160.00', '80.00', NULL),
-(42, 10, 1, 23, 200, '0.00', 'ليس جيد', '2024-02-28 12:29:54', '2024-02-28 18:32:19', 0, 'agree', '20.00', '0.00', '40.00', '2024-02-28 20:32:19', 'wait', NULL, 'agree', NULL, '160.00', '80.00', NULL),
-(43, 10, 1, 23, 200, '0.00', '', '2024-02-28 12:30:10', '2024-02-28 18:41:53', 0, 'created', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'agree', NULL, '0.00', '0.00', NULL),
-(44, 10, 1, 23, 200, '0.00', '', '2024-02-28 12:30:58', '2024-02-29 12:08:09', 0, 'created', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'reject', NULL, '0.00', '0.00', 'غير مطابق للشروط والاحكام'),
-(45, 10, 1, 23, 200, '0.00', '', '2024-02-28 12:37:45', '2024-02-28 12:37:45', 0, 'created', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'wait', NULL, '0.00', '0.00', NULL),
-(46, 12, 1, 23, 200, '0.00', '', '2024-02-28 12:37:54', '2024-02-28 12:37:54', 0, 'created', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'wait', NULL, '0.00', '0.00', NULL),
-(47, 17, 1, 23, 200, '0.00', '', '2024-02-28 12:41:32', '2024-02-29 12:51:46', 0, 'created', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'agree', NULL, '0.00', '0.00', NULL),
-(48, 16, 1, 23, 200, '0.00', '', '2024-02-28 12:41:40', '2024-02-28 12:41:40', 0, 'created', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'wait', NULL, '0.00', '0.00', NULL),
-(49, 15, 1, 23, 200, '0.00', '', '2024-02-28 12:41:47', '2024-02-28 12:41:47', 0, 'created', '20.00', '0.00', '40.00', NULL, NULL, NULL, 'wait', NULL, '0.00', '0.00', NULL),
-(50, 10, 1, 2, 200, '0.00', '', '2024-02-28 13:03:59', '2024-02-28 14:46:35', 0, 'agree', '10.00', '0.00', '20.00', NULL, 'no-comment', NULL, 'agree', NULL, '180.00', '90.00', NULL),
-(51, 10, 1, 2, 200, '0.00', '', '2024-02-28 13:04:02', '2024-02-28 13:04:02', 0, 'created', '10.00', '0.00', '20.00', NULL, NULL, NULL, 'wait', NULL, '0.00', '0.00', NULL);
+INSERT INTO `selectedservices` (`id`, `client_id`, `expert_id`, `service_id`, `points`, `rate`, `created_at`, `updated_at`, `order_num`, `form_state`, `form_reject_reason`, `order_date`, `order_admin_date`, `order_admin_id`, `comment`, `comment_date`, `comment_state`, `comment_reject_reason`, `comment_rate`, `status`, `expert_cost`, `cost_type`, `expert_cost_value`, `company_profit`, `company_profit_percent`, `comment_user_id`, `comment_admin_date`, `rate_date`, `comment_rate_date`, `comment_rate_admin_id`) VALUES
+(33, 10, 1, 1, 200, '3.00', '2024-02-07 14:21:33', '2024-03-02 12:41:14', 'ORDER-000001', 'agree', NULL, NULL, NULL, NULL, 'الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبيرالخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير', '2024-02-14 14:21:33', 'agree', NULL, 0, 'agree', '50.00', '1.00', '50.00', '150.00', '50.00', NULL, NULL, '2024-03-02 14:41:14', NULL, NULL),
+(34, 10, 1, 1, 200, '0.00', '2024-02-07 14:21:33', '2024-02-28 18:46:31', 'ORDER-000002', 'agree', NULL, NULL, NULL, NULL, 'الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد ', '2024-02-14 18:21:33', 'agree', NULL, 0, 'agree', '50.00', '1.00', '50.00', '150.00', '50.00', 1, NULL, NULL, NULL, NULL),
+(35, 13, 1, 1, 200, '0.00', '2024-02-07 14:21:33', '2024-02-07 14:21:33', 'ORDER-000003', 'reject', 'غير مطابق للشروط والاحكام', NULL, NULL, NULL, 'الخبير جيد الخبير الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتاز الخبير ممتازبير جيد الخبير', '2024-02-14 14:21:33', 'agree', NULL, 0, 'created', '50.00', '1.00', '50.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(36, 10, 1, 1, 200, '0.00', '2024-02-07 14:21:33', '2024-02-28 17:26:04', 'ORDER-000004', 'agree', NULL, NULL, NULL, NULL, 'الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد الخبير جيد ', '2024-02-14 18:21:33', 'agree', 'غير مطابق للشروط والاحكام', 0, 'agree', '50.00', '1.00', '50.00', '150.00', '50.00', 1, NULL, NULL, NULL, NULL),
+(38, 10, 1, 23, 200, '0.00', '2024-02-23 08:03:50', '2024-02-27 13:14:56', 'ORDER-000005', 'agree', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, 0, 'agree', '20.00', '0.00', '40.00', '160.00', '80.00', NULL, NULL, NULL, NULL, NULL),
+(39, 10, 1, 23, 200, '0.00', '2024-02-28 12:07:40', '2024-02-28 17:27:39', 'ORDER-000006', 'agree', NULL, NULL, NULL, NULL, 'هذه الخدمة ممتازة والخبير جيد', '2024-02-28 17:01:23', 'agree', NULL, 0, 'agree', '20.00', '0.00', '40.00', '160.00', '80.00', 1, NULL, NULL, NULL, NULL),
+(40, 12, 1, 23, 200, '0.00', '2024-02-28 12:08:12', '2024-02-28 13:13:34', 'ORDER-000007', 'agree', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(41, 10, 1, 23, 200, '0.00', '2024-02-28 12:29:48', '2024-02-28 18:40:44', 'ORDER-000008', 'agree', NULL, NULL, NULL, NULL, 'hi hellow comment', '2024-02-28 20:30:45', 'agree', 'غير مطابق للشروط والاحكام', 0, 'agree', '20.00', '0.00', '40.00', '160.00', '80.00', 1, NULL, NULL, NULL, NULL),
+(42, 10, 1, 23, 200, '0.00', '2024-02-28 12:29:54', '2024-03-02 11:21:18', 'ORDER-000009', 'agree', NULL, NULL, NULL, NULL, 'ليس جيد', '2024-02-28 20:32:19', 'agree', NULL, 1, 'agree', '20.00', '0.00', '40.00', '160.00', '80.00', 1, '2024-03-02 12:36:37', NULL, '2024-03-02 13:21:18', 1),
+(43, 10, 1, 23, 200, '0.00', '2024-02-28 12:30:10', '2024-03-02 11:23:13', 'ORDER-000010', 'agree', NULL, NULL, NULL, NULL, '', NULL, 'no-comment', NULL, 0, 'agree', '20.00', '0.00', '40.00', '160.00', '80.00', NULL, NULL, NULL, NULL, NULL),
+(44, 10, 1, 23, 200, '0.00', '2024-02-28 12:30:58', '2024-02-29 12:08:09', 'ORDER-000011', 'reject', 'غير مطابق للشروط والاحكام', NULL, NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(45, 10, 1, 23, 200, '0.00', '2024-02-28 12:37:45', '2024-03-02 11:24:25', 'ORDER-000012', 'agree', NULL, NULL, '2024-03-02 13:24:25', 1, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(46, 12, 1, 23, 200, '0.00', '2024-02-28 12:37:54', '2024-03-04 12:33:07', 'ORDER-000013', 'agree', NULL, NULL, '2024-03-04 14:33:07', 1, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(47, 17, 1, 23, 200, '0.00', '2024-02-28 12:41:32', '2024-02-29 12:51:46', 'ORDER-000014', 'agree', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(48, 16, 1, 23, 200, '0.00', '2024-02-28 12:41:40', '2024-03-03 13:19:19', 'ORDER-000015', 'reject', 'غير مطابق للشروط والاحكام', NULL, '2024-03-03 15:19:19', 1, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(49, 15, 1, 23, 200, '0.00', '2024-02-28 12:41:47', '2024-03-03 13:15:38', 'ORDER-000016', 'reject', 'غير مطابق للشروط والاحكام', NULL, '2024-03-03 15:15:38', 1, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(50, 10, 1, 2, 200, '0.00', '2024-02-28 13:03:59', '2024-02-28 14:46:35', 'ORDER-000017', 'agree', NULL, NULL, NULL, NULL, '', NULL, 'no-comment', NULL, 0, 'agree', '10.00', '0.00', '20.00', '180.00', '90.00', NULL, NULL, NULL, NULL, NULL),
+(51, 10, 1, 2, 200, '0.00', '2024-02-28 13:04:02', '2024-02-28 13:04:02', 'ORDER-000018', 'wait', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '10.00', '0.00', '20.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(52, 10, 1, 23, 200, '0.00', '2024-03-01 14:32:12', '2024-03-01 14:32:12', 'ORDER-000019', 'wait', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(53, 10, 1, 23, 200, '0.00', '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'ORDER-000020', 'wait', NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(56, 10, 1, 23, 200, '0.00', '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'ORDER-000021', 'wait', NULL, '2024-03-02 21:02:47', NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(57, 10, 1, 23, 200, '0.00', '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'ORDER-000022', 'wait', NULL, '2024-03-02 21:07:59', NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(58, 10, 1, 23, 200, '0.00', '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'ORDER-000023', 'wait', NULL, '2024-03-02 21:25:55', NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(59, 10, 1, 23, 200, '0.00', '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'ORDER-000024', 'wait', NULL, '2024-03-02 21:26:26', NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL),
+(60, 10, 1, 23, 200, '0.00', '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'ORDER-000025', 'wait', NULL, '2024-03-03 15:32:37', NULL, NULL, '', NULL, NULL, NULL, 0, 'created', '20.00', '0.00', '40.00', '0.00', '0.00', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -924,7 +959,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `first_name`, `last_name`, `user_name`, `role`, `token`, `createuser_id`, `updateuser_id`, `mobile`, `remember_token`, `created_at`, `updated_at`, `image`, `is_active`) VALUES
-(1, 'ahmad', 'najyms@gmail.com', NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', 'ahmad', 'ms', NULL, 'admin', 'eZch7A-yY1DnCr9gB9cLDc:APA91bG_-cvRIB8u4agr87fXt6igOTADeBYpLP5tQisGktFat8rN4l3alTgWdUqfeShuHW5mp-R5MtBfM-1NYJrv7mRYgjGJBBubYlrzlg6sWmwEipJepOYPBdm8KoaMte1a6-DYuC_c', NULL, 1, NULL, NULL, '2024-01-11 12:47:38', '2024-02-19 10:17:19', '109301.webp', 1),
+(1, 'ahmad', 'najyms@gmail.com', NULL, '$2y$12$hmb198tlznpCuj4fUy3uW.9XBUdfNdbQe7JD52ok4VN3K8G.q3uJC', 'ahmad', 'ms', NULL, 'admin', 'ctA5zO2NWljRra1K6QFld0:APA91bFqJ2rveubmZd0Jy1GH91cs4x_Womm3qa56hbDRn_HsUDRP1iCzgh5iOzjsgAKduhUvNOO9boc3cPRHtaK1_Ls1wBWb7Juz4hIAFcIKRYC-8plstZWHP5P4k5Nxzdlhi2DN3_9S', NULL, 1, NULL, NULL, '2024-01-11 12:47:38', '2024-03-01 13:53:44', '109301.webp', 1),
 (2, 'super1', 'super@gmail.com', NULL, '$2y$12$Bhtt5mZSK0f6kkE3qc54m.C0p1YwjfNH/eBE93BV25mp1s0Om1SJG', 'super', 'super', NULL, 'super', NULL, NULL, 1, NULL, NULL, '2024-01-11 12:48:33', '2024-01-25 17:29:17', '274822.webp', 1),
 (3, 'admin@gmail.com', 'jjjjjj@gmail.com', NULL, '$2y$12$CkkT3KMcnk2qq1M9HIExPOmY7JO0yJThW.9Gv08V3uPxj.aI/pY.C', 'yumyu', 'ergerg', NULL, 'super', NULL, 1, 1, '0213456789', NULL, '2024-02-18 11:28:55', '2024-02-18 11:28:55', NULL, 1),
 (8, 'user', 'user@gmail.com', NULL, '$2y$12$54YLe6Epl6E0ruhQaNj6ruVe32Ll9mQsoe8evlwmf.zLXzRwPdDlG', 'casc', 'ascv', NULL, 'admin', 'cUqZTkolu1pz2-74npIClM:APA91bHIqKoY5CXg0lugNY_u7s82bRz-M8eakf_QcsNqjn7fpvMgQMVMukBIfnXF-AsyIN-F-yfL0vijm-WWD1EhMoT2OeoVSH9bi-xO8KSVQRFjZrLPXD7sBvtTK1AsVzaAbEk-tweN', 1, 1, '8111434342', NULL, '2024-01-22 13:51:09', '2024-02-19 10:34:02', NULL, 1),
@@ -954,7 +989,7 @@ CREATE TABLE IF NOT EXISTS `values_services` (
   `ispersonal` tinyint(1) DEFAULT NULL,
   `image_count` int DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=260 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `values_services`
@@ -1087,7 +1122,63 @@ INSERT INTO `values_services` (`id`, `value`, `selectedservice_id`, `inputservic
 (256, '11750256.webp', 50, 93, '2024-02-28 13:10:19', '2024-02-28 13:10:19', 'image', 'image', '', '', 0, 4),
 (257, '85034257.webp', 50, 93, '2024-02-28 13:10:19', '2024-02-28 13:10:19', 'image', 'image', '', '', 0, 4),
 (258, '24635258.webp', 50, 93, '2024-02-28 13:10:19', '2024-02-28 13:10:20', 'image', 'image', '', '', 0, 4),
-(259, '14268259.mp3', 50, 92, '2024-02-28 13:10:20', '2024-02-28 13:10:20', 'record', 'record', '', '', 0, 0);
+(259, '14268259.mp3', 50, 92, '2024-02-28 13:10:20', '2024-02-28 13:10:20', 'record', 'record', '', '', 0, 0),
+(260, 'احمد', 52, 80, '2024-03-01 14:32:12', '2024-03-01 14:32:12', 'user_name', 'text', 'الاسم', 'username.svg', 1, 0),
+(261, 'سوريا', 52, 81, '2024-03-01 14:32:12', '2024-03-01 14:32:12', 'nationality', 'text', 'الجنسية', NULL, 1, 0),
+(262, '1', 52, 82, '2024-03-01 14:32:12', '2024-03-01 14:32:12', 'gender', 'text', 'الجنس', 'gender.svg', 1, 0),
+(263, '2000-01-20', 52, 83, '2024-03-01 14:32:12', '2024-03-01 14:32:12', 'birthdate', 'date', 'تاريخ الميلاد', 'birthdate.svg', 1, 0),
+(264, 'single', 52, 84, '2024-03-01 14:32:12', '2024-03-01 14:32:12', 'marital_status', 'text', 'الحالة الاجتماعية', 'martial.svg', 1, 0),
+(265, '1', 52, 87, '2024-03-01 14:32:13', '2024-03-01 14:32:13', 'هل لديك مرض مزمن', 'bool', 'هل لديك مرض مزمن', '5094870.svg', 0, 0),
+(266, 'ascasc', 52, 88, '2024-03-01 14:32:13', '2024-03-01 14:32:13', 'تحدث عن مشكلتك الصحية', 'longtext', 'تحدث عن مشكلتك الصحية', '9303871.svg', 0, 0),
+(267, '2024-02-22', 52, 89, '2024-03-01 14:32:13', '2024-03-01 14:32:13', 'متى بدأت المشكلة', 'date', 'متى بدأت المشكلة', '4558772.svg', 0, 0),
+(268, 'احمد', 53, 80, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'user_name', 'text', 'الاسم', 'username.svg', 1, 0),
+(269, 'سوريا', 53, 81, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'nationality', 'text', 'الجنسية', NULL, 1, 0),
+(270, '1', 53, 82, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'gender', 'text', 'الجنس', 'gender.svg', 1, 0),
+(271, '2000-01-20', 53, 83, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'birthdate', 'date', 'تاريخ الميلاد', 'birthdate.svg', 1, 0),
+(272, 'single', 53, 84, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'marital_status', 'text', 'الحالة الاجتماعية', 'martial.svg', 1, 0),
+(273, '1', 53, 87, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'هل لديك مرض مزمن', 'bool', 'هل لديك مرض مزمن', '5094870.svg', 0, 0),
+(274, 'ascasc', 53, 88, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'تحدث عن مشكلتك الصحية', 'longtext', 'تحدث عن مشكلتك الصحية', '9303871.svg', 0, 0),
+(275, '2024-02-22', 53, 89, '2024-03-01 14:32:53', '2024-03-01 14:32:53', 'متى بدأت المشكلة', 'date', 'متى بدأت المشكلة', '4558772.svg', 0, 0),
+(287, 'احمد', 56, 80, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'user_name', 'text', 'الاسم', 'username.svg', 1, 0),
+(288, 'سوريا', 56, 81, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'nationality', 'text', 'الجنسية', NULL, 1, 0),
+(289, '1', 56, 82, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'gender', 'text', 'الجنس', 'gender.svg', 1, 0),
+(290, '2000-01-20', 56, 83, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'birthdate', 'date', 'تاريخ الميلاد', 'birthdate.svg', 1, 0),
+(291, 'single', 56, 84, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'marital_status', 'text', 'الحالة الاجتماعية', 'martial.svg', 1, 0),
+(292, '1', 56, 87, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'هل لديك مرض مزمن', 'bool', 'هل لديك مرض مزمن', '5094870.svg', 0, 0),
+(293, 'ascasc', 56, 88, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'تحدث عن مشكلتك الصحية', 'longtext', 'تحدث عن مشكلتك الصحية', '9303871.svg', 0, 0),
+(294, '2024-02-22', 56, 89, '2024-03-02 19:02:47', '2024-03-02 19:02:47', 'متى بدأت المشكلة', 'date', 'متى بدأت المشكلة', '4558772.svg', 0, 0),
+(295, 'احمد', 57, 80, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'user_name', 'text', 'الاسم', 'username.svg', 1, 0),
+(296, 'سوريا', 57, 81, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'nationality', 'text', 'الجنسية', NULL, 1, 0),
+(297, '1', 57, 82, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'gender', 'text', 'الجنس', 'gender.svg', 1, 0),
+(298, '2000-01-20', 57, 83, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'birthdate', 'date', 'تاريخ الميلاد', 'birthdate.svg', 1, 0),
+(299, 'single', 57, 84, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'marital_status', 'text', 'الحالة الاجتماعية', 'martial.svg', 1, 0),
+(300, '1', 57, 87, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'هل لديك مرض مزمن', 'bool', 'هل لديك مرض مزمن', '5094870.svg', 0, 0),
+(301, 'ascasc', 57, 88, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'تحدث عن مشكلتك الصحية', 'longtext', 'تحدث عن مشكلتك الصحية', '9303871.svg', 0, 0),
+(302, '2024-02-22', 57, 89, '2024-03-02 19:07:59', '2024-03-02 19:07:59', 'متى بدأت المشكلة', 'date', 'متى بدأت المشكلة', '4558772.svg', 0, 0),
+(303, 'احمد', 58, 80, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'user_name', 'text', 'الاسم', 'username.svg', 1, 0),
+(304, 'سوريا', 58, 81, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'nationality', 'text', 'الجنسية', NULL, 1, 0),
+(305, '1', 58, 82, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'gender', 'text', 'الجنس', 'gender.svg', 1, 0),
+(306, '2000-01-20', 58, 83, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'birthdate', 'date', 'تاريخ الميلاد', 'birthdate.svg', 1, 0),
+(307, 'single', 58, 84, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'marital_status', 'text', 'الحالة الاجتماعية', 'martial.svg', 1, 0),
+(308, '1', 58, 87, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'هل لديك مرض مزمن', 'bool', 'هل لديك مرض مزمن', '5094870.svg', 0, 0),
+(309, 'ascasc', 58, 88, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'تحدث عن مشكلتك الصحية', 'longtext', 'تحدث عن مشكلتك الصحية', '9303871.svg', 0, 0),
+(310, '2024-02-22', 58, 89, '2024-03-02 19:25:55', '2024-03-02 19:25:55', 'متى بدأت المشكلة', 'date', 'متى بدأت المشكلة', '4558772.svg', 0, 0),
+(311, 'احمد', 59, 80, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'user_name', 'text', 'الاسم', 'username.svg', 1, 0),
+(312, 'سوريا', 59, 81, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'nationality', 'text', 'الجنسية', NULL, 1, 0),
+(313, '1', 59, 82, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'gender', 'text', 'الجنس', 'gender.svg', 1, 0),
+(314, '2000-01-20', 59, 83, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'birthdate', 'date', 'تاريخ الميلاد', 'birthdate.svg', 1, 0),
+(315, 'single', 59, 84, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'marital_status', 'text', 'الحالة الاجتماعية', 'martial.svg', 1, 0),
+(316, '1', 59, 87, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'هل لديك مرض مزمن', 'bool', 'هل لديك مرض مزمن', '5094870.svg', 0, 0),
+(317, 'ascasc', 59, 88, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'تحدث عن مشكلتك الصحية', 'longtext', 'تحدث عن مشكلتك الصحية', '9303871.svg', 0, 0),
+(318, '2024-02-22', 59, 89, '2024-03-02 19:26:26', '2024-03-02 19:26:26', 'متى بدأت المشكلة', 'date', 'متى بدأت المشكلة', '4558772.svg', 0, 0),
+(319, 'حسن احمد', 60, 80, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'user_name', 'text', 'الاسم', 'username.svg', 1, 0),
+(320, 'سوريا', 60, 81, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'nationality', 'text', 'الجنسية', NULL, 1, 0),
+(321, '1', 60, 82, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'gender', 'text', 'الجنس', 'gender.svg', 1, 0),
+(322, '2000-01-20', 60, 83, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'birthdate', 'date', 'تاريخ الميلاد', 'birthdate.svg', 1, 0),
+(323, 'single', 60, 84, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'marital_status', 'text', 'الحالة الاجتماعية', 'martial.svg', 1, 0),
+(324, '1', 60, 87, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'هل لديك مرض مزمن', 'bool', 'هل لديك مرض مزمن', '5094870.svg', 0, 0),
+(325, 'ascasc', 60, 88, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'تحدث عن مشكلتك الصحية', 'longtext', 'تحدث عن مشكلتك الصحية', '9303871.svg', 0, 0),
+(326, '2024-02-22', 60, 89, '2024-03-03 13:32:37', '2024-03-03 13:32:37', 'متى بدأت المشكلة', 'date', 'متى بدأت المشكلة', '4558772.svg', 0, 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
