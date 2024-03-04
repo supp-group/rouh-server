@@ -245,7 +245,7 @@ $q->each(function(Selectedservice $item) {
                     }
                 ]
             )
-            ->find($id);
+            ->where('id',$id)->where('is_active',1)->first();//find($id);
         /// map 
       $expert = $this->experttoArr($expertDB);
 
@@ -555,6 +555,11 @@ $seletedserviceidlist[]=$id;
     }
     public function experttoArr($expert)
     {
+        if(is_null($expert)){
+return $expert;
+        }else{
+
+        
         //start services
         $ServicesMap = $expert->expertsServices
             ->map(function ($expertsServices) {
@@ -606,6 +611,7 @@ $seletedserviceidlist[]=$id;
          'selectedservices' => $expert->selectedservices ,
        // 'selectedservices' => $expert->selectedservices->makeHidden(['comment_state_conv'])  ,
         ];
+    }
     }
     public function getwithfavandExpServ()
     {
@@ -801,9 +807,11 @@ $seletedserviceidlist[]=$id;
         if (!($authuser->id == $id)) {
             return response()->json('notexist', 401);
         } else {
+            Expertfavorite::where('expert_id', $id )->delete();
             Expert::find($id)->update([
                 'is_active' => 0,
             ]);
+
             auth('api')->logout();
             return response()->json($id);
         }
