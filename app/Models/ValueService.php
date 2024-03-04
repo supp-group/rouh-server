@@ -24,7 +24,8 @@ class ValueService extends Model
         'image_count',
     ];
 
-    protected $appends = ['full_path_conv', 'value_conv', 'svg_path'];
+  //  protected $appends = [];
+    protected $hidden= ['full_path_conv', 'value_conv', 'svg_path'];
     public function getSvgPathAttribute()
     {
         $conv = "";

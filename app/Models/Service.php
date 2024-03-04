@@ -22,7 +22,8 @@ class Service extends Model
           'is_callservice',  
            'expert_percent'
     ];
-    protected $appends= ['image_path','svg_path'];
+    //protected $appends= ['image_path','svg_path'];
+    protected $hidden= ['image_path','svg_path'];
     public function getSvgPathAttribute(){
         $conv="";
         $strgCtrlr = new StorageController(); 

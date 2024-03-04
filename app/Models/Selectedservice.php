@@ -41,7 +41,9 @@ class Selectedservice extends Model
 'comment_rate_date',
 'comment_rate_admin_id',
     ];  
- protected $appends= ['form_state_conv','answer_state','answer_state_conv','comment_state_conv'];
+    //$appends
+ protected  $hidden= ['form_state_conv','answer_state','answer_state_conv' ,'comment_state_conv'];
+ //protected  $appends= ['comment_state_conv'];
  public function getFormStateConvAttribute(){
     $conv="";
     switch($this->form_state) {

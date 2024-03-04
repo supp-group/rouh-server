@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Answer;
+use App\Models\Selectedservice;
 use Illuminate\Http\Request;
 use App\Models\Expert;
 use App\Models\Expertfavorite;
@@ -120,6 +121,24 @@ class ExpertController extends Controller
         $defaultsvg = $strgCtrlr->DefaultPath('icon');
 
         $clientUrl = $strgCtrlr->ClientPath('image');
+        
+        $clienids=Selectedservice::where('expert_id',$id)->where('comment_state', 'agree')
+        ->wherehas('client', function ($query){
+           $query->where('is_active',1);
+       })->groupBy('client_id')->select('client_id')->get() 
+       ;
+
+
+       $selectList=Selectedservice::where('expert_id',$id)->where('comment_state', 'agree')
+->wherehas('client', function ($query){
+   $query->where('is_active',1);
+}) ->orderBy('client_id')->orderByDesc('comment_date')
+->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date') 
+ ->get() ;
+
+$seletedserviceidlist=[];
+$seletedserviceidlist=$this->idlist($clienids,$selectList);
+
         $expertDB = Expert::
             //where('password',  $passhash)->
             select(
@@ -171,9 +190,45 @@ class ExpertController extends Controller
                         );
                     }
                     ,
-                    'selectedservices' => function ($q) {
-                        $q->where('comment_state', 'agree')->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date');
-                    }
+                    'selectedservices' => function ($q)use($seletedserviceidlist) {
+                    
+$q
+->whereIn('id',$seletedserviceidlist)
+->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date')
+->orderByDesc('comment_date');
+/*
+$q->each(function(Selectedservice $item) {
+    $item->makeHidden(['comment_state_conv']);
+});
+*/
+                        /*
+                        $q->where('comment_state', 'agree')
+                         ->wherehas('client', function ($query){
+                            $query->where('is_active',1);
+                        })                 
+                   */
+          
+/*
+                  $q->where('comment_state', 'agree')
+                  ->wherehas('client', function ($query){
+                     $query->where('is_active',1);
+                 }) ->orderBy('client_id')->orderByDesc('comment_date')
+                 ->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date') 
+                 ->get() ;
+                 */
+                   //->get()
+                //  ->makeHidden(['form_state_conv','answer_state','answer_state_conv','comment_state_conv','answers'])
+            
+                  /*
+                  $Comment  = Selectedservice::whereIn(DB::raw('(comment_date, client_id)'), function ($query) use ($latestComments) {
+                    $query->selectRaw('MAX(comment_date) as latest_comment_date, client_id')
+                          ->fromSub($latestComments, 'latest_comments')
+                          ->groupBy('client_id');
+                })
+                ->get();
+                */
+        
+                }
                     ,
                     'selectedservices.client' => function ($q) use ($defaultimg, $clientUrl) {
                         $q->select(
@@ -192,11 +247,24 @@ class ExpertController extends Controller
             )
             ->find($id);
         /// map 
-        $expert = $this->experttoArr($expertDB);
+      $expert = $this->experttoArr($expertDB);
 
-        // return response()->json($expertDB);
         return response()->json($expert);
+    
     }
+    public function idlist($clienids,$selectList)
+    {
+    $seletedserviceidlist=[];
+  
+foreach( $clienids as $cid){
+ $id=$selectList->where('client_id',$cid['client_id'])->first()->id;
+$seletedserviceidlist[]=$id;
+}
+  return $seletedserviceidlist;
+    }
+
+
+
     public function getexpertsbyserviceid()
     {
         $data = request(['id']);
@@ -287,7 +355,7 @@ class ExpertController extends Controller
             END) AS image")
             )->wherehas('expertsServices', function ($query) use ($id) {
                 $query->where('service_id', $id);
-            })->get();
+            })->where('is_active',1)->get();
 
 
         //  return response()->json(['form' =>  $credentials]);
@@ -535,7 +603,8 @@ class ExpertController extends Controller
             'services' => $ServicesMap,
 
             //  'selectedservices' =>$selectedservicesMap,
-            'selectedservices' => $expert->selectedservices,
+         'selectedservices' => $expert->selectedservices ,
+       // 'selectedservices' => $expert->selectedservices->makeHidden(['comment_state_conv'])  ,
         ];
     }
     public function getwithfavandExpServ()

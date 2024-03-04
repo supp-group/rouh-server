@@ -15,7 +15,8 @@ class Reason extends Model
 'is_active',
              
     ];
-    protected $appends= ['dept_conv'];
+ //   protected $appends= ['dept_conv'];
+    protected  $hidden=['dept_conv'];
     public function getDeptConvAttribute()
     {
         $conv = "";
