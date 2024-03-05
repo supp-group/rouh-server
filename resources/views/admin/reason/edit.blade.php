@@ -48,7 +48,7 @@
                                             <option title=""   class="text-muted">اختر القسم</option>
                                             <option value="form"  @if ( $reason->type=='form')selected="selected" @endif >{{ __('general.orders') }}</option>
                                             <option value="answer"  @if ( $reason->type=='answer')selected="selected" @endif >{{ __('general.answers') }}</option>
-											<option value="comment"  @if ( $reason->type=='comment')selected="selected" @endif >{{ __('general.comments') }}</option>
+										
                                         </select>
 										<ul class="parsley-errors-list filled">
 											<li class="parsley-required"  id="type_error"></li>

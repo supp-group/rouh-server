@@ -47,7 +47,7 @@
                                             <option title=""   class="text-muted">اختر القسم</option>
                                             <option value="form">{{ __('general.orders') }}</option>
                                             <option value="answer">{{ __('general.answers') }}</option>
-											<option value="comment">{{ __('general.comments') }}</option>
+										
                                         </select>
 										<ul class="parsley-errors-list filled">
 											<li class="parsley-required"  id="type_error"></li>
