@@ -164,7 +164,7 @@ class ExpertController extends Controller
      $this->storeImage( $file,$id);
        }
       Expert::find($id)->update([
-        'first_name'=>  $formdata['first_name'],
+        'first_name'=>  strip_tags( $formdata['first_name']) ,
         'last_name'=>  $formdata['last_name'],
         'user_name' => $formdata['user_name'],
       //  'password' => $formdata['password'],

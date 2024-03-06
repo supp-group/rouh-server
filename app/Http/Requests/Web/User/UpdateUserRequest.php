@@ -24,10 +24,10 @@ class UpdateUserRequest extends FormRequest
        
       
        return[
-         'first_name'=>'required', 
-         'last_name'=>'required', 
+         'first_name'=>'required|regex:'.$this->alphaexpr, 
+         'last_name'=>'required|regex:'.$this->alphaexpr, 
         //   'name'=>'required|unique:users,name',  
-           'name'  =>  'required|string|unique:users,name,'.$this->id,  
+           'name'  =>  'required|string|unique:users,name,'.$this->id.'|regex:'.$this->alphaAtexpr,   
         // 'name'=>'required|alpha_num:ascii|unique:users,name',        
          'email'=>'required|email|unique:users,email,'.$this->id,      
          'password'=>'nullable|between:'. $this->minpass.','. $this->maxpass,
@@ -70,6 +70,9 @@ public function messages(): array
      'role.in'=>__('messages.this field is required') ,
      'role.required'=>__('messages.this field is required') ,
      'image'=>__('messages.file must be image') ,
+     'first_name.regex'=>__('messages.must be alpha') ,
+     'last_name.regex'=>__('messages.must be alpha') ,
+     'name.regex'=>__('messages.must be alpha') ,
     ];
     
 }

@@ -6,6 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 class StoreInputRequest extends FormRequest
 {
+   
+protected $alphaexpr='/^[\pL\s\_\-]+$/u';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,10 +28,10 @@ class StoreInputRequest extends FormRequest
         
        
         return[
-          'field_name'=>'required|string', 
+          'field_name'=>'required|string|regex:'.$this->alphaexpr,  
          'field_type'=>'required|in:text,bool,list,date,longtext', 
          
-         'field_tooltipe'=>'required|string', 
+         'field_tooltipe'=>'required|string|regex:'.$this->alphaexpr,  
            'field_icon' =>File::types(['svg']),   
            
         //   Rule::notIn(['sprinkles', 'cherries']),//not_in:shipsTo
@@ -55,7 +58,8 @@ class StoreInputRequest extends FormRequest
    
        
        'field_icon'=>__('messages.file must be svg') ,
-  
+       'field_name.regex'=>__('messages.must be alpha') ,
+       'field_tooltipe.regex'=>__('messages.must be alpha') ,
      ];
      
  }

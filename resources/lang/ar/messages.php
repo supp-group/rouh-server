@@ -31,5 +31,6 @@ return [
     'this field must be date'=>'هذا الحقل يجب ان يكون تاريخ',
     'must be integer' => 'هذا الحقل يجب ان يكون عدد',
     'file must be svg'=>'الملف يجب ان يكون من نوع SVG.',
+    'must be alpha' => 'هذا الحقل يجب ان لا يحوي رموز',
 ];
 //{{ __('general.welcome_name',['Name'=>'احمد']) }}

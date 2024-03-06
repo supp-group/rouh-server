@@ -12,6 +12,8 @@ protected   $maxpass=16;
 protected  $minMobileLength=10;
 protected $maxMobileLength=15;
 protected $maxlength=500;
+protected $alphaexpr='/^[\pL\s\_\-]+$/u';
+protected $alphaAtexpr='/^[\pL\s\_\-\@\.]+$/u';
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,9 +27,9 @@ protected $maxlength=500;
        
       
        return[
-         'first_name'=>'required|string', 
-         'last_name'=>'required|string', 
-           'user_name'=>['required','string',Rule::unique('experts','user_name')->where('is_active',1)],
+         'first_name'=>'required|string|regex:'.$this->alphaexpr,  
+         'last_name'=>'required|string|regex:'.$this->alphaexpr, 
+           'user_name'=>['required','string','regex:'.$this->alphaAtexpr,Rule::unique('experts','user_name')->where('is_active',1)],
          //  |unique:experts,user_name,    
         // 'name'=>'required|alpha_num:ascii|unique:users,name',        
          'email'=>['required','email',Rule::unique('experts','email')->where('is_active',1)],
@@ -39,6 +41,7 @@ protected $maxlength=500;
       //  'is_active'=>'required',  
         'image'=>'file|image',   
         'birthdate'=>'required|date',
+        
        ];   
     
     }
@@ -76,6 +79,9 @@ public function messages(): array
      'image'=>__('messages.file must be image') ,
      'birthdate.required'=>__('messages.this field is required') ,
      'birthdate.date'=>__('messages.this field must be date') ,
+     'last_name.regex'=>__('messages.must be alpha') ,
+     'first_name.regex'=>__('messages.must be alpha') ,
+     'user_name.regex'=>__('messages.must be alpha') ,
     ];
     
 }

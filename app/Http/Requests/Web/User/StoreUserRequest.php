@@ -18,14 +18,16 @@ protected   $maxpass=16;
 protected  $minMobileLength=10;
 protected $maxMobileLength=10;
 protected $maxlength=500;
+protected $alphaexpr='/^[\pL\s\_\-]+$/u';
+protected $alphaAtexpr='/^[\pL\s\_\-\@\.]+$/u';
     public function rules(): array
     {
        
       
        return[
-         'first_name'=>'required', 
-         'last_name'=>'required', 
-           'name'=>'required|string|unique:users,name',    
+         'first_name'=>'required|regex:'.$this->alphaexpr, 
+         'last_name'=>'required|regex:'.$this->alphaexpr,
+           'name'=>'required|string|unique:users,name|regex:'.$this->alphaAtexpr,   
         // 'name'=>'required|alpha_num:ascii|unique:users,name',        
          'email'=>'required|email|unique:users,email',      
          'password'=>'required|between:'. $this->minpass.','. $this->maxpass,
@@ -68,6 +70,9 @@ public function messages(): array
      'role.in'=>__('messages.this field is required') ,
      'role.required'=>__('messages.this field is required') ,
      'image'=>__('messages.file must be image') ,
+     'first_name.regex'=>__('messages.must be alpha') ,
+     'last_name.regex'=>__('messages.must be alpha') ,
+     'name.regex'=>__('messages.must be alpha') ,
     ];
     
 }
