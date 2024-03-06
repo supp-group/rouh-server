@@ -6,7 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 class UpdateInputRequest extends FormRequest
 {
-   protected $alphaexpr='/^[\pL\s\_\-]+$/u';
+   protected $alphaexpr='/^[\pL\s\_\-\0-9]+$/u';
+    
 
     /**
      * Determine if the user is authorized to make this request.

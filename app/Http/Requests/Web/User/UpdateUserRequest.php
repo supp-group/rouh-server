@@ -18,7 +18,8 @@ class UpdateUserRequest extends FormRequest
     protected  $minMobileLength=10;
     protected $maxMobileLength=10;
     protected $maxlength=500;
-   
+    protected $alphaexpr='/^[\pL\s\_\-\0-9]+$/u';
+    protected $alphaAtexpr='/^[\pL\s\_\-\@\.\0-9]+$/u';
     public function rules(): array
     {
        

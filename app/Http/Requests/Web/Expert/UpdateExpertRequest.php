@@ -14,8 +14,8 @@ protected   $maxpass=16;
 protected  $minMobileLength=10;
 protected $maxMobileLength=15;
 protected $maxlength=500;
-protected $alphaexpr='/^[\pL\s\_\-]+$/u';
-protected $alphaAtexpr='/^[\pL\s\_\-\@\.]+$/u';
+protected $alphaexpr='/^[\pL\s\_\-\0-9]+$/u';
+protected $alphaAtexpr='/^[\pL\s\_\-\@\.\0-9]+$/u';
     /**
     
      * Determine if the user is authorized to make this request.
@@ -32,7 +32,7 @@ protected $alphaAtexpr='/^[\pL\s\_\-\@\.]+$/u';
          'first_name'=>'required|string|regex:'.$this->alphaexpr, 
          'last_name'=>'required|string|regex:'.$this->alphaexpr, 
          'is_active'=>'nullable',
-           'user_name'=>['required','string','regex:'.$this->alphaAtexpr ,'exclude_unless:is_active,1',Rule::unique('experts','user_name')->where('is_active',1)->ignore($this->id)],
+           'user_name'=>['required','string','regex:'.$this->alphaAtexpr,'exclude_unless:is_active,1',Rule::unique('experts','user_name')->where('is_active',1)->ignore($this->id)],
         //'exclude_unless:is_active,1'
            //    unique:experts,user_name,'.$this->id,
         // 'name'=>'required|alpha_num:ascii|unique:users,name',        
