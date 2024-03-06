@@ -38,6 +38,9 @@ Route::middleware('authExpert:api')->group(function () {
     Route::post('/updateprofile', [ExpertController::class, 'updateprofile']);
     Route::post('/uploadrecord', [ExpertController::class, 'uploadrecord']);
     Route::post('/uploadanswer', [ExpertController::class, 'uploadanswer']);
+    Route::post('/getorders', [SelectedServiceController::class, 'getorders']);
+    Route::post('/getorderbyid', [SelectedServiceController::class, 'getorderbyid']);
+    Route::post('/getwaitanswer', [SelectedServiceController::class, 'getwaitanswer']);
  //   Route::post('/getloguser', [ClientController::class, 'getloguser']);uploadanswer
 });
 });

@@ -7,14 +7,13 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations. add_answer_speed_to_selectedservices_table
+     * Run the migrations.
      */
     public function up(): void
     {
         Schema::table('selectedservices', function (Blueprint $table) {
-            $table->dateTime('rate_date')->nullable(); 
-            $table->dateTime('comment_rate_date')->nullable();
-            $table->foreignId('comment_rate_admin_id')->nullable();
+            
+            $table->decimal('answer_speed')->nullable()->default(0);  
         });
     }
 
@@ -24,10 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('selectedservices', function (Blueprint $table) {
-            $table->dropColum('rate_date');
-            $table->dropColum('comment_rate_date');
-            $table->dropColum('comment_rate_admin_id');
-
+            $table->dropColum('answer_speed');
         });
     }
 };

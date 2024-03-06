@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Api\ValueService\StoreImageRequest;
 use App\Http\Requests\Api\Comment\AddCommentRequest;
 use App\Http\Requests\Api\Comment\AddRateRequest;
-
+use App\Http\Requests\Api\Order\OrdersRequest;
 use App\Http\Controllers\Api\StorageController;
 use Illuminate\Support\Str;
 
@@ -371,5 +371,90 @@ return response()->json([
         // 
         $finalcode = Str::upper($firstLetters) . $numzro;
         return $finalcode;
+    }
+
+    public function getorders()
+    {
+      // $list = User::latest()->first();
+      $request = request();
+
+      $formdata = $request->all();
+ 
+      $storrequest = new OrdersRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
+
+      $validator = Validator::make(
+          $formdata,
+          $storrequest->rules(),
+          $storrequest->messages()
+      );
+      if ($validator->fails()) {
+
+          return response()->json($validator->errors());
+          //   return redirect()->back()->withErrors($validator)->withInput();
+
+      } else {
+        $expert_id=$formdata['expert_id'];
+        $list = Selectedservice::where('expert_id',$expert_id)->where('form_state', 'agree')->
+        select('id','client_id',
+        'expert_id',
+        'service_id',
+       
+        'rate',
+        'order_num',
+        'form_state',
+         
+        'order_date',
+'order_admin_date',
+        'rate_date',
+        'answer_speed',
+ )->get()->makeHidden(['answers']); 
+    
+              return response()->json( $list);
+              
+       //   } else {
+         //     return response()->json(['error' => 'Unauthenticated'], 401);
+        //  }
+      }
+     
+      //   return  $list;
+     
+    }
+    public function getorderbyid()
+    {
+      // $list = User::latest()->first();
+  
+      $list = Selectedservice::with([
+        'expert',
+        'client',
+        'service',
+        'answers'
+        /*
+        'answers' => function ($q){
+            $q->latest()->first();
+        }
+        */
+      ])->where('form_state', 'agree')->get();
+  
+      //   return  $list;
+      return view('admin.answer.show', ['selectedservices' => $list]);
+    }
+    public function getwaitanswer()
+    {
+      // $list = User::latest()->first();
+  
+      $list = Selectedservice::with([
+        'expert',
+        'client',
+        'service',
+        'answers'
+        /*
+        'answers' => function ($q){
+            $q->latest()->first();
+        }
+        */
+      ])->where('form_state', 'agree')->get();
+  
+      //   return  $list;
+      return view('admin.answer.show', ['selectedservices' => $list]);
     }
 }

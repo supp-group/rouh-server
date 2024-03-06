@@ -118,6 +118,8 @@ return [
 'comment' => 'التعليق',
 'comment name' => 'اسم المعلق',
 'order num' => 'رقم الطلب',
+'answer_for_client' => 'رد على :Name',
+'order_for_client' => 'طلب :Name',
 ];
 /*
 

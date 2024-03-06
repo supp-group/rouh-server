@@ -40,10 +40,14 @@ class Selectedservice extends Model
         'rate_date',
 'comment_rate_date',
 'comment_rate_admin_id',
+'answer_speed',
     ];  
     //$appends
- protected  $hidden= ['form_state_conv','answer_state','answer_state_conv' ,'comment_state_conv'];
- //protected  $appends= ['comment_state_conv'];
+ protected  $hidden= ['form_state_conv' ,'answer_state_conv' ,'comment_state_conv'];
+ protected  $appends= ['title','answer_state'];
+ protected $casts = [
+    'rate' => 'integer',    
+];
  public function getFormStateConvAttribute(){
     $conv="";
     switch($this->form_state) {
@@ -80,6 +84,18 @@ class Selectedservice extends Model
         $conv='wait';
     }
 }
+     
+        return  $conv;
+ }
+ public function getTitleAttribute(){
+    $conv="";
+
+    if($this->answer_state=='no_answer' ){
+        $conv=__('general.order_for_client',['Name'=>$this->client()->first()->user_name]);
+    }       
+    else {
+        $conv=__('general.answer_for_client',['Name'=>$this->client()->first()->user_name]);
+    } 
      
         return  $conv;
  }
