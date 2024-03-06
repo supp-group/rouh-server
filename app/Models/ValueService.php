@@ -25,7 +25,9 @@ class ValueService extends Model
     ];
 
   //  protected $appends = [];
-    protected $hidden= ['full_path_conv', 'value_conv', 'svg_path'];
+
+    protected $hidden= ['full_path_conv', 'value_conv'];
+    protected $appends= [ 'svg_path','value_convert'];
     public function getSvgPathAttribute()
     {
         $conv = "";
@@ -87,6 +89,26 @@ class ValueService extends Model
 
         return $conv;
     }
+    public function getValueConvertAttribute()
+    {
+        $conv = "";
+        $strgCtrlr = new StorageController();
+
+        switch ($this->type) {
+            case('image'):
+                $url = $strgCtrlr->ValuePath('image');
+                $conv = $url . $this->value;
+                break;
+            case('record'):
+                $url = $strgCtrlr->ValuePath('record');
+                $conv = $url . $this->value;
+                break;
+            default:
+                $conv =$this->value;
+        }
+        return $conv;
+    }
+    //
     public function selectedservices(): BelongsTo
     {
         return $this->belongsTo(Selectedservice::class)->withDefault();

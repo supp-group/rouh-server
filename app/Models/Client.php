@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Http\Controllers\Api\StorageController;
 class Client extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -37,7 +38,7 @@ class Client extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-  
+     
     ];
 
     /**
@@ -49,7 +50,21 @@ class Client extends Authenticatable implements JWTSubject
       
         'password' => 'hashed',
     ];
-
+ protected $appends= ['image_path'];
+    public function getImagePathAttribute(){
+        $conv="";
+        $strgCtrlr = new StorageController(); 
+        if(is_null($this->image) ){
+            $conv =$strgCtrlr->DefaultPath('image'); 
+        }else if($this->image==''){
+            $conv =$strgCtrlr->DefaultPath('image'); 
+        } else {
+            $url = $strgCtrlr->ClientPath('image');
+            $conv =  $url.$this->image;
+        }     
+       
+            return  $conv;
+     }
     public function getJWTIdentifier()
     {
         return $this->getKey();

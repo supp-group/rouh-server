@@ -25,6 +25,7 @@ use App\Http\Requests\Api\ValueService\StoreImageRequest;
 use App\Http\Requests\Api\Comment\AddCommentRequest;
 use App\Http\Requests\Api\Comment\AddRateRequest;
 use App\Http\Requests\Api\Order\OrdersRequest;
+use App\Http\Requests\Api\Order\OrderByIdRequest;
 use App\Http\Controllers\Api\StorageController;
 use Illuminate\Support\Str;
 
@@ -75,7 +76,7 @@ return response()->json([
 ]);
 */
             } else {
-                $newNum=$this->GenerateCode("order-");
+                $newNum = $this->GenerateCode("order-");
                 $now = Carbon::now();
                 //save selected service
                 $newObj = new Selectedservice;
@@ -97,7 +98,7 @@ return response()->json([
                 $newObj->cost_type = $expertService->cost_type;
                 //   $newObj->expert_cost_value = $expertService->expert_cost_value;
                 $newObj->expert_cost_value = StorageController::CalcPercentVal($service->expert_percent, $expertService->points);
-                $newObj->order_num =   $newNum;
+                $newObj->order_num = $newNum;
                 $newObj->order_date = $now;
                 $newObj->save();
                 $this->id = $newObj->id;
@@ -124,10 +125,10 @@ return response()->json([
                 $client->save();
                 //create point transfer row
                 $pointtransfer = new Pointtransfer();
-                $pntctrlr=new PointTransferController();
-                $type='d';
-                $firstLetters=$type.'cl-';
-                $newpnum= $pntctrlr->GenerateCode($firstLetters);
+                $pntctrlr = new PointTransferController();
+                $type = 'd';
+                $firstLetters = $type . 'cl-';
+                $newpnum = $pntctrlr->GenerateCode($firstLetters);
                 //$pointtransfer->point_id = $formdata['point_id'];
                 $pointtransfer->client_id = $client->id;
                 $pointtransfer->expert_id = $expertService->expert_id;
@@ -138,7 +139,7 @@ return response()->json([
                 $pointtransfer->side = 'from-client';
                 $pointtransfer->state = 'wait';
                 $pointtransfer->type = 'd';
-                $pointtransfer->num=  $newpnum;
+                $pointtransfer->num = $newpnum;
                 $pointtransfer->save();
                 //  }
             }
@@ -351,7 +352,7 @@ return response()->json([
     }
 
     public function GenerateCode($firstLetters)
-    {     
+    {
         $firstsubLen = strlen($firstLetters) + 1;
         $numlist = Selectedservice::where('order_num', 'like', $firstLetters . '%')->select(DB::raw((string) 'SUBSTR(order_num,' . $firstsubLen . ') as order_num'))->get();
         $numzro = 0;
@@ -375,86 +376,141 @@ return response()->json([
 
     public function getorders()
     {
-      // $list = User::latest()->first();
-      $request = request();
 
-      $formdata = $request->all();
- 
-      $storrequest = new OrdersRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
+        $request = request();
 
-      $validator = Validator::make(
-          $formdata,
-          $storrequest->rules(),
-          $storrequest->messages()
-      );
-      if ($validator->fails()) {
+        $formdata = $request->all();
 
-          return response()->json($validator->errors());
-          //   return redirect()->back()->withErrors($validator)->withInput();
+        $storrequest = new OrdersRequest();
 
-      } else {
-        $expert_id=$formdata['expert_id'];
-        $list = Selectedservice::where('expert_id',$expert_id)->where('form_state', 'agree')->
-        select('id','client_id',
-        'expert_id',
-        'service_id',
-       
-        'rate',
-        'order_num',
-        'form_state',
-         
-        'order_date',
-'order_admin_date',
-        'rate_date',
-        'answer_speed',
- )->get()->makeHidden(['answers']); 
-    
-              return response()->json( $list);
-              
-       //   } else {
-         //     return response()->json(['error' => 'Unauthenticated'], 401);
-        //  }
-      }
-     
-      //   return  $list;
-     
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+
+            return response()->json($validator->errors());
+
+        } else {
+            $expert_id = $formdata['expert_id'];
+            $list = Selectedservice::where('expert_id', $expert_id)->where('form_state', 'agree')->
+                select(
+                    'id',
+                    'client_id',
+                    'expert_id',
+                    'service_id',
+
+                    'rate',
+                    'order_num',
+                    'form_state',
+
+                    'order_date',
+                    'order_admin_date',
+                    'rate_date',
+                    'answer_speed',
+                )->get()->makeHidden(['answers']);
+
+            return response()->json($list);
+
+
+        }
+
+
     }
     public function getorderbyid()
     {
-      // $list = User::latest()->first();
-  
-      $list = Selectedservice::with([
-        'expert',
-        'client',
-        'service',
-        'answers'
-        /*
-        'answers' => function ($q){
-            $q->latest()->first();
+
+        $request = request();
+
+        $formdata = $request->all();
+
+        $storrequest = new OrderByIdRequest();
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+
+            return response()->json($validator->errors());
+
+
+        } else {
+            $selectedservice_id = $formdata['selectedservice_id'];
+            $authuser = auth()->user();
+            $selser = Selectedservice::find($selectedservice_id);
+            if ($authuser->id == $selser->expert_id) {
+
+                $item = Selectedservice::with([
+
+                    'client' => function ($q) {
+                        $q->select(
+                            'id',
+                            'user_name',
+                            'image',
+                            'is_active',
+                        )->first();
+                    },
+                    'valueservices' => function ($q) {
+                        $q->select(
+                            'id',
+                            'value',
+                            'selectedservice_id',
+                            'inputservice_id',
+                            'name',
+                            'type',
+                            'tooltipe',
+                            'icon',
+                            'ispersonal',
+                            'image_count',
+                        )->orderByDesc('ispersonal');
+                    }
+                ])->where('form_state', 'agree')->
+                    select(
+                        'id',
+                        'client_id',
+                        'expert_id',
+                        'service_id',
+
+                        'rate',
+                        'order_num',
+                        'form_state',
+
+                        'order_date',
+                        'order_admin_date',
+                        'rate_date',
+                        'answer_speed',
+                    )->find($selectedservice_id)->makeHidden(['answers', 'title']);
+
+
+                return response()->json($item);
+            } else {
+                return response()->json(['error' => 'Unauthenticated'], 401);
+            }
         }
-        */
-      ])->where('form_state', 'agree')->get();
-  
-      //   return  $list;
-      return view('admin.answer.show', ['selectedservices' => $list]);
+
+
     }
     public function getwaitanswer()
     {
-      // $list = User::latest()->first();
-  
-      $list = Selectedservice::with([
-        'expert',
-        'client',
-        'service',
-        'answers'
-        /*
-        'answers' => function ($q){
-            $q->latest()->first();
-        }
-        */
-      ])->where('form_state', 'agree')->get();
-  
-      //   return  $list;
-      return view('admin.answer.show', ['selectedservices' => $list]);
+        // $list = User::latest()->first();
+
+        $list = Selectedservice::with([
+            'expert',
+            'client',
+            'service',
+            'answers'
+            /*
+            'answers' => function ($q){
+                $q->latest()->first();
+            }
+            */
+        ])->where('form_state', 'agree')->get();
+
+        //   return  $list;
+        return view('admin.answer.show', ['selectedservices' => $list]);
     }
+
 }
