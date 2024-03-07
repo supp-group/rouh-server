@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Expert;
+use App\Models\Selectedservice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use File;
@@ -153,4 +155,28 @@ class StorageController extends Controller
       return $paddedNumber;
   }
   //
+  public static function diffTimeinMinutes($start_date, $end_date)
+  {
+      $minutes = 0;
+      if ((!is_null($start_date)) && (!is_null($end_date))) {
+          $end = Carbon::parse($end_date);
+          $start = Carbon::parse($start_date);
+
+          $minutes = $end->diffInMinutes($start);
+      }
+      return $minutes;
+  }
+  
+  public static function calcAnswerspeedAvg($expert_id)
+  {
+    $avg= Selectedservice::where('expert_id',$expert_id)->where('answer_speed','<>',0)->whereNotNull('answer_speed')
+    ->select('answer_speed')->average('answer_speed');     
+      return $avg;
+  }
+  public static function calcRateAvg($expert_id)
+  {
+    $avg= Selectedservice::where('expert_id',$expert_id)->where('rate','<>',0)->whereNotNull('rate')
+    ->select('rate')->average('rate');     
+      return $avg;
+  }
 }

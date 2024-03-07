@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Api\StorageController;
 use App\Http\Controllers\Controller;
 use App\Models\Answer;
 use App\Models\Cashtransfer;
@@ -211,11 +212,19 @@ class AnswerController extends Controller
       );
       $comprofitperc = 100 - $selectedObj->expert_cost;
       $comprofitval = $selectedObj->points - $selectedObj->expert_cost_value;
+      // calc answer speed for this order
+      $startdate= $selectedObj->order_date;
+      $enddate= $now ;
+      $answespeed=StorageController::diffTimeinMinutes( $startdate,$enddate);
+
+
+// end
       Selectedservice::find($id)->update([
         'status' => 'agree',
         'company_profit_percent' => $comprofitperc,
         'company_profit' => $comprofitval,
         'comment_state' => 'no-comment',
+        'answer_speed'=>  $answespeed,
       ]);
       //add cach transfer to company
       $cashtype1 = 'd';
@@ -255,13 +264,16 @@ class AnswerController extends Controller
       $expertCach->selectedservice_id = $id;
       $expertCach->cash_num = $expCode;
       $expertCach->save();
-      ////add cost to expert balance
+      ////add cost to expert balance and update answer speed
+
       $expertObj = Expert::find($selectedObj->expert_id);
+     $answespeedavg=StorageController::calcAnswerspeedAvg( $selectedObj->expert_id);
       Expert::find($selectedObj->expert_id)->update(
         [
           'cash_balance' => $expertObj->cash_balance + $selectedObj->expert_cost_value,
-          'cash_balance_todate' => $expertObj->cash_balance_todate + $selectedObj->expert_cost_value
-        ]
+          'cash_balance_todate' => $expertObj->cash_balance_todate + $selectedObj->expert_cost_value,
+          'answer_speed'=>$answespeedavg ,
+          ]
       );
     });
 
