@@ -394,8 +394,11 @@ return response()->json([
 
         } else {
             $expert_id = $formdata['expert_id'];
-            $list = Selectedservice::where('expert_id', $expert_id)->where('form_state', 'agree')->
-                select(
+            $list = Selectedservice::where('expert_id', $expert_id)->where('form_state', 'agree')
+            ->wherehas('client', function ($query){
+                $query->where('is_active',1);
+            })
+            ->select(
                     'id',
                     'client_id',
                     'expert_id',
@@ -467,8 +470,11 @@ return response()->json([
                             'image_count',
                         )->orderByDesc('ispersonal');
                     }
-                ])->where('form_state', 'agree')->
-                    select(
+                ])->where('form_state', 'agree')
+                ->wherehas('client', function ($query){
+                    $query->where('is_active',1);
+                })
+                  ->  select(
                         'id',
                         'client_id',
                         'expert_id',
@@ -482,8 +488,12 @@ return response()->json([
                         'order_admin_date',
                         'rate_date',
                         'answer_speed',
-                    )->find($selectedservice_id)->makeHidden(['answers', 'title']);
-
+                    )->find($selectedservice_id)
+                  // ->makeHidden(['answers', 'title'])
+                    ;
+if( !is_null($item)){
+    $item->makeHidden(['answers', 'title']);
+}
 
                 return response()->json($item);
             } else {
