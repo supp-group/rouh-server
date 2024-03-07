@@ -23,7 +23,8 @@ class Answer extends Model
            
     ];
    // protected $appends= [];
-    protected  $hidden= ['record_path','answer_state_conv'];
+    protected  $hidden= ['answer_state_conv'];
+       protected $appends= ['record_path'];
     public function getRecordPathAttribute(){
         $conv="";
         $strgCtrlr = new StorageController();

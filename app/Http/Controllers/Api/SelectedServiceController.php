@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Answer;
 use App\Models\InputService;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,7 @@ use App\Models\Service;
 use App\Models\ExpertService;
 use App\Models\ValueService;
 use App\Models\Pointtransfer;
+ 
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Api\ValueService\StoreImageRequest;
 use App\Http\Requests\Api\Comment\AddCommentRequest;
@@ -505,22 +507,48 @@ if( !is_null($item)){
     }
     public function getwaitanswer()
     {
-        // $list = User::latest()->first();
+        $request = request();
 
-        $list = Selectedservice::with([
-            'expert',
-            'client',
-            'service',
-            'answers'
-            /*
-            'answers' => function ($q){
-                $q->latest()->first();
+        $formdata = $request->all();
+
+        $storrequest = new OrderByIdRequest();
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+
+            return response()->json($validator->errors());
+
+
+        } else {
+            $selectedservice_id = $formdata['selectedservice_id'];
+            $authuser = auth()->user();
+            $selser = Selectedservice::find($selectedservice_id);
+            if ($authuser->id == $selser->expert_id) {
+
+                $item = Answer::where('answer_state', 'wait')
+               ->where('selectedservice_id',$selectedservice_id)
+               
+                  ->  select(
+                        'id',
+                        'record',
+                        
+                       // 'answer_reject_reason',
+                        'answer_state',
+                        'selectedservice_id',
+                          )->get()->last();
+                  // ->makeHidden(['answers', 'title'])
+                    ;
+ 
+
+                return response()->json($item);
+            } else {
+                return response()->json(['error' => 'Unauthenticated'], 401);
             }
-            */
-        ])->where('form_state', 'agree')->get();
-
-        //   return  $list;
-        return view('admin.answer.show', ['selectedservices' => $list]);
-    }
+        }
+        }
 
 }
