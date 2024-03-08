@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Client;
+use App\Models\Point;
+use App\Models\Company;
 use App\Models\Pointtransfer;
+use App\Models\Cashtransfer;
 use File;
 
 use Illuminate\Support\Facades\Validator;
@@ -260,7 +263,7 @@ class ClientController extends Controller
          //   if ($authuser->id == $client->id ) {
  
     DB::transaction(function ()use( $client,$formdata)  {
- 
+ $point_id=$formdata["point_id"];
 //add points to client 
    $newblnce= $client->points_balance+$formdata['points'];
     Client::find($client->id)->update(
@@ -269,13 +272,15 @@ class ClientController extends Controller
         
         ]);
         //add point transfer for client
+        $pointrow=Point::find( $point_id);
         $pointtransfer = new Pointtransfer();
         $pntctrlr=new PointTransferController();
 $type='p';
 $firstLetters=$type.'cl-';
 $newpnum= $pntctrlr->GenerateCode($firstLetters);
       $pointtransfer->point_id = isset($formdata["point_id"]) ? $formdata['point_id'] : null;
-        $pointtransfer->client_id = $client->id;
+      
+      $pointtransfer->client_id = $client->id;
       //  $pointtransfer->expert_id = $expertService->expert_id;
        // $pointtransfer->service_id = $expertService->service_id;
         $pointtransfer->count =$formdata['points'];
@@ -285,6 +290,33 @@ $newpnum= $pntctrlr->GenerateCode($firstLetters);
         $pointtransfer->state = 'agree';
         $pointtransfer->type = $type;
         $pointtransfer->save();
+
+        ///////////////////////////
+             //add cach transfer to company
+      $cashtype1 = 'd';
+      $cashtrctrlr = new CashTransferController();
+      $firstLetters = $cashtype1 . 'com-';
+      $comCode = $cashtrctrlr->GenerateCode($firstLetters);
+      $companyCach = new Cashtransfer();
+
+      $companyCach->cash =  $pointrow->price;
+      $companyCach->cashtype = $cashtype1;
+      $companyCach->fromtype = 'client';
+      $companyCach->totype = 'company';
+      $companyCach->status = 'points';
+   //   $companyCach->selectedservice_id = $id;
+      $companyCach->cash_num = $comCode;
+      $companyCach->pointtransfer_id= $pointtransfer->id;
+      $companyCach->save();
+      //add cash to company balance
+      $comObj = Company::find(1);
+      Company::find(1)->update(
+        [
+          'cash_balance' => $comObj->cash_balance +$pointrow->price,
+         // 'cash_profit' => $comObj->cash_profit + $comprofitval,
+        ]
+      );
+
  } );
       
                 return response()->json("ok");

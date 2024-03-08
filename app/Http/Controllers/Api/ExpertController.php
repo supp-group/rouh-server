@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Answer;
+use App\Models\Pointtransfer;
+use App\Models\Cashtransfer;
 use App\Models\Selectedservice;
 use Illuminate\Http\Request;
 use App\Models\Expert;
@@ -26,6 +28,8 @@ use App\Http\Requests\Api\Expertfavorite\StoreRequest;
 use App\Http\Requests\Api\Expert\UpdateExpertRequest;
 use App\Http\Requests\Api\Expert\UploadAnswerRequest;
 use App\Http\Requests\Api\Expert\UploadRecordRequest;
+use App\Http\Requests\Api\Expert\PullBalanceRequest;
+
 class ExpertController extends Controller
 {
 
@@ -121,23 +125,23 @@ class ExpertController extends Controller
         $defaultsvg = $strgCtrlr->DefaultPath('icon');
 
         $clientUrl = $strgCtrlr->ClientPath('image');
-        
-        $clienids=Selectedservice::where('expert_id',$id)->where('comment_state', 'agree')
-        ->wherehas('client', function ($query){
-           $query->where('is_active',1);
-       })->groupBy('client_id')->select('client_id')->get() 
-       ;
+
+        $clienids = Selectedservice::where('expert_id', $id)->where('comment_state', 'agree')
+            ->wherehas('client', function ($query) {
+                $query->where('is_active', 1);
+            })->groupBy('client_id')->select('client_id')->get()
+        ;
 
 
-       $selectList=Selectedservice::where('expert_id',$id)->where('comment_state', 'agree')
-->wherehas('client', function ($query){
-   $query->where('is_active',1);
-}) ->orderBy('client_id')->orderByDesc('comment_date')
-->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date') 
- ->get() ;
+        $selectList = Selectedservice::where('expert_id', $id)->where('comment_state', 'agree')
+            ->wherehas('client', function ($query) {
+                $query->where('is_active', 1);
+            })->orderBy('client_id')->orderByDesc('comment_date')
+            ->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date')
+            ->get();
 
-$seletedserviceidlist=[];
-$seletedserviceidlist=$this->idlist($clienids,$selectList);
+        $seletedserviceidlist = [];
+        $seletedserviceidlist = $this->idlist($clienids, $selectList);
 
         $expertDB = Expert::
             //where('password',  $passhash)->
@@ -190,45 +194,45 @@ $seletedserviceidlist=$this->idlist($clienids,$selectList);
                         );
                     }
                     ,
-                    'selectedservices' => function ($q)use($seletedserviceidlist) {
-                    
-$q
-->whereIn('id',$seletedserviceidlist)
-->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date')
-->orderByDesc('comment_date');
-/*
-$q->each(function(Selectedservice $item) {
-    $item->makeHidden(['comment_state_conv']);
-});
-*/
+                    'selectedservices' => function ($q) use ($seletedserviceidlist) {
+
+                        $q
+                            ->whereIn('id', $seletedserviceidlist)
+                            ->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date')
+                            ->orderByDesc('comment_date');
+                        /*
+                        $q->each(function(Selectedservice $item) {
+                            $item->makeHidden(['comment_state_conv']);
+                        });
+                        */
                         /*
                         $q->where('comment_state', 'agree')
                          ->wherehas('client', function ($query){
                             $query->where('is_active',1);
                         })                 
                    */
-          
-/*
-                  $q->where('comment_state', 'agree')
-                  ->wherehas('client', function ($query){
-                     $query->where('is_active',1);
-                 }) ->orderBy('client_id')->orderByDesc('comment_date')
-                 ->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date') 
-                 ->get() ;
-                 */
-                   //->get()
-                //  ->makeHidden(['form_state_conv','answer_state','answer_state_conv','comment_state_conv','answers'])
+
+                        /*
+                                          $q->where('comment_state', 'agree')
+                                          ->wherehas('client', function ($query){
+                                             $query->where('is_active',1);
+                                         }) ->orderBy('client_id')->orderByDesc('comment_date')
+                                         ->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date') 
+                                         ->get() ;
+                                         */
+                        //->get()
+                        //  ->makeHidden(['form_state_conv','answer_state','answer_state_conv','comment_state_conv','answers'])
             
-                  /*
-                  $Comment  = Selectedservice::whereIn(DB::raw('(comment_date, client_id)'), function ($query) use ($latestComments) {
-                    $query->selectRaw('MAX(comment_date) as latest_comment_date, client_id')
-                          ->fromSub($latestComments, 'latest_comments')
-                          ->groupBy('client_id');
-                })
-                ->get();
-                */
-        
-                }
+                        /*
+                        $Comment  = Selectedservice::whereIn(DB::raw('(comment_date, client_id)'), function ($query) use ($latestComments) {
+                          $query->selectRaw('MAX(comment_date) as latest_comment_date, client_id')
+                                ->fromSub($latestComments, 'latest_comments')
+                                ->groupBy('client_id');
+                      })
+                      ->get();
+                      */
+
+                    }
                     ,
                     'selectedservices.client' => function ($q) use ($defaultimg, $clientUrl) {
                         $q->select(
@@ -245,19 +249,19 @@ $q->each(function(Selectedservice $item) {
                     }
                 ]
             )
-            ->where('id',$id)->where('is_active',1)->first();//find($id);
+            ->where('id', $id)->where('is_active', 1)->first();//find($id);
         /// map 
-      $expert = $this->experttoArr($expertDB);
+        $expert = $this->experttoArr($expertDB);
 
         return response()->json($expert);
-    
+
     }
     public function getexpertwithcomments()
     {
         $data = request(['expert_id']);
         $id = $data['expert_id'];
-     
-      
+
+
         $strgCtrlr = new StorageController();
         $url = $strgCtrlr->ExpertPath('image');
         $recurl = $strgCtrlr->ExpertPath('record');
@@ -268,26 +272,26 @@ $q->each(function(Selectedservice $item) {
         $defaultsvg = $strgCtrlr->DefaultPath('icon');
 
         $clientUrl = $strgCtrlr->ClientPath('image');
-        
-        $clienids=Selectedservice::where('expert_id',$id)->where('comment_state', 'agree')
-        ->wherehas('client', function ($query){
-           $query->where('is_active',1);
-       })->groupBy('client_id')->select('client_id')->get() 
-       ;
+
+        $clienids = Selectedservice::where('expert_id', $id)->where('comment_state', 'agree')
+            ->wherehas('client', function ($query) {
+                $query->where('is_active', 1);
+            })->groupBy('client_id')->select('client_id')->get()
+        ;
 
 
-       $selectList=Selectedservice::where('expert_id',$id)->where('comment_state', 'agree')
-->wherehas('client', function ($query){
-   $query->where('is_active',1);
-}) ->orderBy('client_id')->orderByDesc('comment_date')
-->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date') 
- ->get() ;
+        $selectList = Selectedservice::where('expert_id', $id)->where('comment_state', 'agree')
+            ->wherehas('client', function ($query) {
+                $query->where('is_active', 1);
+            })->orderBy('client_id')->orderByDesc('comment_date')
+            ->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date')
+            ->get();
 
-$seletedserviceidlist=[];
-$seletedserviceidlist=$this->idlist($clienids,$selectList);
+        $seletedserviceidlist = [];
+        $seletedserviceidlist = $this->idlist($clienids, $selectList);
 
         $expertDB = Expert::
-       
+
             select(
                 'id',
                 'user_name',
@@ -337,15 +341,15 @@ $seletedserviceidlist=$this->idlist($clienids,$selectList);
                         );
                     }
                     ,
-                    'selectedservices' => function ($q)use($seletedserviceidlist) {
-                    
-$q
-->whereIn('id',$seletedserviceidlist)
-->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date')
-->orderByDesc('comment_date');
- 
-        
-                }
+                    'selectedservices' => function ($q) use ($seletedserviceidlist) {
+
+                        $q
+                            ->whereIn('id', $seletedserviceidlist)
+                            ->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date')
+                            ->orderByDesc('comment_date');
+
+
+                    }
                     ,
                     'selectedservices.client' => function ($q) use ($defaultimg, $clientUrl) {
                         $q->select(
@@ -356,25 +360,25 @@ $q
                 ELSE CONCAT('$clientUrl',image)
                 END) AS image")
                         );
-                    } 
+                    }
                 ]
             )
-            ->where('id',$id)->where('is_active',1)->first();//find($id);
+            ->where('id', $id)->where('is_active', 1)->first();//find($id);
         /// map 
-      $expert = $this->convtoArrForExpertapp($expertDB);
+        $expert = $this->convtoArrForExpertapp($expertDB);
 
         return response()->json($expert);
-    
+
     }
-    public function idlist($clienids,$selectList)
+    public function idlist($clienids, $selectList)
     {
-    $seletedserviceidlist=[];
-  
-foreach( $clienids as $cid){
- $id=$selectList->where('client_id',$cid['client_id'])->first()->id;
-$seletedserviceidlist[]=$id;
-}
-  return $seletedserviceidlist;
+        $seletedserviceidlist = [];
+
+        foreach ($clienids as $cid) {
+            $id = $selectList->where('client_id', $cid['client_id'])->first()->id;
+            $seletedserviceidlist[] = $id;
+        }
+        return $seletedserviceidlist;
     }
 
 
@@ -469,7 +473,7 @@ $seletedserviceidlist[]=$id;
             END) AS image")
             )->wherehas('expertsServices', function ($query) use ($id) {
                 $query->where('service_id', $id);
-            })->where('is_active',1)->get();
+            })->where('is_active', 1)->get();
 
 
         //  return response()->json(['form' =>  $credentials]);
@@ -669,28 +673,28 @@ $seletedserviceidlist[]=$id;
     }
     public function experttoArr($expert)
     {
-        if(is_null($expert)){
-return $expert;
-        }else{
+        if (is_null($expert)) {
+            return $expert;
+        } else {
 
-        
-        //start services
-        $ServicesMap = $expert->expertsServices
-            ->map(function ($expertsServices) {
 
-                //ServiceMap 
-                // $ServiceMap1 = $expertsServices ->service->find($expertsServices->service_id)->first()->get();
+            //start services
+            $ServicesMap = $expert->expertsServices
+                ->map(function ($expertsServices) {
+
+                    //ServiceMap 
+                    // $ServiceMap1 = $expertsServices ->service->find($expertsServices->service_id)->first()->get();
     
-                //end   ServiceMap 
+                    //end   ServiceMap 
     
 
-                return $this->servicetoArr($expertsServices->service);
+                    return $this->servicetoArr($expertsServices->service);
 
-                // return $expertsServices->service;
-                // ];
+                    // return $expertsServices->service;
+                    // ];
     
-            });
-        //end services
+                });
+            //end services
 /* for edit columns
    //start selectedservices
    $selectedservicesMap = $expert->selectedservices
@@ -708,49 +712,49 @@ return $expert;
    });
    //end selectedservices
 */
-        return [
-            'id' => $expert->id,
-            'user_name' => $expert->user_name,
-            'first_name' => $expert->first_name,
-            'last_name' => $expert->last_name,
-            'is_active' => $expert->is_active,
-            'rates' => $expert->rates,
-            'record' => $expert->record,
-            'desc' => $expert->desc,
-            'image' => $expert->image,
-            'is_favorite' => $expert->expertsFavorites->isEmpty() ? 0 : 1,
-            'services' => $ServicesMap,
+            return [
+                'id' => $expert->id,
+                'user_name' => $expert->user_name,
+                'first_name' => $expert->first_name,
+                'last_name' => $expert->last_name,
+                'is_active' => $expert->is_active,
+                'rates' => $expert->rates,
+                'record' => $expert->record,
+                'desc' => $expert->desc,
+                'image' => $expert->image,
+                'is_favorite' => $expert->expertsFavorites->isEmpty() ? 0 : 1,
+                'services' => $ServicesMap,
 
-            //  'selectedservices' =>$selectedservicesMap,
-         'selectedservices' => $expert->selectedservices->makeHidden(['title','answer_state','answers']) ,
-       // 'selectedservices' => $expert->selectedservices->makeHidden(['comment_state_conv'])  ,
-        ];
-    }
+                //  'selectedservices' =>$selectedservicesMap,
+                'selectedservices' => $expert->selectedservices->makeHidden(['title', 'answer_state', 'answers']),
+                // 'selectedservices' => $expert->selectedservices->makeHidden(['comment_state_conv'])  ,
+            ];
+        }
     }
     public function convtoArrForExpertapp($expert)
     {
-        if(is_null($expert)){
-return $expert;
-        }else{
+        if (is_null($expert)) {
+            return $expert;
+        } else {
 
-        
-        //start services
-        $ServicesMap = $expert->expertsServices
-            ->map(function ($expertsServices) {
 
-                //ServiceMap 
-                // $ServiceMap1 = $expertsServices ->service->find($expertsServices->service_id)->first()->get();
+            //start services
+            $ServicesMap = $expert->expertsServices
+                ->map(function ($expertsServices) {
+
+                    //ServiceMap 
+                    // $ServiceMap1 = $expertsServices ->service->find($expertsServices->service_id)->first()->get();
     
-                //end   ServiceMap 
+                    //end   ServiceMap 
     
 
-                return $this->servicetoArr($expertsServices->service);
+                    return $this->servicetoArr($expertsServices->service);
 
-                // return $expertsServices->service;
-                // ];
+                    // return $expertsServices->service;
+                    // ];
     
-            });
-        //end services
+                });
+            //end services
 /* for edit columns
    //start selectedservices
    $selectedservicesMap = $expert->selectedservices
@@ -768,24 +772,24 @@ return $expert;
    });
    //end selectedservices
 */
-        return [
-            'id' => $expert->id,
-            'user_name' => $expert->user_name,
-            'first_name' => $expert->first_name,
-            'last_name' => $expert->last_name,
-            'is_active' => $expert->is_active,
-            'rates' => $expert->rates,
-            'record' => $expert->record,
-            'desc' => $expert->desc,
-            'image' => $expert->image,
-           // 'is_favorite' => $expert->expertsFavorites->isEmpty() ? 0 : 1,
-            'services' => $ServicesMap,
+            return [
+                'id' => $expert->id,
+                'user_name' => $expert->user_name,
+                'first_name' => $expert->first_name,
+                'last_name' => $expert->last_name,
+                'is_active' => $expert->is_active,
+                'rates' => $expert->rates,
+                'record' => $expert->record,
+                'desc' => $expert->desc,
+                'image' => $expert->image,
+                // 'is_favorite' => $expert->expertsFavorites->isEmpty() ? 0 : 1,
+                'services' => $ServicesMap,
 
-            //  'selectedservices' =>$selectedservicesMap,
-         'selectedservices' => $expert->selectedservices->makeHidden(['title','answer_state','answers']) ,
-       // 'selectedservices' => $expert->selectedservices->makeHidden(['comment_state_conv'])  ,
-        ];
-    }
+                //  'selectedservices' =>$selectedservicesMap,
+                'selectedservices' => $expert->selectedservices->makeHidden(['title', 'answer_state', 'answers']),
+                // 'selectedservices' => $expert->selectedservices->makeHidden(['comment_state_conv'])  ,
+            ];
+        }
     }
     public function getwithfavandExpServ()
     {
@@ -981,7 +985,7 @@ return $expert;
         if (!($authuser->id == $id)) {
             return response()->json('notexist', 401);
         } else {
-            Expertfavorite::where('expert_id', $id )->delete();
+            Expertfavorite::where('expert_id', $id)->delete();
             Expert::find($id)->update([
                 'is_active' => 0,
             ]);
@@ -1111,10 +1115,10 @@ return $expert;
                 $filename,
                 'public'
             );
-            $now= Carbon::now();
+            $now = Carbon::now();
             Answer::find($id)->update([
                 "record" => $filename,
-                "answer_date"=> $now,
+                "answer_date" => $now,
             ]);
             Storage::delete("public/" . $recpath . '/' . $oldfilename);
         }
@@ -1171,9 +1175,9 @@ return $expert;
         } else {
             DB::transaction(function () use ($request, $formdata) {
 
-                if ($request->hasFile('record')) {                     
+                if ($request->hasFile('record')) {
                     $file = $request->file('record');
-                    $this->storeExpertRecord($file,$formdata['id']);                   
+                    $this->storeExpertRecord($file, $formdata['id']);
                     $this->id = $formdata['id'];
                 }
             });
@@ -1181,5 +1185,91 @@ return $expert;
         return response()->json([
             "message" => $this->id
         ]);
+    }
+
+    public function pullbalance()
+    {
+        $authuser = auth()->user();
+        $request = request();
+
+        $formdata = $request->all();
+
+        $storrequest = new PullBalanceRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+
+            return response()->json($validator->errors());
+            //   return redirect()->back()->withErrors($validator)->withInput();
+
+        } else {
+            //   if ($authuser->id == $client->id ) {
+            $expert = Expert::find($formdata['expert_id']);
+            $amount = $formdata["amount"];
+            if ($expert->cash_balance < $amount) {
+                return response()->json([
+                   // "message" => 0,
+                   "message" =>0,
+                    "error" => "not_enough_balance",
+                ]);
+            } else {
+
+                DB::transaction(function () use ($expert,$amount) {
+                    //decrease cash from expert 
+                    $newblnce = $expert->cash_balance - $amount;
+                    $newblncetodate = $expert->cash_balance_todate - $amount;
+                    Expert::find($expert->id)->update(
+                        [
+                            'cash_balance' => $newblnce,
+                            'cash_balance_todate' => $newblncetodate,
+                        ]
+                    );
+                    //add point transfer for expert
+
+                    $pointtransfer = new Pointtransfer();
+                    $pntctrlr = new PointTransferController();
+                    $type = 'd';
+                    $firstLetters = $type . 'ex-';
+                    $newpnum = $pntctrlr->GenerateCode($firstLetters);
+
+                    $pointtransfer->expert_id = $expert->id;
+                    $pointtransfer->count = $amount;
+                    $pointtransfer->status = 1;
+                    $pointtransfer->side = 'to-expert';
+                    $pointtransfer->state = 'balance';
+                    $pointtransfer->type = $type;
+                    $pointtransfer->num = $newpnum;
+
+                    $pointtransfer->save();
+
+                    ///////////////////////////
+                    //add cach transfer for Expert
+                    $cashtype1 = 'd';
+                    $cashtrctrlr = new CashTransferController();
+                    $firstLetters = $cashtype1 . 'ex-';
+                    $expCode = $cashtrctrlr->GenerateCode($firstLetters);
+                    $expertCash = new Cashtransfer();
+                    $expertCash->cash = $amount;
+                    $expertCash->cashtype = $cashtype1;
+                    $expertCash->fromtype = 'expert';
+                    $expertCash->totype = 'expert';
+                    $expertCash->status = 'balance';
+                    $expertCash->expert_id = $expert->id;
+                  
+                    $expertCash->pointtransfer_id = $pointtransfer->id;
+                    $expertCash->cash_num = $expCode;
+                    $expertCash->pointtransfer_id = $pointtransfer->id;
+                    $expertCash->save();
+                });
+
+                return response()->json([
+                    "message" => $expert->id
+                ]);
+            }
+        }
     }
 }

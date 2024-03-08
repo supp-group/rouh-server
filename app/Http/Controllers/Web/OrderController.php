@@ -95,20 +95,21 @@ class OrderController extends Controller
     'order_admin_date'=> $now,
     'order_admin_id'=>auth()->user()->id,                  
   ]);
-  Pointtransfer::find( $pointobj->id)->update([
-    'state'=> 'agree',                
-  ]);
-
-  $count= $pointobj->count ;
-  // change state to agree
-  Pointtransfer::find($pointobj->id)->update([
+   // change state to agree
+   Pointtransfer::find($pointobj->id)->update([
     'state'=>  'agree']              
   );
-  //add points to company
-  $bobj=Company::find(1);
-  $newblnce=$bobj->point_balance+ $count;
+
+  $count= $pointobj->count ;
+
+  //add points to cash balance of company
+  $comobj=Company::find(1);
+  $newblnce= $comobj->point_balance+ $count;
+  $newcashblnce= $comobj->cash_balance+$count;
 Company::find(1)->update([
-  'point_balance'=> $newblnce]              
+  'point_balance'=> $newblnce,
+  'cash_balance'=>  $newcashblnce,//
+  ]              
 );
 }
         });     
@@ -150,7 +151,7 @@ Company::find(1)->update([
   Pointtransfer::find($pointobj->id)->update([
     'state'=>  'reject']              
   );
- 
+ //create return transfer
 $returnPoint = new Pointtransfer();
 $pntctrlr=new PointTransferController();
 $type='p';

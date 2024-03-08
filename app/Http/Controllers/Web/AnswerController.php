@@ -216,9 +216,7 @@ class AnswerController extends Controller
       $startdate= $selectedObj->order_date;
       $enddate= $now ;
       $answespeed=StorageController::diffTimeinMinutes( $startdate,$enddate);
-
-
-// end
+      // end
       Selectedservice::find($id)->update([
         'status' => 'agree',
         'company_profit_percent' => $comprofitperc,
@@ -226,6 +224,8 @@ class AnswerController extends Controller
         'comment_state' => 'no-comment',
         'answer_speed'=>  $answespeed,
       ]);
+      $cashtrctrlr = new CashTransferController();
+      /*
       //add cach transfer to company
       $cashtype1 = 'd';
       $cashtrctrlr = new CashTransferController();
@@ -241,6 +241,27 @@ class AnswerController extends Controller
       $companyCach->selectedservice_id = $id;
       $companyCach->cash_num = $comCode;
       $companyCach->save();
+*/
+      // add point transfer for expert percent
+      $pointtransfer = new Pointtransfer();
+      $pntctrlr = new PointTransferController();
+      $type = 'p';
+      $firstLetters = $type . 'ex-';
+      $newpnum = $pntctrlr->GenerateCode($firstLetters);
+      //$pointtransfer->point_id = $formdata['point_id'];
+       $pointtransfer->client_id =  $selectedObj->client_id;
+      $pointtransfer->expert_id = $selectedObj->expert_id;
+      $pointtransfer->service_id =$selectedObj->service_id;
+      $pointtransfer->count =$selectedObj->expert_cost_value;
+      $pointtransfer->status = 1;
+      $pointtransfer->selectedservice_id = $selectedObj->id;
+      $pointtransfer->side = 'to-expert';
+      $pointtransfer->state = 'agree';
+      $pointtransfer->type =  $type;
+      $pointtransfer->num = $newpnum;
+      $pointtransfer->save();
+      //
+      /*
       //add cash to company balance
       $comObj = Company::find(1);
       Company::find(1)->update(
@@ -249,6 +270,7 @@ class AnswerController extends Controller
           'cash_profit' => $comObj->cash_profit + $comprofitval,
         ]
       );
+      */
       // add expert cash 
       $expertCach = new Cashtransfer();
       $cashtype2 = 'p';

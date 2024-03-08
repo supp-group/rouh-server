@@ -42,6 +42,7 @@ Route::middleware('authExpert:api')->group(function () {
     Route::post('/getorderbyid', [SelectedServiceController::class, 'getorderbyid']);
     Route::post('/getwaitanswer', [SelectedServiceController::class, 'getwaitanswer']);
     Route::post('/getwithcomments', [ExpertController::class, 'getexpertwithcomments']); 
+    Route::post('/pullbalance', [ExpertController::class, 'pullbalance']);
  //   Route::post('/getloguser', [ClientController::class, 'getloguser']);uploadanswer
 });
 });

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Api\Client;
+namespace App\Http\Requests\Api\Expert;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChangeBalanceRequest extends FormRequest
+class PullBalanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class ChangeBalanceRequest extends FormRequest
        
       
        return[      
-         'client_id'=>'required|integer|not_in:0|in:'.auth()->user()->id,        
-        'points'=>'required|integer',  
-        'point_id'=>'required|integer',  
+         'expert_id'=>'required|integer|not_in:0|in:'.auth()->user()->id,        
+        'amount'=>'required|decimal:0,2',          
        ];   
     
     }
