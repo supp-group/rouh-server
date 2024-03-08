@@ -252,6 +252,120 @@ $q->each(function(Selectedservice $item) {
         return response()->json($expert);
     
     }
+    public function getexpertwithcomments()
+    {
+        $data = request(['expert_id']);
+        $id = $data['expert_id'];
+     
+      
+        $strgCtrlr = new StorageController();
+        $url = $strgCtrlr->ExpertPath('image');
+        $recurl = $strgCtrlr->ExpertPath('record');
+        $defaultimg = $strgCtrlr->DefaultPath('image');
+
+        $serviceUrl = $strgCtrlr->ServicePath('image');
+        $iconurl = $strgCtrlr->ServicePath('icon');
+        $defaultsvg = $strgCtrlr->DefaultPath('icon');
+
+        $clientUrl = $strgCtrlr->ClientPath('image');
+        
+        $clienids=Selectedservice::where('expert_id',$id)->where('comment_state', 'agree')
+        ->wherehas('client', function ($query){
+           $query->where('is_active',1);
+       })->groupBy('client_id')->select('client_id')->get() 
+       ;
+
+
+       $selectList=Selectedservice::where('expert_id',$id)->where('comment_state', 'agree')
+->wherehas('client', function ($query){
+   $query->where('is_active',1);
+}) ->orderBy('client_id')->orderByDesc('comment_date')
+->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date') 
+ ->get() ;
+
+$seletedserviceidlist=[];
+$seletedserviceidlist=$this->idlist($clienids,$selectList);
+
+        $expertDB = Expert::
+       
+            select(
+                'id',
+                'user_name',
+                'first_name',
+                'last_name',
+                //   'password',
+                // 'mobile',
+                // 'email',
+                //  'nationality',
+                // 'birthdate',
+                //   'gender',
+                //  'marital_status',
+                'is_active',
+                //  'points_balance',
+                // 'cash_balance',
+                //   'cash_balance_todate',
+                'rates',
+                DB::raw("(CASE 
+            WHEN record is NULL THEN ''                  
+            ELSE CONCAT('$recurl',record)
+            END) AS record"),
+                //  'desc',                   
+                DB::raw("(CASE 
+          WHEN  experts.desc is NULL THEN ''                  
+         ELSE experts.desc END) AS 'desc'"),
+                // 'call_cost',
+                //  'answer_speed',
+                DB::raw("(CASE 
+            WHEN image is NULL THEN '$defaultimg'                    
+            ELSE CONCAT('$url',image)
+            END) AS image")
+            )->with(
+                [
+                    'expertsServices:id,expert_id,service_id',
+                    'expertsServices.service' => function ($q) use ($defaultimg, $serviceUrl, $defaultsvg, $iconurl) {
+                        $q->select(
+                            'id',
+                            'name',
+                            DB::raw("(CASE 
+                WHEN services.image is NULL THEN '$defaultimg'                  
+                ELSE CONCAT('$serviceUrl',image)
+                END) AS image"),
+                            DB::raw("(CASE 
+                WHEN services.icon is NULL THEN '$defaultsvg'                    
+                ELSE CONCAT('$iconurl',icon)
+                END) AS icon")
+                        );
+                    }
+                    ,
+                    'selectedservices' => function ($q)use($seletedserviceidlist) {
+                    
+$q
+->whereIn('id',$seletedserviceidlist)
+->select('id', 'expert_id', 'service_id', 'client_id', 'comment', 'comment_state', 'comment_date')
+->orderByDesc('comment_date');
+ 
+        
+                }
+                    ,
+                    'selectedservices.client' => function ($q) use ($defaultimg, $clientUrl) {
+                        $q->select(
+                            'id',
+                            'user_name',
+                            DB::raw("(CASE 
+                WHEN clients.image is NULL THEN '$defaultimg'                  
+                ELSE CONCAT('$clientUrl',image)
+                END) AS image")
+                        );
+                    } 
+                ]
+            )
+            ->where('id',$id)->where('is_active',1)->first();//find($id);
+        /// map 
+      $expert = $this->convtoArrForExpertapp($expertDB);
+
+        return response()->json($expert);
+    
+    }
     public function idlist($clienids,$selectList)
     {
     $seletedserviceidlist=[];
@@ -608,7 +722,67 @@ return $expert;
             'services' => $ServicesMap,
 
             //  'selectedservices' =>$selectedservicesMap,
-         'selectedservices' => $expert->selectedservices ,
+         'selectedservices' => $expert->selectedservices->makeHidden(['title','answer_state','answers']) ,
+       // 'selectedservices' => $expert->selectedservices->makeHidden(['comment_state_conv'])  ,
+        ];
+    }
+    }
+    public function convtoArrForExpertapp($expert)
+    {
+        if(is_null($expert)){
+return $expert;
+        }else{
+
+        
+        //start services
+        $ServicesMap = $expert->expertsServices
+            ->map(function ($expertsServices) {
+
+                //ServiceMap 
+                // $ServiceMap1 = $expertsServices ->service->find($expertsServices->service_id)->first()->get();
+    
+                //end   ServiceMap 
+    
+
+                return $this->servicetoArr($expertsServices->service);
+
+                // return $expertsServices->service;
+                // ];
+    
+            });
+        //end services
+/* for edit columns
+   //start selectedservices
+   $selectedservicesMap = $expert->selectedservices
+   ->map(function ($selectedservices)   {       
+   return [
+    'id'=>$selectedservices->id,
+    'expert_id'=>$selectedservices->expert_id,
+    'service_id'=>$selectedservices->service_id,
+    'client_id'=>$selectedservices->client_id,
+    'comment'=>$selectedservices->comment,
+    'comment_state'=>$selectedservices->comment_state,
+    'comment_date'=>$selectedservices->comment_date,
+    'client'=>$selectedservices->client,
+   ];  
+   });
+   //end selectedservices
+*/
+        return [
+            'id' => $expert->id,
+            'user_name' => $expert->user_name,
+            'first_name' => $expert->first_name,
+            'last_name' => $expert->last_name,
+            'is_active' => $expert->is_active,
+            'rates' => $expert->rates,
+            'record' => $expert->record,
+            'desc' => $expert->desc,
+            'image' => $expert->image,
+           // 'is_favorite' => $expert->expertsFavorites->isEmpty() ? 0 : 1,
+            'services' => $ServicesMap,
+
+            //  'selectedservices' =>$selectedservicesMap,
+         'selectedservices' => $expert->selectedservices->makeHidden(['title','answer_state','answers']) ,
        // 'selectedservices' => $expert->selectedservices->makeHidden(['comment_state_conv'])  ,
         ];
     }
