@@ -10,6 +10,7 @@ use App\Models\Selectedservice;
 use Illuminate\Http\Request;
 use App\Models\Expert;
 use App\Models\Expertfavorite;
+use App\Models\Company;
 use Illuminate\Support\Facades\DB;
 
 use File;
@@ -1221,7 +1222,7 @@ class ExpertController extends Controller
                 DB::transaction(function () use ($expert,$amount) {
                     //decrease cash from expert 
                     $newblnce = $expert->cash_balance - $amount;
-                    $newblncetodate = $expert->cash_balance_todate - $amount;
+                    $newblncetodate = $expert->cash_balance_todate + $amount;
                     Expert::find($expert->id)->update(
                         [
                             'cash_balance' => $newblnce,
@@ -1232,7 +1233,7 @@ class ExpertController extends Controller
 
                     $pointtransfer = new Pointtransfer();
                     $pntctrlr = new PointTransferController();
-                    $type = 'd';
+                    $type = 'p';
                     $firstLetters = $type . 'ex-';
                     $newpnum = $pntctrlr->GenerateCode($firstLetters);
 
@@ -1248,7 +1249,7 @@ class ExpertController extends Controller
 
                     ///////////////////////////
                     //add cach transfer for Expert
-                    $cashtype1 = 'd';
+                    $cashtype1 = 'p';
                     $cashtrctrlr = new CashTransferController();
                     $firstLetters = $cashtype1 . 'ex-';
                     $expCode = $cashtrctrlr->GenerateCode($firstLetters);
@@ -1264,6 +1265,17 @@ class ExpertController extends Controller
                     $expertCash->cash_num = $expCode;
                     $expertCash->pointtransfer_id = $pointtransfer->id;
                     $expertCash->save();
+
+                   
+      //add cash to company balance
+      $comObj = Company::find(1);
+      Company::find(1)->update(
+        [
+          'cash_balance' => $comObj->cash_balance -  $amount,
+          
+        ]
+      );
+       
                 });
 
                 return response()->json([

@@ -272,6 +272,7 @@ class AnswerController extends Controller
       );
       */
       // add expert cash 
+/*
       $expertCach = new Cashtransfer();
       $cashtype2 = 'p';
 
@@ -286,6 +287,7 @@ class AnswerController extends Controller
       $expertCach->selectedservice_id = $id;
       $expertCach->cash_num = $expCode;
       $expertCach->save();
+      */
       ////add cost to expert balance and update answer speed
 
       $expertObj = Expert::find($selectedObj->expert_id);
@@ -293,7 +295,7 @@ class AnswerController extends Controller
       Expert::find($selectedObj->expert_id)->update(
         [
           'cash_balance' => $expertObj->cash_balance + $selectedObj->expert_cost_value,
-          'cash_balance_todate' => $expertObj->cash_balance_todate + $selectedObj->expert_cost_value,
+       //   'cash_balance_todate' => $expertObj->cash_balance_todate + $selectedObj->expert_cost_value,
           'answer_speed'=>$answespeedavg ,
           ]
       );
