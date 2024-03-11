@@ -7,24 +7,23 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations. change_state_to_pointstransfers_table
+     * Run the migrations.
      */
     public function up(): void
     {
         Schema::table('pointstransfers', function (Blueprint $table) {
-            $table->string('state')->nullable();
-            $table->string('type')->nullable();
+         
+            $table->decimal('count')->nullable()->default(0)->change();
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations. add_country_code_to_experts_table
      */
     public function down(): void
     {
         Schema::table('pointstransfers', function (Blueprint $table) {
-            $table->dropColum('state');
-            $table->dropColum('type');
+            //
         });
     }
 };

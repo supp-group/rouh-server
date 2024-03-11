@@ -29,6 +29,11 @@ class Client extends Authenticatable implements JWTSubject
        'token',
        'points_balance',
        'is_active',
+       'country_code',
+'country_num',
+'mobile_num',
+ 
+
     ];
 
     /**

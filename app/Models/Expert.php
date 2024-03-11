@@ -36,6 +36,11 @@ class Expert extends Authenticatable implements JWTSubject
         'token',
         'answer_speed',
         'is_active',
+        'country_code',
+'country_num',
+'mobile_num',
+'is_available',
+
     ];
     public $fullpathimg = "";
     public $birthdateStr = "";

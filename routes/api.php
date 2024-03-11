@@ -74,6 +74,7 @@ Route::middleware('authClient:api_clients')->group(function () {
             Route::post('/getwithfav', [ExpertController::class, 'getwithfav']); 
             Route::post('/savefav', [ExpertController::class, 'savefav']); 
             Route::post('/getwithcomments', [ExpertController::class, 'getwithcomments']); 
+            Route::post('/getavailable', [ExpertController::class, 'getavailable']); 
         });
         Route::prefix('/point')->group(function () {
             Route::post('/getall', [PointController::class, 'index']); 

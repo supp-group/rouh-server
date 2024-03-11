@@ -1284,4 +1284,34 @@ class ExpertController extends Controller
             }
         }
     }
+
+    public function getavailable()
+    {
+       
+        $strgCtrlr = new StorageController();
+        $url = $strgCtrlr->ExpertPath('image');
+        $recurl = $strgCtrlr->ExpertPath('record');
+        $defaultimg = $strgCtrlr->DefaultPath('image');
+        $user = Expert::where('is_available',1)->
+            where('is_active', 1)->
+            select(
+                'id',
+                'user_name',                 
+                'is_active',                
+                'rates',                 
+                'call_cost',
+                'answer_speed',
+                DB::raw("(CASE 
+            WHEN image is NULL THEN '$defaultimg'                    
+            ELSE CONCAT('$url',image)
+            END) AS image"),
+                'first_name',
+                'last_name',
+                'is_available'
+            )->get();
+
+       
+
+        return response()->json($user);
+    }
 }
