@@ -21,13 +21,17 @@ class SettingController extends Controller
     }
     public function getkeys()
     {
-             $list =Setting::get();
+             $list =Setting::select("id",
+             "name",
+             "value",            
+             "ar_name" 
+          )->get();
         $secret_key=$this->findbyname('secret_key');
         $publishable_key=$this->findbyname('publishable_key');
     //    return view('admin.setting.show', ['expert_percent'=>$expert_percent,'expert_service_points'=>$expert_service_points]);
         return response()->json(
-            ['secret_key' => $secret_key
-        ,'publishable_key'=> $publishable_key] );
+            ['secret_key' => $secret_key->value
+        ,'publishable_key'=> $publishable_key->value] );
     }
     /**
      * Show the form for creating a new resource.

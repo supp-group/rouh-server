@@ -84,7 +84,7 @@ Route::middleware('authClient:api_clients')->group(function () {
       
         });
         Route::prefix('/setting')->group(function () {
-            Route::post('/getkeys', [PointController::class, 'getkeys']); 
+            Route::post('/getkeys', [SettingController::class, 'getkeys']); 
       
         });
     });
