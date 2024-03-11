@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SelectedServiceController;
 use App\Http\Controllers\Api\PointController;
 use App\Http\Controllers\Api\PointTransferController;
+use App\Http\Controllers\Api\SettingController;
  //use App\Http\Middleware\Api\AuthenticateClient;
 
 /*
@@ -44,6 +45,7 @@ Route::middleware('authExpert:api')->group(function () {
     Route::post('/getwithcomments', [ExpertController::class, 'getexpertwithcomments']); 
     Route::post('/pullbalance', [ExpertController::class, 'pullbalance']);
  //   Route::post('/getloguser', [ClientController::class, 'getloguser']);uploadanswer
+
 });
 });
 //Route::get('getloguser', [ClientController::class, 'getloguser']);
@@ -75,9 +77,14 @@ Route::middleware('authClient:api_clients')->group(function () {
             Route::post('/savefav', [ExpertController::class, 'savefav']); 
             Route::post('/getwithcomments', [ExpertController::class, 'getwithcomments']); 
             Route::post('/getavailable', [ExpertController::class, 'getavailable']); 
+            Route::post('/getorderwithanswer', [SelectedServiceController::class, 'getorderwithanswer']); 
         });
         Route::prefix('/point')->group(function () {
             Route::post('/getall', [PointController::class, 'index']); 
+      
+        });
+        Route::prefix('/setting')->group(function () {
+            Route::post('/getkeys', [PointController::class, 'getkeys']); 
       
         });
     });

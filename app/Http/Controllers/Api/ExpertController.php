@@ -792,6 +792,26 @@ class ExpertController extends Controller
             ];
         }
     }
+    public function expertforclientorder($expert)
+    {
+        if (is_null($expert)) {
+            return $expert;
+        } else {
+ 
+            return [
+                'id' => $expert->id,  
+                'user_name' => $expert->user_name,  
+                'rates' => $expert->rates,  
+                'is_active' => $expert->is_active,  
+                'first_name' => $expert->first_name,  
+                'last_name' => $expert->last_name,  
+                'image' => $expert->image,  
+                'full_name' => $expert->full_name,  
+                'is_favorite' => $expert->expertsFavorites->isEmpty() ? 0 : 1,
+            ];
+        }
+    }
+
     public function getwithfavandExpServ()
     {
         $authuser = auth()->user();

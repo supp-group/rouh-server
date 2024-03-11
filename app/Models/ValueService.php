@@ -26,8 +26,8 @@ class ValueService extends Model
 
   //  protected $appends = [];
 
-    protected $hidden= ['full_path_conv', 'value_conv'];
-    protected $appends= [ 'svg_path','value_convert'];
+    protected $hidden= ['full_path_conv'];
+    protected $appends= [ 'svg_path','value_convert', 'value_conv'];
     public function getSvgPathAttribute()
     {
         $conv = "";

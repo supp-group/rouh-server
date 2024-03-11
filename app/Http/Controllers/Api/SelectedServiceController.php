@@ -29,6 +29,7 @@ use App\Http\Requests\Api\Comment\AddRateRequest;
 use App\Http\Requests\Api\Order\OrdersRequest;
 use App\Http\Requests\Api\Order\OrderByIdRequest;
 use App\Http\Controllers\Api\StorageController;
+use App\Http\Controllers\Api\ExpertController;
 use Illuminate\Support\Str;
 
 //use Illuminate\Support\Str;
@@ -556,6 +557,167 @@ if( !is_null($item)){
                 return response()->json(['error' => 'Unauthenticated'], 401);
             }
         }
-        }
+     }
+
+     public function getorderwithanswer()
+     {
+ 
+         $request = request();
+ 
+         $formdata = $request->all();
+ 
+         $storrequest = new OrderByIdRequest();
+ 
+         $validator = Validator::make(
+             $formdata,
+             $storrequest->rules(),
+             $storrequest->messages()
+         );
+         if ($validator->fails()) {
+ 
+             return response()->json($validator->errors()); 
+         } else {
+            $strgCtrlr = new StorageController();
+            $url = $strgCtrlr->ExpertPath('image');
+       $defaultimg = $strgCtrlr->DefaultPath('image');
+
+             $selectedservice_id = $formdata['selectedservice_id'];
+             $authuser = auth()->user();
+           
+             $selser = Selectedservice::find($selectedservice_id);
+             $client_id= $selser->client_id;
+             if ($authuser->id == $selser->client_id) {
+
+                 $item = Selectedservice::with([
+ /*
+                     'client' => function ($q) {
+                         $q->select(
+                             'id',
+                             'user_name',
+                             'image',
+                             'is_active',
+                         )->first();
+                     },
+                     */
+                     'expert' => function ($q) use($url,$defaultimg, $client_id){
+                        $q->with([
+                        'expertsFavorites' => function ($q) use ($client_id) {
+                            $q->where('client_id', $client_id)->select('id', 'client_id', 'expert_id');
+                        }])->select(
+                            'id',
+                            'user_name',
+                            'rates',
+                            'is_active',
+                            'first_name',
+                            'last_name',
+                            DB::raw("(CASE 
+                            WHEN image is NULL THEN '$defaultimg'                    
+                            ELSE CONCAT('$url',image)
+                            END) AS image"),
+                        )->first();
+                    },
+                     'valueservices' => function ($q) {
+                         $q->select(
+                             'id',
+                             'value',
+                             'selectedservice_id',
+                             'inputservice_id',
+                             'name',
+                             'type',
+                             'tooltipe',
+                             'icon',
+                             'ispersonal',
+                             'image_count',
+                         )->orderByDesc('ispersonal');
+                     },
+                     'answers' => function ($q) {
+                        $q->where('answer_state','agree')->select(
+                            'id',
+                            'record',
+                            'answer_state',
+                            'selectedservice_id',
+                            'answer_admin_date',
+                        )->first() ;
+                    }
+                 ])->where('form_state', 'agree')
+                 ->wherehas('client', function ($query){
+                     $query->where('is_active',1);
+                 })
+                   ->  select(
+                         'id',
+                         'client_id',
+                         'expert_id',
+                         'service_id',
+ 
+                         'rate',
+                         'order_num',
+                         'form_state',
+ 
+                         'order_date',
+                         'order_admin_date',
+                         'rate_date',
+                         'answer_speed',
+                         'comment_state',
+                     )->where('id',$selectedservice_id)->get()
+                    ->where('answer_state','agree')
+                     ;
+                    
+ if( !is_null($item)){
+     $item->makeHidden([ 'title']);
+     $selorder= $this->selservicemap( $item);//////////
+ }
+
+                 return response()->json($selorder);
+             } else {
+                 return response()->json(['error' => 'Unauthenticated'], 401);
+             }
+         }
+ 
+ 
+     }
+     public function selservicemap($selectedservice)
+     {
+         if (is_null($selectedservice)) {
+             return $selectedservice;
+         } else {
+            $expctrlr=new ExpertController();
+            $selectedservicesMap =  $selectedservice
+            ->map(function ($selectedservice) use( $expctrlr)  { 
+                
+               $mapexpert= $expctrlr->expertforclientorder($selectedservice->expert);
+
+                //selectedservices 
+            return [
+             'id'=>$selectedservice->id,
+             'expert_id'=>$selectedservice->expert_id,
+             'service_id'=>$selectedservice->service_id,
+             'client_id'=>$selectedservice->client_id,
+            // 'comment'=>$selectedservice->comment,
+             'comment_state'=>$selectedservice->comment_state,
+            // 'comment_date'=>$selectedservice->comment_date,
+            // 'client'=>$selectedservice->client,
+            'rate'=>$selectedservice->rate,
+'order_num'=>$selectedservice->order_num,
+'form_state'=>$selectedservice->form_state,
+'order_date'=>$selectedservice->order_date,
+'order_admin_date'=>$selectedservice->order_admin_date,
+'rate_date'=>$selectedservice->rate_date,
+'answer_speed'=>$selectedservice->answer_speed,
+'answer_state'=>$selectedservice->answer_state,
+//'is_favorite' => $selectedservice->expert->expertsFavorites->isEmpty() ? 0 : 1,
+//'client'=>$selectedservice->answer_state,
+'expert'=> $mapexpert,
+
+'valueservices'=>$selectedservice->valueservices,
+'answers'=>$selectedservice->answers,
+
+            ];  
+            });
+ return  $selectedservicesMap ;
+   
+         }
+
+     }
+     
 
 }
