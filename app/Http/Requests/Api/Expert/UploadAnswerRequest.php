@@ -25,7 +25,8 @@ class UploadAnswerRequest extends FormRequest
       
        return[      
          'selectedservice_id'=>'required|integer|not_in:0',        
-        'record'=>'required|file|mimes:mp3',  
+        'record'=>'required|file|extensions:mp3',  
+      //  'record'=>'required|file|mimes:mp3',  
        ];   
     
     }

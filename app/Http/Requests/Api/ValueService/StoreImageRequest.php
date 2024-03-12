@@ -33,7 +33,7 @@ class StoreImageRequest extends FormRequest
          'image_4'=>'nullable|file|image',
         // 'record'=>'nullable|file|extensions:mp3',  
       //  'record'=>'nullable|file|mimes:mp3',  
-      'record'=>'nullable',
+      'record'=>'nullable|file|extensions:mp3',
        ];   
     
     }
