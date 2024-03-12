@@ -9,7 +9,7 @@ class StoreExpertRequest extends FormRequest
    
 protected   $minpass=8;
 protected   $maxpass=16;
-protected  $minMobileLength=9;
+protected  $minMobileLength=4;
 protected $maxMobileLength=9;
 protected $maxlength=500;
 protected $alphaexpr='/^[\pL\s\_\-\0-9]+$/u';
@@ -80,7 +80,8 @@ public function messages(): array
    
      //'city.required'=>'city is required',
      'mobile_num.numeric'=>__('messages.only numbers') ,
-     'mobile_num.digits_between'=>__('messages.this field must be between',['Minmobile'=> $this->minMobileLength]),
+     'mobile_num.digits_between'=>__('messages.this field must be between in',['Minmobile'=> $this->minMobileLength,'Maxmobile'=> $this->maxMobileLength]),
+    
      'mobile_num.required'=> __('messages.this field is required') ,
      'mobile_num.unique'=> __('messages.this field exist') ,
      'gender.in'=>__('messages.this field is required') ,

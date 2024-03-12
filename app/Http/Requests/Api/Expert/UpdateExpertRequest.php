@@ -11,7 +11,7 @@ class UpdateExpertRequest extends FormRequest
    
 protected   $minpass=8;
 protected   $maxpass=16;
-protected  $minMobileLength=9;
+protected  $minMobileLength=4;
 protected $maxMobileLength=9;
 protected $maxlength=500;
     /**
@@ -80,7 +80,9 @@ public function messages(): array
    // 'confirm_password.same' => __('messages.confirm_password match') ,
     
      'mobile_num.numeric'=>__('messages.only numbers') ,
-     'mobile_num.digits_between'=>__('messages.this field must be between',['Minmobile'=> $this->minMobileLength]),
+   //  'mobile_num.digits_between'=>__('messages.this field must be between',['Minmobile'=> $this->minMobileLength]),
+     'mobile_num.digits_between'=>__('messages.this field must be between in',['Minmobile'=> $this->minMobileLength,'Maxmobile'=> $this->maxMobileLength]),
+    
      'mobile_num.required'=> __('messages.this field is required') ,
      'gender.in'=>__('messages.this field is required') ,
      'gender.required'=>__('messages.this field is required') ,
