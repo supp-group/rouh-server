@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <div class="">
                         <form class="form-horizontal" action="{{ url('admin/setting/updatepercent', $expert_percent->id) }}"
-                            name="expert_percent_form" action="" method="POST" id="expert_percent_form">
+                            name="expert_percent_form"   method="POST" id="expert_percent_form">
                             @csrf
                             <div class="row">
                                 <div class="form-group d-flex justify-content-between col-sm-12">
@@ -75,7 +75,7 @@
                     <div class="">
                         <form class="form-horizontal"
                             action="{{ url('admin/setting/updatepoints', $expert_service_points->id) }}"
-                            name="expert_service_points_form" action="" method="POST" id="expert_service_points_form">
+                            name="expert_service_points_form"  method="POST" id="expert_service_points_form">
                             @csrf
                             <div class="row">
                             <div class="form-group d-flex justify-content-between col-sm-12">
@@ -92,6 +92,82 @@
                                 </ul>
                             </div>
                         </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!--/div-->
+
+
+        </div>
+        <!-- /div-->
+
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card mg-b-20">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-0">Stripe Secret key</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        <form class="form-horizontal" action="{{ url('admin/setting/updatesecretkey',$secret_key->id) }}"
+                            name="secret_key_form"   method="POST" id="secret_key_form">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group d-flex justify-content-between col-sm-12">
+                                    <input type="text" class="form-control " id="secret_key"
+                                        placeholder="Secret key" name="Stripe Secret key"
+                                        value="{{ $secret_key->value }}">
+                                    <button type="submit" name="btn_secret_key" id="btn_secret_key"
+                                        class="btn btn-primary mr-3">{{ __('general.save') }}</button>
+                                </div>
+                                <div class="col-sm-12">
+                                    <ul class="parsley-errors-list filled">
+                                        <li class="parsley-required" id="secret_key_error"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!--/div-->
+
+
+        </div>
+        <!-- /div-->
+         <!--div-->
+         <div class="col-xl-12">
+            <div class="card mg-b-20">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-0">Publishable key</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        
+                        <form class="form-horizontal" action="{{ url('admin/setting/updatepublishablekey', $publishable_key->id) }}"
+                            name="publishable_key_form"  method="POST" id="publishable_key_form">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group d-flex justify-content-between col-sm-12">
+                                    <input type="text" class="form-control " id="publishable_key"
+                                        placeholder="Publishable key" name="publishable_key"
+                                        value="{{ $publishable_key->value }}">
+                                    <button type="submit" name="btn_publishable_key" id="btn_publishable_key"
+                                        class="btn btn-primary mr-3">{{ __('general.save') }}</button>
+                                </div>
+                                <div class="col-sm-12">
+                                    <ul class="parsley-errors-list filled">
+                                        <li class="parsley-required" id="publishable_key_error"></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </form>
 
                     </div>

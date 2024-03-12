@@ -75,7 +75,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/update/{id}', [SettingController::class, 'update'])->name('setting.update');
             Route::post('/updatepercent/{id}', [SettingController::class, 'updatepercent']);
             Route::post('/updatepoints/{id}', [SettingController::class, 'updatepoints']);
-
+            Route::post('/updatesecretkey/{id}', [SettingController::class, 'updatesecretkey']);
+            Route::post('/updatepublishablekey/{id}', [SettingController::class, 'updatepublishablekey']);
         });
     });
 

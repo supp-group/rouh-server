@@ -24,8 +24,16 @@ $(document).ready(function () {
 			e.preventDefault();
 			sendform('#expert_service_points_form');
 			});
+/////////////////////
+	$('#btn_secret_key').on('click', function (e) {
+				e.preventDefault();
+				sendform('#secret_key_form');
+				});
+	$('#btn_publishable_key').on('click', function (e) {
+					e.preventDefault();
+					sendform('#publishable_key_form');
+					});
 
-	 
 	function ClearErrors() {
 
 		$('.parsley-required').html('');
