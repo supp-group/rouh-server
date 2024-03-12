@@ -19,7 +19,7 @@ class StoreClientRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    protected  $minMobileLength=9;
+    protected  $minMobileLength=4;
 protected $maxMobileLength=9;
 protected $maxlength=500;
     public function rules( $cnum,$mnum): array
@@ -74,7 +74,7 @@ public function messages(): array
      'gender.numeric'=>'gender must contain only numbers',
      //'city.required'=>'city is required',
      'mobile_num.numeric'=>'mobile must contain only numbers',
-     'mobile_num.digits_between'=>'mobile number must be '. $this->minMobileLength,
+     'mobile_num.digits_between'=>'mobile number must be '. $this->minMobileLength.' to '. $this->maxMobileLength,
    
     // 'phone.numeric'=>'phone must contain only numbers',
      //'phone.digits_between'=>'phone  number must be between '. $minMobileLength.' and '.$maxMobileLength,
