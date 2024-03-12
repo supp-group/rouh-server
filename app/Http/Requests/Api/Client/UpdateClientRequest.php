@@ -42,7 +42,10 @@ class UpdateClientRequest extends FormRequest
        //  'city'=>'required|alpha_num',
     //     'mobile'=>'nullable|unique:clients,mobile|digits_between:'. $minMobileLength.','.$maxMobileLength,          
      
-        // 'role'=>'required',      
+        // 'role'=>'required',   
+         //  'country_num'=>['required','not_in:0',Rule::unique('experts','country_num')->where('country_num', $this->input('country_num'))->where('mobile_num', $this->input('mobile_num') )->where('is_active',1)->ignore($this->id)  ],          
+  //  'mobile_num'=>['required','numeric','digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,Rule::unique('experts','mobile_num')->where('country_num', $this->input('country_num'))->where('mobile_num', $this->input('mobile_num') )->where('is_active',1)->ignore($this->id)],          
+        
        ];   
     
     }
@@ -54,8 +57,8 @@ class UpdateClientRequest extends FormRequest
 public function messages(): array
 {
    $maxlength=500;
-   $minMobileLength=10;
-   $maxMobileLength=15;
+   $minMobileLength=9;
+   $maxMobileLength=9;
    return[     
      'user_name.required'=>'The name is required',
      'id.required'=>'id is required',
@@ -74,7 +77,7 @@ public function messages(): array
      
   //   'mobile.numeric'=>'mobile must contain only numbers',
     // 'mobile.digits_between'=>'mobile number must be between '. $minMobileLength.' and '.$maxMobileLength,
-    
+ 
     ];
     
 }

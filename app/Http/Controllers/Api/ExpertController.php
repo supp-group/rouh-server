@@ -65,6 +65,8 @@ class ExpertController extends Controller
                 'user_name',
                 'password',
                 'mobile',
+                'country_num',
+'mobile_num',
                 'email',
                 //  'nationality',
                 'birthdate',
@@ -448,6 +450,8 @@ class ExpertController extends Controller
                 'id',
                 'user_name',
                 'mobile',
+                'country_num',
+'mobile_num',
                 'email',
                 // 'nationality',
                 'birthdate',
@@ -611,6 +615,8 @@ class ExpertController extends Controller
                     'id' => $expert->id,
                     'user_name' => $expert->user_name,
                     'mobile' => $expert->mobile,
+                    'country_num'=> $expert->country_num,
+'mobile_num'=> $expert->mobile_num,
                     'email' => $expert->email,
                     'birthdate' => $expert->birthdate,
                     'gender' => $expert->gender,
@@ -881,6 +887,8 @@ class ExpertController extends Controller
                     'id' => $expert->id,
                     'user_name' => $expert->user_name,
                     'mobile' => $expert->mobile,
+                    'country_num'=> $expert->country_num,
+                    'mobile_num'=> $expert->mobile_num,
                     'email' => $expert->email,
                     'birthdate' => $expert->birthdate,
                     'gender' => $expert->gender,
@@ -1023,14 +1031,21 @@ class ExpertController extends Controller
         if (isset($formdata["id"])) {
             $id = $formdata["id"];
         }
-
+        $cnum ="";
+        $mnum = "";
+        if(isset($formdata["country_num"])){
+          $cnum = $formdata["country_num"];
+        }
+        if(isset($formdata["mobile_num"])){
+          $mnum = $formdata["mobile_num"];
+        }
 
 
         $storrequest = new UpdateExpertRequest();
 
         $validator = Validator::make(
             $formdata,
-            $storrequest->rules($id),
+            $storrequest->rules($id,$cnum, $mnum),
             $storrequest->messages()
         );
         if ($validator->fails()) {
@@ -1041,12 +1056,17 @@ class ExpertController extends Controller
                 return response()->json('notexist', 401);
             } else {
                 $birthdate = Carbon::create($formdata["birthdate"])->format('Y-m-d');
+                $cnum = $formdata["country_num"];
+      $mnum = $formdata["mobile_num"];
+   
                 Expert::find($id)->update([
                     'first_name' => $formdata['first_name'],
                     'last_name' => $formdata['last_name'],
                     'email' => $formdata['email'],
                     //   'user_name'=>  $formdata['user_name'],
-                    'mobile' => $formdata['mobile'],
+                    'country_num'=> $cnum,
+'mobile_num'=>$mnum,
+                    'mobile' =>  $cnum. $mnum,
                     'gender' => (int) $formdata['gender'],
                     'birthdate' => $birthdate,
                     'desc' => $formdata['desc'],
@@ -1151,7 +1171,7 @@ class ExpertController extends Controller
     {
         //
         $formdata = $request->all();
-
+       
         $storrequest = new UploadAnswerRequest();
 
         $validator = Validator::make(

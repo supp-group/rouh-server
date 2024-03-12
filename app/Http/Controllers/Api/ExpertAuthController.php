@@ -113,6 +113,7 @@ class ExpertAuthController extends Controller
         $formdata = request(['user_name',
         'password',
          'mobile',
+         
         'email',
         'nationality',
          'birthdate',

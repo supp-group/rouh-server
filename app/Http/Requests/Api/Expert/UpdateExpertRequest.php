@@ -11,8 +11,8 @@ class UpdateExpertRequest extends FormRequest
    
 protected   $minpass=8;
 protected   $maxpass=16;
-protected  $minMobileLength=10;
-protected $maxMobileLength=15;
+protected  $minMobileLength=9;
+protected $maxMobileLength=9;
 protected $maxlength=500;
     /**
     
@@ -23,7 +23,7 @@ protected $maxlength=500;
         return true;
     }
 
-    public function rules($id): array
+    public function rules($id,$cnum,$mnum): array
     {    
       
        return[
@@ -40,7 +40,7 @@ protected $maxlength=500;
       'password'=>'nullable|between:'. $this->minpass.','. $this->maxpass,
        //  'confirm_password' => 'same:password',
       //   'mobilew'=>'required|unique:experts,mobile,'.$this->id.'|numeric|digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,          
-         'mobile'=>['required','numeric','digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,Rule::unique('experts','mobile')->where('is_active',1)->whereNotIn('id',[$id])],
+       //  'mobile'=>['required','numeric','digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,Rule::unique('experts','mobile')->where('is_active',1)->whereNotIn('id',[$id])],
        //  unique:experts,mobile,'.$this->id,          
       
          'gender'=>'required|in:1,2',
@@ -48,6 +48,9 @@ protected $maxlength=500;
         'image'=>'file|image',   
         'birthdate'=>'required|date',
         'desc'=>'required',
+        'country_num'=>['required','not_in:0',Rule::unique('experts','country_num')->where('country_num', $cnum)->where('mobile_num',$mnum)->where('is_active',1)->whereNotIn('id',[$id]) ],          
+        'mobile_num'=>['required','numeric','digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,Rule::unique('experts','mobile_num')->where('country_num',$cnum)->where('mobile_num',$mnum)->where('is_active',1)->whereNotIn('id',[$id])],          
+         
        ];   
     
     }
@@ -76,9 +79,9 @@ public function messages(): array
     // 'address.between'=>'address charachters must be les than '.$maxlength,
    // 'confirm_password.same' => __('messages.confirm_password match') ,
     
-     'mobile.numeric'=>__('messages.only numbers') ,
-     'mobile.digits_between'=>__('messages.this field must be between',['Minmobile'=> $this->minMobileLength]),
-     'mobile.required'=> __('messages.this field is required') ,
+     'mobile_num.numeric'=>__('messages.only numbers') ,
+     'mobile_num.digits_between'=>__('messages.this field must be between',['Minmobile'=> $this->minMobileLength]),
+     'mobile_num.required'=> __('messages.this field is required') ,
      'gender.in'=>__('messages.this field is required') ,
      'gender.required'=>__('messages.this field is required') ,
      'image'=>__('messages.file must be image') ,

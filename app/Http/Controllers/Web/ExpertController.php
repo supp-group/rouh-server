@@ -48,9 +48,23 @@ class ExpertController extends Controller
    * Store a newly created resource in storage.
    */
   public function store(StoreExpertRequest $request)
-  {
+  {//StoreExpertRequest
+     
     $formdata = $request->all();
-    // return redirect()->back()->with('success_message', $formdata);
+ /*
+    $cnum ="";
+    if (isset($formdata["country_num"])) {
+      $cnum = $formdata["country_num"];
+    }
+    $mnum ="";
+    if (isset($formdata["mobile_num"])) {
+      $mnum = $formdata["mobile_num"];
+    }
+    */
+   // $request->request->add(["mobile"=> $cnum.$mnum]);
+    $formdata = $request->all();
+   // return response()->json($formdata['mobile']);
+   
     $validator = Validator::make(
       $formdata,
       $request->rules(),
@@ -58,20 +72,22 @@ class ExpertController extends Controller
     );
 
     if ($validator->fails()) {
-      /*
-                        return  redirect()->back()->withErrors($validator)
-                        ->withInput();
-                        */
-      // return response()->withErrors($validator)->json();
-      return response()->json($validator);
-
+   //   return response()->json($validator->witherr);
+      return  response() ->json($validator,500);
+    //  ->withInput();
+    
     } else {
+      $cnum = $formdata["country_num"];
+      $mnum = $formdata["mobile_num"];
       $newObj = new Expert;
       $newObj->first_name = $formdata['first_name'];
       $newObj->last_name = $formdata['last_name'];
       $newObj->user_name = $formdata['user_name'];
       $newObj->password = bcrypt($formdata['password']);
-      $newObj->mobile = $formdata['mobile'];
+    //  $newObj->mobile = $formdata['mobile'];
+    $newObj->country_num = $cnum;
+    $newObj->mobile_num = $mnum;
+    $newObj->mobile = $cnum. $mnum;
       $newObj->email = $formdata['email'];
       //$newObj->nationality = $formdata['nationality'];
 
@@ -90,10 +106,10 @@ class ExpertController extends Controller
       $newObj->answer_speed = 0;
       $newObj->is_active = isset($formdata["is_active"]) ? 1 : 0;
       //$newObj->token = $formdata['token'];
-         /*
-      $newObj->createuser_id = Auth::user()->id;
-      $newObj->updateuser_id =Auth::user()->id;
-      */
+         
+   //   $newObj->createuser_id = Auth::user()->id;
+    //  $newObj->updateuser_id =Auth::user()->id;
+      
       $newObj->save();
 
       if ($request->hasFile('image')) {
@@ -105,6 +121,7 @@ class ExpertController extends Controller
 
       return response()->json("ok");
     }
+    
   }
 
   /**
@@ -163,12 +180,16 @@ class ExpertController extends Controller
                // $filename= $file->getClientOriginalName();                
      $this->storeImage( $file,$id);
        }
+       $cnum = $formdata["country_num"];
+       $mnum = $formdata["mobile_num"];
       Expert::find($id)->update([
         'first_name'=>  strip_tags( $formdata['first_name']) ,
         'last_name'=>  $formdata['last_name'],
         'user_name' => $formdata['user_name'],
       //  'password' => $formdata['password'],
-        'mobile' => $formdata['mobile'],
+        'mobile' => $cnum. $mnum,
+        'country_num'=>$cnum,
+   'mobile_num'=>$mnum ,
         'email' => $formdata['email'],
        // 'nationality' => $formdata['nationality'],
         'birthdate' =>Carbon::createFromFormat('m/d/Y', $formdata['birthdate'])->format('Y-m-d'),

@@ -81,6 +81,8 @@ class ClientController extends Controller
             'id',
             'user_name',
             'mobile',
+            'country_num',
+'mobile_num',
             'email',
             'nationality',
             'birthdate',

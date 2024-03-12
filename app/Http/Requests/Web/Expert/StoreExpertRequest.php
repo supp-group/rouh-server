@@ -9,8 +9,8 @@ class StoreExpertRequest extends FormRequest
    
 protected   $minpass=8;
 protected   $maxpass=16;
-protected  $minMobileLength=10;
-protected $maxMobileLength=15;
+protected  $minMobileLength=9;
+protected $maxMobileLength=9;
 protected $maxlength=500;
 protected $alphaexpr='/^[\pL\s\_\-\0-9]+$/u';
 protected $alphaAtexpr='/^[\pL\s\_\-\@\.\0-9]+$/u';
@@ -21,7 +21,7 @@ protected $alphaAtexpr='/^[\pL\s\_\-\@\.\0-9]+$/u';
     public function authorize(): bool
     {
         return true;
-    }
+    }//$country_num,$mobile_num
     public function rules(): array
     {
        
@@ -36,8 +36,16 @@ protected $alphaAtexpr='/^[\pL\s\_\-\@\.\0-9]+$/u';
          //,'unique:experts,email',      
          'password'=>'required|between:'. $this->minpass.','. $this->maxpass,
          'confirm_password' => 'same:password',
-         'mobile'=>'required|unique:experts,mobile|numeric|digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,          
-        'gender'=>'required|in:1,2',
+       //  'mobile'=>'required|unique:experts,mobile|numeric|digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,   
+       'country_num'=>['required','not_in:0',Rule::unique('experts','country_num')->where('country_num', $this->input('country_num'))->where('mobile_num', $this->input('mobile_num') )->where('is_active',1)  ],          
+     //  'country_num'=>['required','not_in:0' ],          
+       
+      // 'mobile_num'=>['required',Rule::unique('experts','mobile_num')->where('country_num',$c_num)->where('mobile_num',$m_num),'digits_between:'. $this->minMobileLength.','.$this->maxMobileLength],          
+       'mobile_num'=>['required','numeric','digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,Rule::unique('experts','mobile_num')->where('country_num', $this->input('country_num'))->where('mobile_num', $this->input('mobile_num') )->where('is_active',1)],          
+       
+        
+         'gender'=>'required|in:1,2',
+
       //  'is_active'=>'required',  
         'image'=>'file|image',   
         'birthdate'=>'required|date',
@@ -71,9 +79,10 @@ public function messages(): array
     'confirm_password.same' => __('messages.confirm_password match') ,
    
      //'city.required'=>'city is required',
-     'mobile.numeric'=>__('messages.only numbers') ,
-     'mobile.digits_between'=>__('messages.this field must be between',['Minmobile'=> $this->minMobileLength]),
-     'mobile.required'=> __('messages.this field is required') ,
+     'mobile_num.numeric'=>__('messages.only numbers') ,
+     'mobile_num.digits_between'=>__('messages.this field must be between',['Minmobile'=> $this->minMobileLength]),
+     'mobile_num.required'=> __('messages.this field is required') ,
+     'mobile_num.unique'=> __('messages.this field exist') ,
      'gender.in'=>__('messages.this field is required') ,
      'gender.required'=>__('messages.this field is required') ,
      'image'=>__('messages.file must be image') ,
@@ -82,6 +91,10 @@ public function messages(): array
      'last_name.regex'=>__('messages.must be alpha') ,
      'first_name.regex'=>__('messages.must be alpha') ,
      'user_name.regex'=>__('messages.must be alpha') ,
+    
+     'country_num.required'=> __('messages.this field is required') ,
+     'country_num.not_in'=> __('messages.this field is required') ,
+     'country_num.unique'=> '' ,
     ];
     
 }

@@ -405,6 +405,7 @@ $(document).ready(function () {
 
 		$('.parsley-required').html('');
 		$(":input").removeClass('parsley-error');
+		$("#mobile_num").removeClass('parsley-error');
 	}
 	function showimgcount(imgcheck, imgcount) {
 		if (imgcheck.is(':checked')) {
