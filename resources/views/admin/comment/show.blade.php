@@ -36,7 +36,8 @@
 									<table id="example" class="table text-md-nowrap">
 										<thead>
 											<tr>
-
+												<th class="border-bottom-0">{{ __('general.order num') }}</th>
+											
 												<th class="border-bottom-0">{{ __('general.comment') }}</th>
 												<th class="border-bottom-0">{{ __('general.comment name') }}</th>
 												<th class="border-bottom-0">{{ __('general.service') }}</th>
@@ -50,6 +51,8 @@
 										<tbody>
 											@foreach ($selectedservices as $selectedservice)
 											<tr>
+												<td>{{$selectedservice->order_num }}</td>
+											
 												<td>{{Str::limit($selectedservice->comment, 20) }}</td>
 												<td>{{$selectedservice->client->user_name  }}</td>
 												<td>{{$selectedservice->service->name }}</td>

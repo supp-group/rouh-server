@@ -63,13 +63,13 @@
                     @endforeach
                     <div class="gallery mb-3">
                         @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
-                        <a href="{{ $valueService->full_path_conv }}" class="big" rel="rel1">
+                        <a href="{{ $valueService->full_path_conv }}" style="margin: 5px" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0 big " rel="rel1">
                             <img src="{{ $valueService->full_path_conv }}" alt="" title="">
                         </a>
                         @endforeach
                     </div>
                     @foreach ($selectedservice->valueServices->where('type', 'record') as $valueService)
-                        <label class="col-sm-12 ">تسجيل صوتي</label>
+                    <label class="col-sm-12 "><h3 class="card-title  col-sm-12 mb-1">تسجيل صوتي</h3></label>
                         <audio controls class="col-sm-12 ">
                             <source src="{{ $valueService->full_path_conv }}" type="audio/mpeg">
                         </audio>
