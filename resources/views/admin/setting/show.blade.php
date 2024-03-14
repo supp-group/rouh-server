@@ -1,4 +1,7 @@
 @extends('admin.layouts.master')
+@section('page-title')
+{{ __('general.settings') }}
+@endsection
 @section('css')
     <!-- Internal Data table css -->
     <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />

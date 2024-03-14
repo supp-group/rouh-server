@@ -1,4 +1,7 @@
 @extends('admin.layouts.master')
+@section('page-title')
+الاشعارات
+@endsection
 @section('css')
 @endsection
 @section('page-header')

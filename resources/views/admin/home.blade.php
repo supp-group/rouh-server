@@ -1,5 +1,8 @@
 @extends('admin.layouts.master')
-@section('css')
+@section('css') 
+@endsection
+@section('page-title')
+ لوحة التحكم
 @endsection
 @section('page-header')
 				<!-- breadcrumb -->
