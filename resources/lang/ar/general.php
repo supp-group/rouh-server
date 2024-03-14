@@ -122,6 +122,7 @@ return [
 'order_for_client' => 'طلب :Name',
 'remember me' => 'تذكرني',
 'Forgot your password' => 'نسيت كلمة السر ؟',
+'Reset Password' => 'اعادة ضبط',
 ];
 /*
 
