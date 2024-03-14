@@ -120,6 +120,8 @@ return [
 'order num' => 'رقم الطلب',
 'answer_for_client' => 'رد على :Name',
 'order_for_client' => 'طلب :Name',
+'remember me' => 'تذكرني',
+'Forgot your password' => 'نسيت كلمة السر ؟',
 ];
 /*
 
