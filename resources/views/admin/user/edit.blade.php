@@ -37,7 +37,8 @@
 								<p class="mb-2"></p>
 								
 							</div>
-							<div class="card-body pt-0">
+							<div class="card-body row  pt-0">
+								<div class="col-lg-8">
 								<form class="form-horizontal" action="{{route('user.update', $user->id)}}" name="create_form" method="POST" enctype="multipart/form-data" id="create_form">
 								@csrf
 								 
@@ -125,10 +126,11 @@
 										</div>
 									</div>
 								</form>
-								<div class="pd-20 clearfix">
-									<img alt="" id="imgshow" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0"
-									src="@if($user->image==""){{URL::asset('assets/img/photos/1.jpg')}}@else {{ $user->fullpathimg }} @endif" >
-								</div> 
+							</div>
+							<div class="col-lg-4 mt-sm-3 mt-lg-0">
+								<img alt="" id="imgshow" class="rounded img-thumbnail wd-100p float-sm-right  mg-t-10 mg-sm-t-0"
+								src="@if($user->image==""){{URL::asset('assets/img/photos/1.jpg')}}@else {{ $user->fullpathimg }} @endif" >											 
+						</div> 
 							</div>
 
 						</div>
