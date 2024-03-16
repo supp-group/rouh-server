@@ -123,6 +123,7 @@ return [
 'remember me' => 'تذكرني',
 'Forgot your password' => 'نسيت كلمة السر ؟',
 'Reset Password' => 'اعادة ضبط',
+'Are you sure' => 'هل انت متأكد ؟',
 ];
 /*
 

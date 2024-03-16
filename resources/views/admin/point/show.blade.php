@@ -35,6 +35,8 @@
 								<div class="d-flex justify-content-between">
 									<h4 class="card-title mg-b-0">{{ __('general.manage points') }}</h4>
 									<a href="{{ route('point.create') }}" class="btn btn-primary btn-small">{{ __('general.new point') }}</a>
+		 
+
 								</div>
 									</div>
 							<div class="card-body">
@@ -63,8 +65,8 @@
                                                     <form action="{{route('point.destroy', $point->id)}}" method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete"><i class="fa fa-trash"></i></button>
-                                                    </form>
+                                                        <button type="button" id="del-{{$point->id}}" class="btn btn-danger btn-sm delete" data-effect="effect-scale" data-toggle="modal" data-target="#modaldemo8"   title="Delete"><i class="fa fa-trash"></i></button>
+														</form>
 
                                                 </td>
 
@@ -85,6 +87,24 @@
 			<!-- Container closed -->
 		</div>
 		<!-- main-content closed -->
+
+
+	<!-- Modal effects -->
+		<div class="modal" id="modaldemo8">
+			<div class="modal-dialog modal-dialog-centered   modal-sm" role="document">
+				<div class="modal-content modal-content-demo">
+					 
+					<div class="modal-body text-center" style="padding-bottom: 5px;	padding-top: 30px;">
+						<h6 class="modal-title">{{ __('general.Are you sure') }}</h6>
+						 	</div>
+					<div class="modal-footer d-flex justify-content-between">
+						<button class="btn ripple btn-danger" id="btn-modal-del" type="button">{{ __('general.delete') }}</button>
+						<button class="btn ripple btn-secondary"  id="btn-cancel-modal"  data-dismiss="modal" type="button">{{ __('general.cancel') }}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Modal effects-->
 @endsection
 @section('js')
 <!-- Internal Data tables -->
@@ -104,6 +124,12 @@
 <script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
-<!--Internal  Datatable js -->
+
+<!-- Internal Modal js-->
+<script src="{{URL::asset('assets/js/modal.js')}}"></script>
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+
+<!--Internal  Datatable js -->
+<script src="{{URL::asset('assets/js/admin/delete.js')}}"></script>
+ 
 @endsection
