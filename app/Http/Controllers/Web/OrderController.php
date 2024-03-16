@@ -27,9 +27,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-      $list =Selectedservice::with('expert','client','service')->orderByDesc('form_state')->get();
-    //  return  $list;
-        return view('admin.order.show', ['selectedservices' => $list]);     
+ 
+     $list =Selectedservice::with('expert','client','service')->orderByDesc('form_state')->get();//'order_num'
+     
+      return view('admin.order.show', ['selectedservices' => $list]);     
     }
   
     /**
