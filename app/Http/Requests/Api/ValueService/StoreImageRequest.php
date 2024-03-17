@@ -33,7 +33,7 @@ class StoreImageRequest extends FormRequest
          'image_4'=>'nullable|file|image',
         // 'record'=>'nullable|file|extensions:mp3',  
       //  'record'=>'nullable|file|mimes:mp3',  
-      'record'=>'nullable|file|extensions:mp3',
+      'record'=>'nullable|file ',
        ];   
     
     }
@@ -58,7 +58,8 @@ public function messages(): array
       'image_2'=>'file must be image' ,
       'image_3'=>'file must be image' ,
       'image_4'=>'file must be image' ,
-      'record'=>'file must be mp3' ,
+       
+      'record'=>'file must be file' ,//'record'=>'file must be mp3' ,
     ];
     
 }

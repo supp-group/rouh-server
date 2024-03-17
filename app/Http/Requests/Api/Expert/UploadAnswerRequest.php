@@ -25,8 +25,8 @@ class UploadAnswerRequest extends FormRequest
       
        return[      
          'selectedservice_id'=>'required|integer|not_in:0',        
-        'record'=>'required|file|extensions:mp3',  
-      //  'record'=>'required|file|mimes:mp3',  
+        'record'=>'required|file ',  
+      //  'record'=>'required|file|mimes:mp3',   'record'=>'required|file|extensions:mp3', 
        ];   
     
     }
@@ -45,7 +45,7 @@ public function messages(): array
       'selectedservice_id.integer'=>'messages must be integer' ,
       'selectedservice_id.not_in'=> 'this field is required and not 0',
  
-      'record'=>'file must be mp3' ,
+      'record'=>'file must be file' ,//'record'=>'file must be mp3' ,
     ];
     
 }

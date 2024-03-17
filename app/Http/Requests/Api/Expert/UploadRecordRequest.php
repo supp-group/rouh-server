@@ -23,7 +23,7 @@ class UploadRecordRequest extends FormRequest
     {
        return[      
          'id'=>'required|integer|not_in:0',        
-        'record'=>'required|file|mimes:mp3',  
+        'record'=>'required|file',  // 'record'=>'required|file|mimes:mp3',
        ];   
     
     }
@@ -41,7 +41,9 @@ public function messages(): array
       'id.required'=> 'this field is required',
       'id.integer'=>'messages must be integer' ,
       'id.not_in'=> 'this field is required and not 0', 
-      'record'=>'file must be mp3' ,
+    //  'record'=>'file must be mp3' ,
+      
+      'record'=>'file must be file' ,//'record'=>'file must be mp3' ,
     ];
     
 }
