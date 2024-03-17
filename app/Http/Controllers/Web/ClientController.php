@@ -48,12 +48,12 @@ class ClientController extends Controller
     }
     public function showoperations($id)
     {
-      $list = Pointtransfer::with(  'selectedservices')->where('client_id',$id)->get();
+      $list = Pointtransfer::with( 'cashtransfers', 'selectedservices')->where('client_id',$id)->get();
     
      //'cashtransfers',
       $object = Client::find($id);
- return $list ;
- // return view('admin.operation.client', ['transfers' => $list,'client' => $object]);
+// return $list ;
+   return view('admin.operation.client', ['transfers' => $list,'client' => $object]);
       //return response()->json($users);
   
     }

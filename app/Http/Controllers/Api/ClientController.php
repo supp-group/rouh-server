@@ -289,8 +289,9 @@ $newpnum= $pntctrlr->GenerateCode($firstLetters);
         $pointtransfer->status = 1;
        // $pointtransfer->selectedservice_id = $newObj->id;
         $pointtransfer->side = 'to-client';
-        $pointtransfer->state = 'agree';
+        $pointtransfer->state = 'points';
         $pointtransfer->type = $type;
+        $pointtransfer->num = $newpnum;
         $pointtransfer->save();
 
         ///////////////////////////

@@ -33,8 +33,8 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-between">
-									<h4 class="card-title mg-b-0">{{ __('general.client') }}</h4>
-									<h4 class="card-title mg-b-0">{{ __('general.the balance') }}</h4>
+									<h4 class="card-title mg-b-0">{{ __('general.client') }} : {{  $client->user_name}} </h4>
+									<h4 class="card-title mg-b-0">{{ __('general.the balance') }}: {{  $client->points_balance}}</h4>
 								</div>
 									</div>
 							<div class="card-body">
@@ -44,7 +44,7 @@
 											<tr>
 												<th class="border-bottom-0">الرقم </th>
 												 
-												<th class="border-bottom-0">العملية</th>
+												<th class="border-bottom-0">التاريخ</th>
                                                 <th class="border-bottom-0">النقاط</th>
                                                 <th class="border-bottom-0">الوصف</th>
                                          	</tr>
@@ -52,10 +52,10 @@
 										<tbody>
 											@foreach ($transfers as $transfer)
 											<tr>
-												<td> </td>
-												<td> </td>
-												<td> </td>
-
+												<td>{{ $transfer->num }} </td>
+												<td> {{ $transfer->created_at }}</td>
+												<td> {{ $transfer->count }}</td>
+												<td> {{  Str::of($transfer->desc)->toHtmlString() }}</td>
 											</tr>
 											@endforeach
 									</tbody>
