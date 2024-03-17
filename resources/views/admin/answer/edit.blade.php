@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('page-title')
-{{ __('general.answers') }}
+    {{ __('general.answers') }}
 @endsection
 @section('css')
     <!-- Internal Select2 css -->
@@ -50,9 +50,9 @@
                 </div>
                 <div class="card-body pt-0">
                     <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="Icon SVG Vector Icon"
-                        fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
-                        src="{{ asset('storage/images/default/icons/sharp.svg') }}">
-                    {{ ' ' . __('general.order num') }}</span>{{ ' ' . $selectedservice->order_num }}</p>
+                                fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
+                                src="{{ asset('storage/images/default/icons/sharp.svg') }}">
+                            {{ ' ' . __('general.order num') }}</span>{{ ' ' . $selectedservice->order_num }}</p>
 
                     <p><span class="badge badge-light badge-lg px-3 py-2"><img alt="User Icon SVG Vector Icon"
                                 fetchpriority="high" decoding="async" data-nimg="1" style="width:20px;height:20px"
@@ -71,14 +71,23 @@
                     @endforeach
                     <div class="gallery mb-3">
                         @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
-                            <a href="{{ $valueService->full_path_conv }}"  style="margin: 5px" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0 big "  rel="rel1">
+                            <a href="{{ $valueService->full_path_conv }}" style="margin: 5px"
+                                class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0 big "
+                                rel="rel1">
                                 <img src="{{ $valueService->full_path_conv }}" alt="" title="">
                             </a>
                         @endforeach
                     </div>
                     @foreach ($selectedservice->valueServices->where('type', 'record') as $valueService)
-                   
-                        <label class="col-sm-12 "><h3 class="card-title  col-sm-12 mb-1">تسجيل صوتي</h3></label>
+                        <label class="col-sm-12 ">
+                            <h3 class="card-title  col-sm-12 mb-1">تسجيل صوتي</h3>
+                        </label>
+                        <label class="col-sm-12 ">
+                            <h3 class="card-title  col-sm-12 mb-1" style="color: #0162e8">
+                                <a style=" cursor: pointer;" href="{{ $valueService->full_path_conv }}"
+                                    download>{{ __('general.download') }}</a>
+                            </h3>
+                        </label>
                         <audio controls class="col-sm-12 ">
                             <source src="{{ $valueService->full_path_conv }}" type="audio/mpeg">
                         </audio>
@@ -87,8 +96,13 @@
                         <div id="div_last_answer">
                             <h3 class="card-title mb-1 border-top pt-3">{{ __('general.answer') }}</h3>
 
-                            <label
-                                class="col-sm-12 ">{{ $selectedservice->answers->where('answer_state', 'wait')->first()->content }}</label>
+                            <label class="col-sm-12 ">
+                                <h3 class="card-title  col-sm-12 mb-1" style="color: #0162e8">
+                                    <a style=" cursor: pointer;"
+                                        href="{{ $selectedservice->answers->where('answer_state', 'wait')->first()->record_path }}"
+                                        download>{{ __('general.download') }}</a>
+                                </h3>
+                            </label>
                             <audio controls class="col-sm-12 ">
                                 <source
                                     src="{{ $selectedservice->answers->where('answer_state', 'wait')->first()->record_path }}"
@@ -130,9 +144,8 @@
                                 <table class="table text-md-nowrap">
                                     <thead>
                                         <tr>
-
-
                                             <th class="border-bottom-0">الرد الصوتي</th>
+                                            <th class="border-bottom-0"></th>                                           
                                             <th class="border-bottom-0">تاريخ الرد</th>
                                             <th class="border-bottom-0">{{ __('general.status') }}</th>
                                         </tr>
@@ -140,11 +153,16 @@
                                     <tbody>
                                         @foreach ($selectedservice->answers->whereNotIn('answer_state', ['wait']) as $answer)
                                             <tr>
-
-
-                                                <td> <audio controls>
+                                                <td>
+                                                    <audio controls>
                                                         <source src="{{ $answer->record_path }}" type="audio/mpeg">
-                                                    </audio></td>
+                                                    </audio>
+                                                </td>
+                                                <td  >
+                                                    <a style=" cursor: pointer;" href="{{ $answer->record_path }}"
+                                                        download>{{ __('general.download') }}</a>
+                                                </td>
+                                              
                                                 <td>{{ $answer->created_at }}</td>
                                                 <td>{{ $answer->answer_state_conv }}</td>
 

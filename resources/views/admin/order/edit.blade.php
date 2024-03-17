@@ -14,6 +14,7 @@
 
     <link href="{{ URL::asset('assets/css/admin/content.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/css/simple-lightbox.css') }}" rel="stylesheet">
+    
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
@@ -73,6 +74,10 @@
                     </div>
                     @foreach ($selectedservice->valueServices->where('type', 'record') as $valueService)
                     <label class="col-sm-12 "><h3 class="card-title  col-sm-12 mb-1">تسجيل صوتي</h3></label>
+                      <label class="col-sm-12 ">
+                        <h3 class="card-title  col-sm-12 mb-1" style="color: #0162e8">
+                            <a style=" cursor: pointer;" href="{{ $valueService->full_path_conv }}" download>{{ __('general.download') }}</a>
+                            </h3></label>
                         <audio controls class="col-sm-12 ">
                             <source src="{{ $valueService->full_path_conv }}" type="audio/mpeg">
                         </audio>
