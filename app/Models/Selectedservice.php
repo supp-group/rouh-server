@@ -91,10 +91,15 @@ class Selectedservice extends Model
     $conv="";
 
     if($this->answer_state=='no_answer' ){
-        $conv=__('general.order_for_client',['Name'=>$this->client()->first()->user_name]);
+        if(!is_null($this->client()->first())){
+            $conv=__('general.order_for_client',['Name'=>$this->client()->first()->user_name]);
+        }
+       
     }       
     else {
+        if(!is_null($this->client()->first())){
         $conv=__('general.answer_for_client',['Name'=>$this->client()->first()->user_name]);
+    }
     } 
      
         return  $conv;
@@ -164,7 +169,7 @@ class Selectedservice extends Model
     }
     public function pointtransfers(): HasMany
     {
-        return $this->hasMany(Pointtransfer::class);
+        return $this->hasMany(Pointtransfer::class,'selectedservice_id');
     }
     public function answers(): HasMany
     {

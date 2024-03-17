@@ -85,10 +85,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::prefix('balance')->group(function () {   
             Route::get('/client', [ClientController::class, 'showbalance']);       
             Route::get('/expert', [ExpertController::class, 'showbalance']);
-            Route::get('/client/{id}', [ClientOperationController::class, 'showdetails']); 
-            Route::get('/expert/{id}', [ExpertOperationController::class, 'showdetails']);       
-          
-            
+            Route::get('/client/{id}', [ClientController::class, 'showoperations']); 
+            Route::get('/expert/{id}', [ExpertController::class, 'showoperations']);   
             
         });
     });

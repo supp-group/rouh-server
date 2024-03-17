@@ -42,7 +42,14 @@ class ExpertController extends Controller
      
 
   }
+  public function showoperations()
+  {
+    $list = Expert::get();
+    return view('admin.operation.expert', ['experts' => $list]);
+     
 
+  }
+  
   /**
    * Show the form for creating a new resource.
    */

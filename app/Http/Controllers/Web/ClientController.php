@@ -40,9 +40,20 @@ class ClientController extends Controller
     }
     public function showbalance()
     {
-      $list = DB::table('clients')->get();
+      $list = Client::get();
       
     return view('admin.balance.client', ['clients' => $list]);
+      //return response()->json($users);
+  
+    }
+    public function showoperations($id)
+    {
+      $list = Pointtransfer::with(  'selectedservices')->where('client_id',$id)->get();
+    
+     //'cashtransfers',
+      $object = Client::find($id);
+ return $list ;
+ // return view('admin.operation.client', ['transfers' => $list,'client' => $object]);
       //return response()->json($users);
   
     }

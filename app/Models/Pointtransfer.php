@@ -41,7 +41,7 @@ class Pointtransfer extends Model
     }
     public function selectedservices(): BelongsTo
     {
-        return $this->belongsTo(Selectedservice::class)->withDefault();
+        return $this->belongsTo(Selectedservice::class,'selectedservice_id')->withDefault();
     }
     public function point(): BelongsTo
     {
