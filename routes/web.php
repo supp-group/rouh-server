@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Web\AnswerController;
 use App\Http\Controllers\Web\ReasonController;
 use App\Http\Controllers\Web\CommentController;
+use App\Http\Controllers\Web\ClientOperationController;
+use App\Http\Controllers\Web\ExpertOperationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +80,17 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/updatesecretkey/{id}', [SettingController::class, 'updatesecretkey']);
             Route::post('/updatepublishablekey/{id}', [SettingController::class, 'updatepublishablekey']);
         });
+         // المعاملات المالية 
+        //الرصيد
+        Route::prefix('balance')->group(function () {   
+            Route::get('/client', [ClientController::class, 'showbalance']);       
+            Route::get('/expert', [ExpertController::class, 'showbalance']);
+            Route::get('/client/{id}', [ClientOperationController::class, 'showdetails']); 
+            Route::get('/expert/{id}', [ExpertOperationController::class, 'showdetails']);       
+          
+            
+            
+        });
     });
 
     Route::middleware('role.admin:admin-super')->group(function () {
@@ -94,11 +107,13 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::resource('expert', ExpertController::class, ['except' => ['update']]);
         Route::prefix('expert')->group(function () {
             Route::post('/update/{id}', [ExpertController::class, 'update'])->name('expert.update');
+          
         });
 
         Route::resource('client', ClientController::class, ['except' => ['update']]);
         Route::prefix('client')->group(function () {
             Route::post('/update/{id}', [ClientController::class, 'update'])->name('client.update');
+           
         });
 
         Route::resource('service', ServiceController::class, ['except' => ['update']]);
@@ -162,6 +177,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/rate/{id}', [CommentController::class, 'ratemethod'])->name('comment.rate');
        
         });
+       
       
     });
     /*

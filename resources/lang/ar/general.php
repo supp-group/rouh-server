@@ -125,6 +125,10 @@ return [
 'Reset Password' => 'اعادة ضبط',
 'Are you sure' => 'هل انت متأكد ؟',
 'download' => 'تحميل',
+'clients balance' => 'رصيد العملاء',
+'experts balance' => 'رصيد الخبراء',
+'the balance' => 'الرصيد',
+'total pull' => 'اجمالي السحوبات',
 ];
 /*
 

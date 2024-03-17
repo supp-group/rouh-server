@@ -38,7 +38,14 @@ class ClientController extends Controller
       //return response()->json($users);
   
     }
+    public function showbalance()
+    {
+      $list = DB::table('clients')->get();
+      
+    return view('admin.balance.client', ['clients' => $list]);
+      //return response()->json($users);
   
+    }
     /**
      * Show the form for creating a new resource.
      */

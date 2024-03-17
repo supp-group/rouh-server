@@ -35,6 +35,13 @@ class ExpertController extends Controller
     //return response()->json($users);
 
   }
+  public function showbalance()
+  {
+    $list = Expert::get();
+    return view('admin.balance.expert', ['experts' => $list]);
+     
+
+  }
 
   /**
    * Show the form for creating a new resource.
