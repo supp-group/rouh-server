@@ -42,11 +42,16 @@ class ExpertController extends Controller
      
 
   }
-  public function showoperations()
+  public function showoperations($id)
   {
-    $list = Expert::get();
-    return view('admin.operation.expert', ['experts' => $list]);
-     
+    $list = Pointtransfer::with( 'cashtransfers', 'selectedservices')
+    ->where('expert_id',$id)->where('side','to-expert')->get(); 
+    
+   //'cashtransfers',
+    $object = Expert::find($id);
+// return $list ;
+ return view('admin.operation.expert', ['transfers' => $list,'expert' => $object]);
+    //return response()->json($users);
 
   }
   

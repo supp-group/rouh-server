@@ -356,7 +356,7 @@ var ans=	answerurlval;
  
 function noteSuccess() {
 	notif({
-		msg: "تمت الاضافة بنجاح ",
+		msg: "تمت العملية بنجاح",
 		type: "success"
 	});
 }

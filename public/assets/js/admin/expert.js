@@ -182,7 +182,7 @@ $(document).ready(function () {
  
 function noteSuccess() {
 	notif({
-		msg: "تمت الاضافة بنجاح ",
+		msg: "تمت العملية بنجاح",
 		type: "success"
 	});
 }

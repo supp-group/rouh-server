@@ -16,7 +16,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">{{ __('general.accounts') }}</h4> 
+							<h4 class="content-title mb-0 my-auto">	<a href="{{ url('admin/balance/client') }}">{{ __('general.accounts') }}</a></h4> 
 						</div>
 					</div>
 					 

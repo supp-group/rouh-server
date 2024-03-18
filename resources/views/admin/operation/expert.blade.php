@@ -16,7 +16,9 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">الطلبات</h4> 
+							<h4 class="content-title mb-0 my-auto"><a href="{{ url('admin/balance/expert') }}">{{ __('general.accounts') }}</a></h4> 
+  
+					
 						</div>
 					</div>
 					 
@@ -32,34 +34,30 @@
 					<div class="col-xl-12">
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
-								 
+								<div class="d-flex justify-content-between">
+									<h4 class="card-title mg-b-0">{{ __('general.expert') }} : {{  $expert->full_name}} </h4>
+									<h4 class="card-title mg-b-0">{{ __('general.the balance') }}: {{$expert->cash_balance}}</h4>
+								</div>
 									</div>
 							<div class="card-body">
 								<div class="table-responsive">
 									<table id="example" class="table text-md-nowrap">
 										<thead>
 											<tr>
-												<th class="border-bottom-0">{{ __('general.order num') }}</th>
-												<th class="border-bottom-0">{{ __('general.service') }}</th>
-												<th class="border-bottom-0">{{ __('general.expert') }}</th>
-											
-                                                <th class="border-bottom-0">{{ __('general.client') }}</th>
-                                                <th class="border-bottom-0">{{ __('general.status') }}</th>
-                                                <th class="border-bottom-0">{{ __('general.action') }}</th>
-											</tr>
+												<th class="border-bottom-0">الرقم </th>
+												 
+												<th class="border-bottom-0">التاريخ</th>
+                                                <th class="border-bottom-0">القيمة</th>
+                                                <th class="border-bottom-0">الوصف</th>
+                                         	</tr>
 										</thead>
 										<tbody>
-											@foreach ($selectedservices as $selectedservice)
+											@foreach ($transfers as $transfer)
 											<tr>
-												<td>{{$selectedservice->order_num }}</td>
-												<td>{{$selectedservice->service->name }}</td>
-												<td>{{ $selectedservice->expert->full_name }}</td>
-                                                <td>{{ $selectedservice->client->user_name }}</td>
-                                                <td>{{ $selectedservice->form_state_conv}}</td>
-                                                <td>
-													<a href="{{route('order.edit', $selectedservice->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a> 
-                                                </td>
-
+												<td>{{ $transfer->num }} </td>
+												<td> {{ $transfer->created_at }}</td>
+												<td> {{ $transfer->count }}</td>
+												<td> {{  Str::of($transfer->desc)->toHtmlString() }}</td>
 											</tr>
 											@endforeach
 									</tbody>

@@ -948,7 +948,7 @@ $("#field_type").focusout(function (e) {
 });
 function noteSuccess() {
 	notif({
-		msg: "تمت الاضافة بنجاح ",
+		msg: "تمت العملية بنجاح",
 		type: "success"
 	});
 }
