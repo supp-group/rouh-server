@@ -129,6 +129,7 @@ return [
 'experts balance' => 'رصيد الخبراء',
 'the balance' => 'الرصيد',
 'total pull' => 'اجمالي السحوبات',
+'calls count' => 'الاتصالات',
 ];
 /*
 
