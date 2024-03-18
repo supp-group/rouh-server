@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\Expert\StoreExpertRequest;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Api\Client\StoreClientRequest;
@@ -123,7 +124,7 @@ class ExpertAuthController extends Controller
         'token',
         'points_balance',
     ]);
-      $storrequest=new StoreClientRequest();
+      $storrequest=new StoreExpertRequest();
     //  $storrequest->request()=$formdata ;
    //   $storrequest=  $formdata ;
       $validator = Validator::make($formdata,
