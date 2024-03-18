@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Expert;
 use App\Models\ExpertService;
-use App\Models\PointTransfer;
+use App\Models\Pointtransfer;
 use App\Models\CashTransfer;
 use App\Models\ExpertFavorite;
 use App\Models\SelectedService;
