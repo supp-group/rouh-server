@@ -44,6 +44,8 @@ Route::middleware('authExpert:api')->group(function () {
     Route::post('/getwaitanswer', [SelectedServiceController::class, 'getwaitanswer']);
     Route::post('/getwithcomments', [ExpertController::class, 'getexpertwithcomments']); 
     Route::post('/pullbalance', [ExpertController::class, 'pullbalance']);
+    Route::post('/savetoken', [ExpertController::class, 'savetoken']);
+    
  //   Route::post('/getloguser', [ClientController::class, 'getloguser']);uploadanswer
 
 });
@@ -60,6 +62,7 @@ Route::middleware('authClient:api_clients')->group(function () {
         Route::post('/addcomment', [SelectedServiceController::class, 'addcomment']);
         Route::post('/addrate', [SelectedServiceController::class, 'addrate']);
         Route::post('/changebalance', [ClientController::class, 'changebalance']);
+        Route::post('/savetoken', [ClientController::class, 'savetoken']);
         
         Route::post('/store', [PointTransferController::class, 'store']);
         

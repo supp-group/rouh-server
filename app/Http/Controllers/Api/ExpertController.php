@@ -30,6 +30,7 @@ use App\Http\Requests\Api\Expert\UpdateExpertRequest;
 use App\Http\Requests\Api\Expert\UploadAnswerRequest;
 use App\Http\Requests\Api\Expert\UploadRecordRequest;
 use App\Http\Requests\Api\Expert\PullBalanceRequest;
+use App\Http\Requests\Api\Expert\SaveTokenRequest;
 
 class ExpertController extends Controller
 {
@@ -1353,5 +1354,37 @@ class ExpertController extends Controller
        
 
         return response()->json($user);
+    }
+
+    public function savetoken()
+    {
+        
+        $request = request();
+
+        $formdata = $request->all();
+    
+        $storrequest = new SaveTokenRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+
+            return response()->json($validator->errors());
+        } else {
+
+            $expert_id= $formdata['expert_id'] ;
+            //save token in expert 
+
+            Expert::find($expert_id)->update(
+                [
+                    'token' => $formdata["token"],
+                ]
+            );
+            return response()->json("ok");
+
+        }
     }
 }

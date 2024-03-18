@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\StorageController;
 use App\Http\Requests\Api\Client\UpdateClientRequest;
 use App\Http\Requests\Api\Client\ChangeBalanceRequest;
+use App\Http\Requests\Api\Client\SaveTokenRequest;
+
 /*
 use App\Http\Requests\Web\Client\StoreClientRequest;
 use App\Http\Requests\Web\Client\UpdateClientRequest;
@@ -34,8 +36,8 @@ use App\Models\Selectedservice;
 class ClientController extends Controller
 {
 
- //   public $path = 'images/clients';
-   
+    //   public $path = 'images/clients';
+
     /**
      * Display a listing of the resource.
      */
@@ -43,7 +45,7 @@ class ClientController extends Controller
     {
         //
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -72,25 +74,25 @@ class ClientController extends Controller
 
 
         $credentials = request(['mobile']);
-    // $url = url('storage/app/public' . '/' . $this->path  ).'/';
-    $strgCtrlr=new StorageController();
-    $url=$strgCtrlr->ClientPath('image');
-    $defaultimg=$strgCtrlr->DefaultPath('image');
-   // $url =url( Storage::url($this->path)).'/';
-        $user = Client::where('mobile', $credentials)->where('is_active',1)->select(
+        // $url = url('storage/app/public' . '/' . $this->path  ).'/';
+        $strgCtrlr = new StorageController();
+        $url = $strgCtrlr->ClientPath('image');
+        $defaultimg = $strgCtrlr->DefaultPath('image');
+        // $url =url( Storage::url($this->path)).'/';
+        $user = Client::where('mobile', $credentials)->where('is_active', 1)->select(
             'id',
             'user_name',
             'mobile',
             'country_num',
-'mobile_num',
+            'mobile_num',
             'email',
             'nationality',
             'birthdate',
             'gender',
             'marital_status',
-            'points_balance',       
+            'points_balance',
             'is_active',
-          //  DB::raw("CONCAT('$url',image)  AS image")           
+            //  DB::raw("CONCAT('$url',image)  AS image")           
             DB::raw("(CASE 
             WHEN image is NULL THEN '$defaultimg'                  
             ELSE CONCAT('$url',image)
@@ -109,7 +111,7 @@ class ClientController extends Controller
         }
 
         return response()->json(
-          $user
+            $user
         );
 
 
@@ -147,96 +149,97 @@ class ClientController extends Controller
         $imagemodel = Client::find($id);
         $oldimage = $imagemodel->image;
         $oldimagename = basename($oldimage);
-        $strgCtrlr=new StorageController();
-        $path=$strgCtrlr->path['clients'];
-        $oldimagepath =  $path . '/' . $oldimagename;
+        $strgCtrlr = new StorageController();
+        $path = $strgCtrlr->path['clients'];
+        $oldimagepath = $path . '/' . $oldimagename;
         //save photo
-        
+
         if ($file !== null) {
             //  $filename= rand(10000, 99999).".".$file->getClientOriginalExtension();
             $filename = rand(10000, 99999) . $id . ".webp";
             $manager = new ImageManager(new Driver());
             $image = $manager->read($file);
             $image = $image->toWebp(75);
-            if (!File::isDirectory(Storage::url('/' .  $path))) {
-                Storage::makeDirectory('public/' .  $path);
+            if (!File::isDirectory(Storage::url('/' . $path))) {
+                Storage::makeDirectory('public/' . $path);
             }
-            $image->save(storage_path('app/public') . '/' .  $path . '/' . $filename);
-        //    $url = url('storage/app/public' . '/' . $this->path . '/' . $filename);
+            $image->save(storage_path('app/public') . '/' . $path . '/' . $filename);
+            //    $url = url('storage/app/public' . '/' . $this->path . '/' . $filename);
             Client::find($id)->update([
                 "image" => $filename
             ]);
-            Storage::delete("public/" .  $path . '/' . $oldimagename);
-         
+            Storage::delete("public/" . $path . '/' . $oldimagename);
+
         }
         return 1;
     }
 
     public function updateprofile(Request $filerequest)
     {
-        
+
         $formdata = $filerequest->all();
 
-   
-  //  $file=  $formdata ->file('image');
-      $storrequest=new UpdateClientRequest();
-    //  $storrequest->request()=$formdata ;
-   //   $storrequest=  $formdata ;
-      $validator = Validator::make($formdata,
-      $storrequest->rules(),
-      $storrequest->messages()
-    );
-    if ($validator->fails()) {
-        /*
-          return redirect('/cpanel/users/add')
-          ->withErrors($validator)
-                      ->withInput();
-                      */
-                      return response()->json($validator->errors());
-     //   return redirect()->back()->withErrors($validator)->withInput();
-  
-      } else {
-             $id=   $formdata["id"];
-     $authuser = auth()->user();
-     if (!( $authuser->id == $id)) {
-        return response()->json('notexist', 401);
-    }else{
-     $birthdate= Carbon::create($formdata["birthdate"])->format('Y-m-d');
-     Client::find($id)->update([
-            'user_name'=>  $formdata['user_name'],
-            'email'=>  $formdata['email'],
-            'nationality' => $formdata['nationality'],         
-            'birthdate' =>  $birthdate,
-            'gender' =>(int) $formdata['gender'],        
-            'marital_status' =>$formdata['marital_status'],   
-          ]);
-        if ($filerequest->hasFile('image')) {
-            $file= $filerequest->file('image');
-            $this->storeImage( $file, $id);
+
+        //  $file=  $formdata ->file('image');
+        $storrequest = new UpdateClientRequest();
+        //  $storrequest->request()=$formdata ;
+        //   $storrequest=  $formdata ;
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+            /*
+              return redirect('/cpanel/users/add')
+              ->withErrors($validator)
+                          ->withInput();
+                          */
+            return response()->json($validator->errors());
+            //   return redirect()->back()->withErrors($validator)->withInput();
+
+        } else {
+            $id = $formdata["id"];
+            $authuser = auth()->user();
+            if (!($authuser->id == $id)) {
+                return response()->json('notexist', 401);
+            } else {
+                $birthdate = Carbon::create($formdata["birthdate"])->format('Y-m-d');
+                Client::find($id)->update([
+                    'user_name' => $formdata['user_name'],
+                    'email' => $formdata['email'],
+                    'nationality' => $formdata['nationality'],
+                    'birthdate' => $birthdate,
+                    'gender' => (int) $formdata['gender'],
+                    'marital_status' => $formdata['marital_status'],
+                ]);
+                if ($filerequest->hasFile('image')) {
+                    $file = $filerequest->file('image');
+                    $this->storeImage($file, $id);
+                }
+
+
+                return response()->json($id);
+            }
         }
-       
-      
-         return response()->json($id);
-      }
-    }
-  
-  
-  
+
+
+
     }
     public function deleteaccount(Request $filerequest)
     {
         $formdata = request(['id']);
-        $id=   $formdata["id"];           
-     $authuser = auth()->user();
-     if (!( $authuser->id == $id)) {
-        return response()->json('notexist', 401);
-    }else{     
-     Client::find($id)->update([
-            'is_active'=>  0,           
-          ]);
-          auth('api_clients')->logout();      
-         return response()->json($id);
-      }
+        $id = $formdata["id"];
+        $authuser = auth()->user();
+        if (!($authuser->id == $id)) {
+            return response()->json('notexist', 401);
+        } else {
+            Client::find($id)->update([
+                'is_active' => 0,
+            ]);
+            auth('api_clients')->logout();
+            return response()->json($id);
+        }
     }
 
     public function changebalance()
@@ -245,7 +248,7 @@ class ClientController extends Controller
         $request = request();
 
         $formdata = $request->all();
-//client_id
+        //client_id
 //points
         $storrequest = new ChangeBalanceRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
 
@@ -260,74 +263,107 @@ class ClientController extends Controller
             //   return redirect()->back()->withErrors($validator)->withInput();
 
         } else {
- 
-           $client= Client::find($formdata['client_id']);
-         //   if ($authuser->id == $client->id ) {
- 
-    DB::transaction(function ()use( $client,$formdata)  {
- $point_id=$formdata["point_id"];
-//add points to client 
-   $newblnce= $client->points_balance+$formdata['points'];
-    Client::find($client->id)->update(
-        [ 
-         'points_balance' =>$newblnce,
-        
-        ]);
-        //add point transfer for client
-        $pointrow=Point::find( $point_id);
-        $pointtransfer = new Pointtransfer();
-        $pntctrlr=new PointTransferController();
-$type='p';
-$firstLetters=$type.'cl-';
-$newpnum= $pntctrlr->GenerateCode($firstLetters);
-      $pointtransfer->point_id = isset($formdata["point_id"]) ? $formdata['point_id'] : null;
-      
-      $pointtransfer->client_id = $client->id;
-      //  $pointtransfer->expert_id = $expertService->expert_id;
-       // $pointtransfer->service_id = $expertService->service_id;
-        $pointtransfer->count =$formdata['points'];
-        $pointtransfer->status = 1;
-       // $pointtransfer->selectedservice_id = $newObj->id;
-        $pointtransfer->side = 'to-client';
-        $pointtransfer->state = 'points';
-        $pointtransfer->type = $type;
-        $pointtransfer->num = $newpnum;
-        $pointtransfer->save();
 
-        ///////////////////////////
-             //add cach transfer to company
-      $cashtype1 = 'd';
-      $cashtrctrlr = new CashTransferController();
-      $firstLetters = $cashtype1 . 'com-';
-      $comCode = $cashtrctrlr->GenerateCode($firstLetters);
-      $companyCach = new Cashtransfer();
+            $client = Client::find($formdata['client_id']);
+            //   if ($authuser->id == $client->id ) {
 
-      $companyCach->cash =  $pointrow->price;
-      $companyCach->cashtype = $cashtype1;
-      $companyCach->fromtype = 'client';
-      $companyCach->totype = 'company';
-      $companyCach->status = 'points';
-   //   $companyCach->selectedservice_id = $id;
-      $companyCach->cash_num = $comCode;
-      $companyCach->pointtransfer_id= $pointtransfer->id;
-      $companyCach->save();
-      //add cash to company balance
-      $comObj = Company::find(1);
-      Company::find(1)->update(
-        [
-          'cash_balance' => $comObj->cash_balance +$pointrow->price,
-         // 'cash_profit' => $comObj->cash_profit + $comprofitval,
-        ]
-      );
+            DB::transaction(function () use ($client, $formdata) {
+                $point_id = $formdata["point_id"];
+                //add points to client 
+                $newblnce = $client->points_balance + $formdata['points'];
+                Client::find($client->id)->update(
+                    [
+                        'points_balance' => $newblnce,
 
- } );
-      
-                return response()->json("ok");
-                
-         //   } else {
-           //     return response()->json(['error' => 'Unauthenticated'], 401);
-          //  }
+                    ]
+                );
+                //add point transfer for client
+                $pointrow = Point::find($point_id);
+                $pointtransfer = new Pointtransfer();
+                $pntctrlr = new PointTransferController();
+                $type = 'p';
+                $firstLetters = $type . 'cl-';
+                $newpnum = $pntctrlr->GenerateCode($firstLetters);
+                $pointtransfer->point_id = isset ($formdata["point_id"]) ? $formdata['point_id'] : null;
+
+                $pointtransfer->client_id = $client->id;
+                //  $pointtransfer->expert_id = $expertService->expert_id;
+                // $pointtransfer->service_id = $expertService->service_id;
+                $pointtransfer->count = $formdata['points'];
+                $pointtransfer->status = 1;
+                // $pointtransfer->selectedservice_id = $newObj->id;
+                $pointtransfer->side = 'to-client';
+                $pointtransfer->state = 'points';
+                $pointtransfer->type = $type;
+                $pointtransfer->num = $newpnum;
+                $pointtransfer->save();
+
+                ///////////////////////////
+                //add cach transfer to company
+                $cashtype1 = 'd';
+                $cashtrctrlr = new CashTransferController();
+                $firstLetters = $cashtype1 . 'com-';
+                $comCode = $cashtrctrlr->GenerateCode($firstLetters);
+                $companyCach = new Cashtransfer();
+
+                $companyCach->cash = $pointrow->price;
+                $companyCach->cashtype = $cashtype1;
+                $companyCach->fromtype = 'client';
+                $companyCach->totype = 'company';
+                $companyCach->status = 'points';
+                //   $companyCach->selectedservice_id = $id;
+                $companyCach->cash_num = $comCode;
+                $companyCach->pointtransfer_id = $pointtransfer->id;
+                $companyCach->save();
+                //add cash to company balance
+                $comObj = Company::find(1);
+                Company::find(1)->update(
+                    [
+                        'cash_balance' => $comObj->cash_balance + $pointrow->price,
+                        // 'cash_profit' => $comObj->cash_profit + $comprofitval,
+                    ]
+                );
+
+            });
+
+            return response()->json("ok");
+
+            //   } else {
+            //     return response()->json(['error' => 'Unauthenticated'], 401);
+            //  }
         }
-    } 
+    }
 
+    public function savetoken()
+    {
+        
+        $request = request();
+
+        $formdata = $request->all();
+        //client_id
+//points
+        $storrequest = new SaveTokenRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
+
+        $validator = Validator::make(
+            $formdata,
+            $storrequest->rules(),
+            $storrequest->messages()
+        );
+        if ($validator->fails()) {
+
+            return response()->json($validator->errors());
+        } else {
+
+            $client_id= $formdata['client_id'] ;
+            //save token in client 
+
+            Client::find($client_id)->update(
+                [
+                    'token' => $formdata["token"],
+                ]
+            );
+            return response()->json("ok");
+
+        }
+    }
 }
