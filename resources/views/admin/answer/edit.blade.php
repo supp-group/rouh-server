@@ -69,6 +69,7 @@
                                     src="{{ $valueService->svg_path }}">
                                 {{ ' ' . $valueService->tooltipe }}</span>{{ ' ' . $valueService->value_conv }}</p>
                     @endforeach
+                    <div class="row">
                     <div class="gallery mb-3">
                         @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
                             <a href="{{ $valueService->full_path_conv }}" style="margin: 5px"
@@ -77,6 +78,7 @@
                                 <img src="{{ $valueService->full_path_conv }}" alt="" title="">
                             </a>
                         @endforeach
+                    </div>
                     </div>
                     @foreach ($selectedservice->valueServices->where('type', 'record') as $valueService)
                         <label class="col-sm-12 ">

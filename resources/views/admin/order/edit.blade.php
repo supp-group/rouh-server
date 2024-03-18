@@ -65,6 +65,7 @@
                                     src="{{ $valueService->svg_path }}">
                                 {{ ' ' . $valueService->tooltipe }}</span>{{ ' ' . $valueService->value_conv }}</p>
                     @endforeach
+<div class="row">
                     <div class="gallery mb-3">
                         @foreach ($selectedservice->valueServices->where('type', 'image') as $valueService)
                         <a href="{{ $valueService->full_path_conv }}" style="margin: 5px" class="rounded img-thumbnail wd-100p wd-sm-200 float-sm-right  mg-t-10 mg-sm-t-0 big " rel="rel1">
@@ -72,6 +73,7 @@
                         </a>
                         @endforeach
                     </div>
+                </div>
                     @foreach ($selectedservice->valueServices->where('type', 'record') as $valueService)
                     <label class="col-sm-12 "><h3 class="card-title  col-sm-12 mb-1">تسجيل صوتي</h3></label>
                       <label class="col-sm-12 ">
