@@ -829,11 +829,6 @@ $('.btn-edit-point').on('click', function (e) {
 });
 
 
-$('#btn-send-notify').on('click', function (e) {
-	e.preventDefault();
- 
-sendformbyid('#send-notify-form');
-	});
 
 function sendformbyid(formid) {
 	startLoading();

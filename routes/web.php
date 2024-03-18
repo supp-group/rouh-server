@@ -52,7 +52,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::resource('notify', NotificationController::class, ['except' => ['update']]);
     Route::post('saveToken', [NotificationController::class, 'saveToken']);
     Route::post('sendNotification', [NotificationController::class, 'sendNotification']);
-
+    Route::post('sendbytoken', [NotificationController::class, 'sendbytoken']);
+   
     Route::middleware('role.admin:admin')->group(function () {
 
         // Route::prefix('user')->group(function () {

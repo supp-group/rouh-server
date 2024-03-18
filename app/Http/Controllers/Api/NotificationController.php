@@ -41,7 +41,37 @@ class NotificationController extends Controller
     ->  sendMessage($tokenList);
     //  ->sendNotification($tokenList);
     }
+    public function sendbytoken(Request $request)
+    {
+      $strgCtrlr=new StorageController();
+      $defaultimg=$strgCtrlr->DefaultPath('image');
+      $defaultsvg=$strgCtrlr->DefaultPath('icon');
+      $formdata = $request->all();
+      $token="";
+      if(isset($formdata['input_token'])){
+        $token=$formdata['input_token'];
 
+        $tokenList =[$token];
+        
+        return Larafirebase::withTitle($request->title)
+        ->withBody($request->body)
+        ->withImage($defaultimg)
+        ->withIcon($defaultsvg)
+        ->withSound('default')
+        ->withClickAction('https://www.google.com')
+        ->withPriority('high')        
+        ->withAdditionalData([         
+            'username'=>"Ahmad",
+            'image'=>$defaultimg,
+        ])
+      ->  sendMessage($tokenList);
+      }else{
+        return 'empty token'  ;
+      }
+     
+
+    //  ->sendNotification($tokenList);
+    }
     /**
      * Display a listing of the resource.
      */
