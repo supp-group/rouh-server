@@ -70,6 +70,7 @@
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ url('admin/balance/client') }}"> {{ __('general.clients balance') }}</a></li>
 							<li><a class="slide-item" href="{{ url('admin/balance/expert') }}"> {{ __('general.experts balance') }}</a></li>
+							<li><a class="slide-item" href="{{ url('admin/balance/pulls') }}"> {{ __('general.pulls') }}</a></li>
 
 						</ul>
 					</li>
@@ -79,7 +80,7 @@
 							<span class="side-menu__label"> {{ __('general.notifications') }}</span><i class="angle fe fe-chevron-down"></i></a>
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ route('notify.index') }}"> {{ __('general.show') }}</a></li>
-							<li><a class="slide-item" href="#"> {{ __('general.add') }}</a></li>
+						
 
 						</ul>
 					</li>

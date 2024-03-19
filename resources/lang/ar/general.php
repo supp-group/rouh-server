@@ -90,6 +90,8 @@ return [
 'experts list'=>'قائمة الخبراء',
 'expert'=>'الخبير',
 'client'=>'العميل',
+'expert select'=>'خبير',
+'client select'=>'عميل',
 'status'=>'الحالة',
 'status.wait'=>'انتظار',
 'status.agree'=>'موافق',
@@ -130,6 +132,10 @@ return [
 'the balance' => 'الرصيد',
 'total pull' => 'اجمالي السحوبات',
 'calls count' => 'الاتصالات',
+'pulls' => 'سحب الرصيد',
+'pull balance' => 'سحب رصيد',
+'pull op' => 'عمليات السحب',
+'pull value' => 'قيمة السحب',
 ];
 /*
 

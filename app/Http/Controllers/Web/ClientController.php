@@ -38,6 +38,8 @@ class ClientController extends Controller
       //return response()->json($users);
   
     }
+   
+    
     public function showbalance()
     {
       $list = Client::get();
@@ -64,6 +66,8 @@ class ClientController extends Controller
       //return response()->json($users);
   
     }
+
+  
     /**
      * Show the form for creating a new resource.
      */

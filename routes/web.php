@@ -19,6 +19,7 @@ use App\Http\Controllers\Web\ReasonController;
 use App\Http\Controllers\Web\CommentController;
 use App\Http\Controllers\Web\ClientOperationController;
 use App\Http\Controllers\Web\ExpertOperationController;
+use App\Http\Controllers\Web\PointTransferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::post('sendNotification', [NotificationController::class, 'sendNotification']);
     Route::post('sendbytoken', [NotificationController::class, 'sendbytoken']);
    
+    
     Route::middleware('role.admin:admin')->group(function () {
 
         // Route::prefix('user')->group(function () {
@@ -88,7 +90,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::get('/expert', [ExpertController::class, 'showbalance']);
             Route::get('/client/{id}', [ClientController::class, 'showoperations']); 
             Route::get('/expert/{id}', [ExpertController::class, 'showoperations']);   
-            
+            Route::get('/pulls', [PointTransferController::class , 'pulls']); 
+            Route::get('/createpull', [PointTransferController::class, 'createpull']);    
+            Route::post('/savepull', [PointTransferController::class, 'savepull']);   
+            Route::get('/getbyside', [PointTransferController::class, 'getbyside']); 
+        
         });
     });
 
