@@ -333,10 +333,70 @@ class ClientController extends Controller
             //  }
         }
     }
+    public function clientpullbalance($client, $amount)
+    {
 
+        DB::transaction(function () use ($client, $amount) {
+            //decreas points from client 
+            $newblnce = $client->points_balance - $amount;
+            Client::find($client->id)->update(
+                [
+                    'points_balance' => $newblnce,
+                ]
+            );
+            //add point transfer for client
+            //   $pointrow = Point::find($point_id);
+            $pointtransfer = new Pointtransfer();
+            $pntctrlr = new PointTransferController();
+            $type = 'd';
+            $firstLetters = $type . 'cl-';
+            $newpnum = $pntctrlr->GenerateCode($firstLetters);
+            // $pointtransfer->point_id = isset ($formdata["point_id"]) ? $formdata['point_id'] : null;
+
+            $pointtransfer->client_id = $client->id;
+            //  $pointtransfer->expert_id = $expertService->expert_id;
+            // $pointtransfer->service_id = $expertService->service_id;
+            $pointtransfer->count = $amount;
+            $pointtransfer->status = 1;
+            // $pointtransfer->selectedservice_id = $newObj->id;
+            $pointtransfer->side = 'to-client';
+            $pointtransfer->state = 'pull';
+            $pointtransfer->type = $type;
+            $pointtransfer->num = $newpnum;
+            $pointtransfer->save();
+
+            ///////////////////////////
+            //decreas cach transfer to company
+            $cashtype1 = 'p';
+            $cashtrctrlr = new CashTransferController();
+            $firstLetters = $cashtype1 . 'com-';
+            $comCode = $cashtrctrlr->GenerateCode($firstLetters);
+            $companyCach = new Cashtransfer();
+
+            $companyCach->cash = $amount;
+            $companyCach->cashtype = $cashtype1;
+            $companyCach->fromtype = 'company';
+            $companyCach->totype = 'client';
+            $companyCach->status = 'pull';
+            //   $companyCach->selectedservice_id = $id;
+            $companyCach->cash_num = $comCode;
+            $companyCach->pointtransfer_id = $pointtransfer->id;
+            $companyCach->save();
+            //decrese cash to company balance
+            $comObj = Company::find(1);
+            Company::find(1)->update(
+                [
+                    'cash_balance' => $comObj->cash_balance - $amount,
+
+                ]
+            );
+        });
+
+        return 1;
+    }
     public function savetoken()
     {
-        
+
         $request = request();
 
         $formdata = $request->all();
@@ -354,7 +414,7 @@ class ClientController extends Controller
             return response()->json($validator->errors());
         } else {
 
-            $client_id= $formdata['client_id'] ;
+            $client_id = $formdata['client_id'];
             //save token in client 
 
             Client::find($client_id)->update(

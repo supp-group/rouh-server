@@ -67,7 +67,7 @@ class ExpertController extends Controller
                 'password',
                 'mobile',
                 'country_num',
-'mobile_num',
+                'mobile_num',
                 'email',
                 //  'nationality',
                 'birthdate',
@@ -452,7 +452,7 @@ class ExpertController extends Controller
                 'user_name',
                 'mobile',
                 'country_num',
-'mobile_num',
+                'mobile_num',
                 'email',
                 // 'nationality',
                 'birthdate',
@@ -616,8 +616,8 @@ class ExpertController extends Controller
                     'id' => $expert->id,
                     'user_name' => $expert->user_name,
                     'mobile' => $expert->mobile,
-                    'country_num'=> $expert->country_num,
-'mobile_num'=> $expert->mobile_num,
+                    'country_num' => $expert->country_num,
+                    'mobile_num' => $expert->mobile_num,
                     'email' => $expert->email,
                     'birthdate' => $expert->birthdate,
                     'gender' => $expert->gender,
@@ -804,16 +804,16 @@ class ExpertController extends Controller
         if (is_null($expert)) {
             return $expert;
         } else {
- 
+
             return [
-                'id' => $expert->id,  
-                'user_name' => $expert->user_name,  
-                'rates' => $expert->rates,  
-                'is_active' => $expert->is_active,  
-                'first_name' => $expert->first_name,  
-                'last_name' => $expert->last_name,  
-                'image' => $expert->image,  
-                'full_name' => $expert->full_name,  
+                'id' => $expert->id,
+                'user_name' => $expert->user_name,
+                'rates' => $expert->rates,
+                'is_active' => $expert->is_active,
+                'first_name' => $expert->first_name,
+                'last_name' => $expert->last_name,
+                'image' => $expert->image,
+                'full_name' => $expert->full_name,
                 'is_favorite' => $expert->expertsFavorites->isEmpty() ? 0 : 1,
             ];
         }
@@ -888,8 +888,8 @@ class ExpertController extends Controller
                     'id' => $expert->id,
                     'user_name' => $expert->user_name,
                     'mobile' => $expert->mobile,
-                    'country_num'=> $expert->country_num,
-                    'mobile_num'=> $expert->mobile_num,
+                    'country_num' => $expert->country_num,
+                    'mobile_num' => $expert->mobile_num,
                     'email' => $expert->email,
                     'birthdate' => $expert->birthdate,
                     'gender' => $expert->gender,
@@ -1029,16 +1029,16 @@ class ExpertController extends Controller
     {
         $formdata = $filerequest->all();
         $id = 0;
-        if (isset($formdata["id"])) {
+        if (isset ($formdata["id"])) {
             $id = $formdata["id"];
         }
-        $cnum ="";
+        $cnum = "";
         $mnum = "";
-        if(isset($formdata["country_num"])){
-          $cnum = $formdata["country_num"];
+        if (isset ($formdata["country_num"])) {
+            $cnum = $formdata["country_num"];
         }
-        if(isset($formdata["mobile_num"])){
-          $mnum = $formdata["mobile_num"];
+        if (isset ($formdata["mobile_num"])) {
+            $mnum = $formdata["mobile_num"];
         }
 
 
@@ -1046,7 +1046,7 @@ class ExpertController extends Controller
 
         $validator = Validator::make(
             $formdata,
-            $storrequest->rules($id,$cnum, $mnum),
+            $storrequest->rules($id, $cnum, $mnum),
             $storrequest->messages()
         );
         if ($validator->fails()) {
@@ -1058,16 +1058,16 @@ class ExpertController extends Controller
             } else {
                 $birthdate = Carbon::create($formdata["birthdate"])->format('Y-m-d');
                 $cnum = $formdata["country_num"];
-      $mnum = $formdata["mobile_num"];
-   
+                $mnum = $formdata["mobile_num"];
+
                 Expert::find($id)->update([
                     'first_name' => $formdata['first_name'],
                     'last_name' => $formdata['last_name'],
                     'email' => $formdata['email'],
                     //   'user_name'=>  $formdata['user_name'],
-                    'country_num'=> $cnum,
-'mobile_num'=>$mnum,
-                    'mobile' =>  $cnum. $mnum,
+                    'country_num' => $cnum,
+                    'mobile_num' => $mnum,
+                    'mobile' => $cnum . $mnum,
                     'gender' => (int) $formdata['gender'],
                     'birthdate' => $birthdate,
                     'desc' => $formdata['desc'],
@@ -1076,7 +1076,7 @@ class ExpertController extends Controller
                     $file = $filerequest->file('image');
                     $this->storeImage($file, $id);
                 }
-                if (isset($formdata['password'])) {
+                if (isset ($formdata['password'])) {
                     $password = trim($formdata['password']);
                     Expert::find($id)->update([
                         'password' => bcrypt($password),
@@ -1172,7 +1172,7 @@ class ExpertController extends Controller
     {
         //
         $formdata = $request->all();
-       
+
         $storrequest = new UploadAnswerRequest();
 
         $validator = Validator::make(
@@ -1254,92 +1254,97 @@ class ExpertController extends Controller
             $amount = $formdata["amount"];
             if ($expert->cash_balance < $amount) {
                 return response()->json([
-                   // "message" => 0,
-                   "message" =>0,
+                    // "message" => 0,
+                    "message" => 0,
                     "error" => "not_enough_balance",
                 ]);
             } else {
-
-                DB::transaction(function () use ($expert,$amount) {
-                    //decrease cash from expert 
-                    $newblnce = $expert->cash_balance - $amount;
-                    $newblncetodate = $expert->cash_balance_todate + $amount;
-                    Expert::find($expert->id)->update(
-                        [
-                            'cash_balance' => $newblnce,
-                            'cash_balance_todate' => $newblncetodate,
-                        ]
-                    );
-                    //add point transfer for expert
-
-                    $pointtransfer = new Pointtransfer();
-                    $pntctrlr = new PointTransferController();
-                    $type = 'p';
-                    $firstLetters = $type . 'ex-';
-                    $newpnum = $pntctrlr->GenerateCode($firstLetters);
-
-                    $pointtransfer->expert_id = $expert->id;
-                    $pointtransfer->count = $amount;
-                    $pointtransfer->status = 1;
-                    $pointtransfer->side = 'to-expert';
-                    $pointtransfer->state = 'balance';
-                    $pointtransfer->type = $type;
-                    $pointtransfer->num = $newpnum;
-
-                    $pointtransfer->save();
-
-                    ///////////////////////////
-                    //add cach transfer for Expert
-                    $cashtype1 = 'p';
-                    $cashtrctrlr = new CashTransferController();
-                    $firstLetters = $cashtype1 . 'ex-';
-                    $expCode = $cashtrctrlr->GenerateCode($firstLetters);
-                    $expertCash = new Cashtransfer();
-                    $expertCash->cash = $amount;
-                    $expertCash->cashtype = $cashtype1;
-                    $expertCash->fromtype = 'expert';
-                    $expertCash->totype = 'expert';
-                    $expertCash->status = 'balance';
-                    $expertCash->expert_id = $expert->id;
-                  
-                    $expertCash->pointtransfer_id = $pointtransfer->id;
-                    $expertCash->cash_num = $expCode;
-                    $expertCash->pointtransfer_id = $pointtransfer->id;
-                    $expertCash->save();
-
-                   
-      //add cash to company balance
-      $comObj = Company::find(1);
-      Company::find(1)->update(
-        [
-          'cash_balance' => $comObj->cash_balance -  $amount,
-          
-        ]
-      );
-       
-                });
-
+               $this->expertpullbalance($expert, $amount);
                 return response()->json([
                     "message" => $expert->id
                 ]);
             }
         }
     }
+    public function expertpullbalance($expert, $amount)
+    {
 
+        DB::transaction(function () use ($expert, $amount) {
+            //decrease cash from expert 
+            $newblnce = $expert->cash_balance - $amount;
+            $newblncetodate = $expert->cash_balance_todate + $amount;
+            Expert::find($expert->id)->update(
+                [
+                    'cash_balance' => $newblnce,
+                    'cash_balance_todate' => $newblncetodate,
+                ]
+            );
+            //add point transfer for expert
+
+            $pointtransfer = new Pointtransfer();
+            $pntctrlr = new PointTransferController();
+            $type = 'p';
+            $firstLetters = $type . 'ex-';
+            $newpnum = $pntctrlr->GenerateCode($firstLetters);
+
+            $pointtransfer->expert_id = $expert->id;
+            $pointtransfer->count = $amount;
+            $pointtransfer->status = 1;
+            $pointtransfer->side = 'to-expert';
+            $pointtransfer->state = 'balance';
+            $pointtransfer->type = $type;
+            $pointtransfer->num = $newpnum;
+
+            $pointtransfer->save();
+
+            ///////////////////////////
+            //add cach transfer for Expert
+            $cashtype1 = 'p';
+            $cashtrctrlr = new CashTransferController();
+            $firstLetters = $cashtype1 . 'ex-';
+            $expCode = $cashtrctrlr->GenerateCode($firstLetters);
+            $expertCash = new Cashtransfer();
+            $expertCash->cash = $amount;
+            $expertCash->cashtype = $cashtype1;
+            $expertCash->fromtype = 'expert';
+            $expertCash->totype = 'expert';
+            $expertCash->status = 'balance';
+            $expertCash->expert_id = $expert->id;
+
+            $expertCash->pointtransfer_id = $pointtransfer->id;
+            $expertCash->cash_num = $expCode;
+            $expertCash->pointtransfer_id = $pointtransfer->id;
+            $expertCash->save();
+
+
+            //add cash to company balance
+            $comObj = Company::find(1);
+            Company::find(1)->update(
+                [
+                    'cash_balance' => $comObj->cash_balance - $amount,
+
+                ]
+            );
+
+        });
+
+
+        return 1;
+    }
     public function getavailable()
     {
-       
+
         $strgCtrlr = new StorageController();
         $url = $strgCtrlr->ExpertPath('image');
         $recurl = $strgCtrlr->ExpertPath('record');
         $defaultimg = $strgCtrlr->DefaultPath('image');
-        $user = Expert::where('is_available',1)->
+        $user = Expert::where('is_available', 1)->
             where('is_active', 1)->
             select(
                 'id',
-                'user_name',                 
-                'is_active',                
-                'rates',                 
+                'user_name',
+                'is_active',
+                'rates',
                 'call_cost',
                 'answer_speed',
                 DB::raw("(CASE 
@@ -1351,18 +1356,18 @@ class ExpertController extends Controller
                 'is_available'
             )->get();
 
-       
+
 
         return response()->json($user);
     }
 
     public function savetoken()
     {
-        
+
         $request = request();
 
         $formdata = $request->all();
-    
+
         $storrequest = new SaveTokenRequest();//php artisan make:request Api/Expertfavorite/StoreRequest
 
         $validator = Validator::make(
@@ -1375,7 +1380,7 @@ class ExpertController extends Controller
             return response()->json($validator->errors());
         } else {
 
-            $expert_id= $formdata['expert_id'] ;
+            $expert_id = $formdata['expert_id'];
             //save token in expert 
 
             Expert::find($expert_id)->update(

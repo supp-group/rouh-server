@@ -48,18 +48,17 @@
 												<th class="border-bottom-0">خبير / عميل</th>
 												<th class="border-bottom-0">الاسم</th>
 												<th class="border-bottom-0">القيمة</th>
-												<th class="border-bottom-0">التاريخ</th>                             
-                                              
+												<th class="border-bottom-0">التاريخ</th>                                              
                                          	</tr>
 										</thead>
 										<tbody>
 											@foreach ($transfers as $transfer)
 											<tr>
-												<td>{{ $transfer->num }} </td>
-												<td></td>
-												<td></td>
-												<td> {{ $transfer->count }}</td>
-												<td> {{ $transfer->created_at }}</td>
+												<td>{{ $transfer['num'] }} </td>
+												<td>{{ $transfer['side'] }} </td>
+												<td>{{ $transfer['name'] }}</td>
+												<td> {{ $transfer['count'] }}</td>
+												<td> {{ $transfer['created_at'] }}</td>
 											</tr>
 											@endforeach
 									</tbody>
@@ -69,8 +68,6 @@
 						</div>
 					</div>
 					<!--/div-->
-
-
 				</div>
 				<!-- /row -->
 			</div>

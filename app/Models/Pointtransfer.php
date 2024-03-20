@@ -53,6 +53,8 @@ class Pointtransfer extends Model
                 $link = '<a href="' . route("order.edit", $this->selectedservice_id) . '" >' . $this->selectedservices->order_num . ' </a>';
                 $conv = $type . ' ' . $reason . ' ' . $link;
                 //  $conv= $type.' '. $reason.' '.$this->selectedservices->order_num ;                    
+            }else if($this->client_id > 0 && $this->state == 'pull' && $this->side=='to-client'){
+                $conv = "سحب رصيد";
             }
 
             //end client

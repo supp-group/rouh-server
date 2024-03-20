@@ -35,7 +35,7 @@
 								<p class="mb-2"> </p>
 							</div>
 							<div class="card-body pt-0">
-								<form class="form-horizontal" name="create_form" action="{{url('admin/balance/savepull' )}}" method="POST"   id="save_pull_form">
+								<form class="form-horizontal" name="save_pull_form" action="{{url('admin/balance/savepull' )}}" method="POST"   id="save_pull_form">
 									@csrf
 									<div class="mb-4">
                                         <select name="sel_side"   id="sel_side" class="form-control SlectBox"   >
@@ -64,9 +64,9 @@
 										<p class="filled" id="p_show_balance" style="display: none">
 											<span   id="balance_title">الرصيد الحالي: </span> <span  id="balance_val"></span> 
 										</p>
-										<input type="text" class="form-control " id="count" placeholder="{{ __('general.pull value') }}" name="count" value="">
+										<input type="text" class="form-control " id="amount" placeholder="{{ __('general.pull value') }}" name="amount" value="">
 										<ul class="parsley-errors-list filled" >
-											<li class="parsley-required" id="count_error"></li>
+											<li class="parsley-required" id="amount_error"></li>
 										</ul>										 
 									</div>								 
 									<div class="form-group mb-0 mt-3 justify-content-end">
@@ -108,7 +108,7 @@
 <script src="{{URL::asset('assets/js/form-elements.js')}}"></script>
 
 <script src="{{URL::asset('assets/js/admin/validate.js')}}"></script>
-<script src="{{URL::asset('assets/js/admin/content.js')}}"></script>
+ 
 <script src="{{URL::asset('assets/js/admin/pull.js')}}"></script>
 <script src="{{URL::asset('assets/js/form-elements.js')}}"></script>
 <script  >  

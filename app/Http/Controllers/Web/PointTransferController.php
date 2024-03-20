@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pointtransfer;
@@ -17,7 +18,8 @@ use App\Http\Requests\Web\Pointtransfer\SavePullRequest;
 use App\Models\Cashtransfer;
 use App\Models\Client;
 use App\Models\Expert;
-
+use App\Http\Controllers\Api\ExpertController;
+use App\Http\Controllers\Api\ClientController;
 
 class PointTransferController extends Controller
 {
@@ -33,10 +35,41 @@ class PointTransferController extends Controller
   }
   public function pulls()
   {
-    $list = Pointtransfer::with('cashtransfers', 'selectedservices')
-      ->where('side', 'to-expert')->get();
+    $DBList = Pointtransfer::with( 'client','expert')
+       
+      ->where(function ($query) {
+        $query->where('client_id','>',0)
+        ->where('state','pull')
+              ->where('side','to-client');
+    })
+      ->orWhere(function ($query) {
+        $query->where('expert_id','>',0)
+        ->where('side','to-expert')
+              ->Where('state','balance');
+    })->get();
+    $List = $DBList->map(function ($item) {
+$name='';
+$side='';
 
-    return view('admin.operation.pulls', ['transfers' => $list]);
+if($item->client_id>0){
+  $side=__('general.client select');
+
+  $name=$item->client->user_name ;
+}else if($item->expert_id>0){
+  $side=__('general.expert select');
+  $name=$item->expert->full_name ;
+}
+      return [
+        'id' => $item->id,
+        'num' => $item->num,
+        'side'=> $side,
+        'name' =>$name,
+        'count' => $item->count,
+        'created_at'=>$item->created_at
+      ];
+    });
+
+    return view('admin.operation.pulls', ['transfers' => $List]);
 
 
   }
@@ -69,23 +102,34 @@ class PointTransferController extends Controller
       // return response()->withErrors($validator)->json();
       return response()->json($validator);
     } else {
-      $newObj = new Pointtransfer;
-      $newObj->count = $formdata['count'];
-      $newObj->countbefor = isset ($formdata["countbefor"]) ? $formdata["countbefor"] : 0;
-      $newObj->price = $formdata['price'];
-      // $newObj->pricebefor =  $formdata['price'];
-
-      $newObj->is_active = isset ($formdata["is_active"]) ? 1 : 0;
-      //$newObj->token = $formdata['token'];
-      $newObj->save();
-      /*
-            if ($request->hasFile('image')) {
-              $file = $request->file('image');
-              // $filename= $file->getClientOriginalName();               
-              $this->storeImage($file, $newObj->id);
-              //  $this->storeImage( $file,2);
-            }
-      */
+      $side_id=$formdata["sel_side_val"];
+      $amount=$formdata["amount"];
+      if($formdata["sel_side"]=='expert'){
+        $side =  Expert::find($side_id);
+        $sidebalance=$side->cash_balance;
+        if($amount> $sidebalance){
+          return response()->json(["errors"=>
+          ["amount"=>[__('messages.amount_bigger')]]
+        ],422);
+        }else{
+       $expctrlr=new ExpertController();
+       $expctrlr->expertpullbalance( $side , $amount);
+        }
+         
+      }else if($formdata["sel_side"]=='client'){
+//client
+$side =  Client::find($side_id);
+$sidebalance=$side->points_balance;
+if($amount> $sidebalance){
+  return response()->json(["errors"=>
+  ["amount"=>[__('messages.amount_bigger')]]
+],422);
+}else{
+$clintctrlr=new ClientController();
+$clintctrlr->clientpullbalance( $side , $amount);
+}
+      }
+ 
       return response()->json("ok");
     }
 

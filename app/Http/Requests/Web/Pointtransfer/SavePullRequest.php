@@ -30,17 +30,11 @@ class SavePullRequest extends FormRequest
        
         return[
          // 'field_name'=>'required|string|regex:'.$this->alphaexpr,  
-         'field_type'=>'required|in:text,bool,list,date,longtext', 
+         'sel_side'=>'required|in:expert,client', 
          
-         'field_tooltipe'=>'required|string|regex:'.$this->alphaexpr,  
-         'count'=>'required|integer', 
-         'price'=>'required|decimal:0,2', 
-         'countbefor'=>'nullable|integer', 
-           
-        //   Rule::notIn(['sprinkles', 'cherries']),//not_in:shipsTo
-
-
-
+         'sel_side_val'=>'required|integer|not_in:0', 
+         'amount'=>'required|decimal:0,2|not_in:0|gt:0', 
+        
            ];   
      
      }
@@ -54,14 +48,12 @@ class SavePullRequest extends FormRequest
  {
    
     return[   
-       'field_name.required'=> __('messages.this field is required') ,       
-       'field_type.required'=> __('messages.this field is required') ,  
-      'field_type.in' => __('messages.this field is required') , 
-      'count.required'=> __('messages.this field is required') ,
-      'count.integer'=> __('messages.must be integer') ,
-      'countbefor.integer'=> __('messages.must be integer') ,
-      'price.required'=>__('messages.this field is required') ,  
-      'price.decimal'=>__('messages.must be integer') ,  
+      'sel_side'=> __('messages.this field is required') ,       
+       'sel_side_val'=> __('messages.this field is required') ,  
+      'amount.required' => __('messages.this field is required') , 
+      'amount.not_in' => __('messages.this field is required') , 
+      'amount.decimal' =>  __('messages.must be integer') ,
+      'amount.gt' =>  __('messages.must be integer') ,
      ];
      
  }

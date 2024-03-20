@@ -25,7 +25,7 @@ class PullBalanceRequest extends FormRequest
       
        return[      
          'expert_id'=>'required|integer|not_in:0|in:'.auth()->user()->id,        
-        'amount'=>'required|decimal:0,2',          
+        'amount'=>'required|decimal:0,2|gt:0',          
        ];   
     
     }
