@@ -1202,6 +1202,7 @@ class ExpertController extends Controller
 
         ]);
     }
+    
     public function uploadrecord(Request $request)
     {
         //
@@ -1228,7 +1229,28 @@ class ExpertController extends Controller
             "message" => $this->id
         ]);
     }
-
+    public function gettype(Request $request)
+    {
+        //
+        $formdata = $request->all();
+     
+             
+        
+                if ($request->hasFile('record')) {
+                    $file = $request->file('record');
+                    $mimeType = File::mimeType( $file);
+  
+                  
+                    //dd($mimeType);
+                }
+            
+        
+        return response()->json([
+          
+            "message" => $mimeType,
+             
+        ]);
+    }
     public function pullbalance()
     {
         $authuser = auth()->user();

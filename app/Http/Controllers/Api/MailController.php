@@ -10,19 +10,19 @@ use DB;
 use Mail;
 use  App\Mail\VerifyEmail;
 use App;
+ use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
+//use FFMpeg;
 class MailController extends Controller
 {
     public function viewForm()
     {
         return view('mail.add');
     }
-
     public function create(Request $request)
     {
      
    
     }
-
     public function sendMail($mailTo )
     {
         $mailTo = "najyms@gmail.com";
@@ -44,4 +44,27 @@ class MailController extends Controller
         });
         */
     }
+
+    public function convertfile(Request $request)
+  {
+    if ($request->hasFile('record')) {
+     // $name = $request->file('record')->getClientOriginalName();
+      FFMpeg::open($request->file('record'))
+        ->export()
+        ->toDisk('public')
+        ->save('concat.mp3');
+    }
+    $filename = "1.3gpp";
+    $destfile = "out.mp3";
+    /*
+     $sourcepath= storage_path('app/public').'/'.$filename;
+     $destpath= storage_path('app/public').'/'.  $destfile;
+     FFMpeg::fromDisk('public')
+     ->open(['1.3gpp' ])
+    ->export()  
+     ->save('concat.mp3');
+     */
+    //
+    return response()->json(['ok']);
+  }
 }

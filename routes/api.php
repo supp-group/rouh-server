@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\SelectedServiceController;
 use App\Http\Controllers\Api\PointController;
 use App\Http\Controllers\Api\PointTransferController;
 use App\Http\Controllers\Api\SettingController;
+use App\Http\Controllers\Api\MailController;
  //use App\Http\Middleware\Api\AuthenticateClient;
 
 /*
@@ -45,7 +46,8 @@ Route::middleware('authExpert:api')->group(function () {
     Route::post('/getwithcomments', [ExpertController::class, 'getexpertwithcomments']); 
     Route::post('/pullbalance', [ExpertController::class, 'pullbalance']);
     Route::post('/savetoken', [ExpertController::class, 'savetoken']);
-    
+    Route::post('/gettype', [ExpertController::class, 'gettype']);
+    Route::post('/convertfile', [MailController::class, 'convertfile']);
  //   Route::post('/getloguser', [ClientController::class, 'getloguser']);uploadanswer
 
 });
