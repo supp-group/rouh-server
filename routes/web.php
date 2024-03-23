@@ -96,19 +96,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::get('/getbyside', [PointTransferController::class, 'getbyside']); 
         
         });
-    });
 
-    Route::middleware('role.admin:admin-super')->group(function () {
-
-        // expert
-        // Route::prefix('/expert')->group(function () {
-        // Route::get('', [ExpertController::class, 'index'])->name('admin.expert.show');
-        //     Route::get('/add', [ExpertController::class, 'create']);
-        //     Route::post('/store', [ExpertController::class, 'store']);
-        //     Route::get('/edit/{id}', [ExpertController::class, 'edit']);
-        //     Route::post('/update/{id}', [ExpertController::class, 'update']);
-        //     Route::get('/delete/{id}', [ExpertController::class, 'destroy']);
-        // });
         Route::resource('expert', ExpertController::class, ['except' => ['update']]);
         Route::prefix('expert')->group(function () {
             Route::post('/update/{id}', [ExpertController::class, 'update'])->name('expert.update');
@@ -154,6 +142,30 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::get('/edit/{id}', [InputController::class, 'edit']);
             Route::post('/update/{id}', [InputController::class, 'update']);
         });
+
+        Route::resource('reason', ReasonController::class, ['except' => ['update']]);
+        Route::prefix('reason')->group(function () {
+            Route::post('/update/{id}', [ReasonController::class, 'update'])->name('reason.update');
+        });
+
+    });
+////////////////////////////////////////////////////////////////////
+    Route::middleware('role.admin:admin-super')->group(function () {
+
+        // expert
+        // Route::prefix('/expert')->group(function () {
+        // Route::get('', [ExpertController::class, 'index'])->name('admin.expert.show');
+        //     Route::get('/add', [ExpertController::class, 'create']);
+        //     Route::post('/store', [ExpertController::class, 'store']);
+        //     Route::get('/edit/{id}', [ExpertController::class, 'edit']);
+        //     Route::post('/update/{id}', [ExpertController::class, 'update']);
+        //     Route::get('/delete/{id}', [ExpertController::class, 'destroy']);
+        // });   
+// update profile
+Route::prefix('user')->group(function () {
+    Route::get('/editprofile/{id}', [UserController::class, 'editprofile'])->name('user.editprofile');
+    Route::post('/updateprofile/{id}', [UserController::class, 'updateprofile'])->name('user.updateprofile');
+});
         //الطلبات
         Route::resource('order', OrderController::class, ['except' => ['update']]);
         Route::prefix('order')->group(function () {          
@@ -167,12 +179,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::post('/agree/{id}', [AnswerController::class, 'agreemethod'])->name('answer.agree');
             Route::post('/reject/{id}', [AnswerController::class, 'rejectmethod'])->name('answer.reject');
             Route::get('/getbyid/{id}', [AnswerController::class, 'getbyselectedid']) ;
-        });
-
-        Route::resource('reason', ReasonController::class, ['except' => ['update']]);
-        Route::prefix('reason')->group(function () {
-            Route::post('/update/{id}', [ReasonController::class, 'update'])->name('reason.update');
-        });
+        });     
         
         Route::resource('comment', CommentController::class, ['except' => ['update']]);
         Route::prefix('comment')->group(function () {

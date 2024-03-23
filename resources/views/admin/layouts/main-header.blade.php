@@ -31,7 +31,7 @@
 										</div>
 									</div>
 								
-									<a class="dropdown-item" href="{{route('user.edit',auth()->user()->id)}}"><i class="bx bx-cog"></i>{{ __('general.Edit_Profile') }}</a>
+									<a class="dropdown-item" href="{{route('user.editprofile',auth()->user()->id)}}"><i class="bx bx-cog"></i>{{ __('general.Edit_Profile') }}</a>
 							
 										<form method="POST" action="{{ route('logout') }}">
 										@csrf
