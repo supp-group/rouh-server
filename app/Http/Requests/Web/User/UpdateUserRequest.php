@@ -30,7 +30,7 @@ class UpdateUserRequest extends FormRequest
         //   'name'=>'required|unique:users,name',  
            'name'  =>  'required|string|unique:users,name,'.$this->id.'|regex:'.$this->alphaAtexpr,   
         // 'name'=>'required|alpha_num:ascii|unique:users,name',        
-         'email'=>'required|email|unique:users,email,'.$this->id,      
+         'email'=>'nullable|email|unique:users,email,'.$this->id,      
          'password'=>'nullable|between:'. $this->minpass.','. $this->maxpass,
          'confirm_password' => 'same:password',
          'mobile'=>'nullable|numeric|digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,          

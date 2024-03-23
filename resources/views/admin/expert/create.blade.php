@@ -198,6 +198,7 @@
 <script src="{{URL::asset('assets/js/admin/validate.js')}}"></script>
 <script src="{{URL::asset('assets/js/admin/content.js')}}"></script>
 <script src="{{URL::asset('assets/js/admin/country.js')}}"></script>
+<script src="{{URL::asset('assets/js/admin/focus.js')}}"></script>
 <script src="{{URL::asset('assets/js/form-elements.js')}}"></script>
 <script  >  
 var emptyimg ="{{URL::asset('assets/img/photos/1.jpg')}}";

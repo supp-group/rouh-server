@@ -467,18 +467,7 @@ $(document).ready(function () {
 			return true;
 		}
 	});
-	$("#email").focusout(function (e) {
-		if (!validatempty($(this))) {
-			return false;
-		}
-		else if (!validateinputemail($(this), emailmsg)) {
-			return false;
-
-		} else {
-
-			return true;
-		}
-	});
+	
 	$("#password").focusout(function (e) {
 		if (!validatempty($(this))) {
 			return false;
