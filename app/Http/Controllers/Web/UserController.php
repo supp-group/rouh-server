@@ -219,12 +219,11 @@ class UserController extends Controller
 
       $authuser = auth()->user();
       if (!($authuser->id == $id)) {
-        // error
+         // error
         return response()->json([
-          "errors" =>
-            ["name" => [__('messages.The user_name is already exist')]]
-        ], 422);
-
+          "errors" =>  ["name" => [__('messages.Not allowed')]]          
+        ], 422);      
+     
       } else {
         if ($request->hasFile('image')) {
           $file = $request->file('image');
