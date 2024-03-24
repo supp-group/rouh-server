@@ -17,7 +17,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">الردود</h4> 
+							<h4 class="content-title mb-0 my-auto">{{ __('general.manage orders') }}</h4> 
 						</div>
 					</div>
 					 
@@ -33,7 +33,9 @@
 					<div class="col-xl-12">
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
-								 
+								<div  >
+									<h4 class="card-title mg-b-0">{{ __('general.answers') }}</h4>
+								 	</div>
 									</div>
 								 
 							<div class="card-body">

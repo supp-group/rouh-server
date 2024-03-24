@@ -139,6 +139,7 @@ return [
 'pull value' => 'قيمة السحب',
 'manage orders'=>'ادارة الطلبات',
 'general setting' => 'اعدادات عامة',
+'detail' => 'تفاصيل',
 ];
 /*
 

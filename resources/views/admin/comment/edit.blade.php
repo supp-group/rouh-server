@@ -34,7 +34,7 @@
         <div class="col">
             <div class="card  box-shadow-0">
                 <div class="card-header mb-2 d-flex justify-content-between">
-                    <h3 class="card-title mb-1">{{ __('general.comment') }}</h3>
+                    <h3 class="card-title mb-1">{{ __('general.detail') }}</h3>
                     @if ($selectedservice->comment_state == 'wait')
                         <span class="text-warning" id="span_wait">{{ __('general.wait') }}</span>
                     @elseif ($selectedservice->comment_state == 'reject')
