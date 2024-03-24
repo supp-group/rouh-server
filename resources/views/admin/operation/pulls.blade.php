@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('page-title')
-{{ __('general.orders') }}
+{{ __('general.accounts') }}
 @endsection
 @section('css')
 <!-- Internal Data table css -->

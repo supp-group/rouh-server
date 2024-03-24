@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('page-title')
-{{ __('general.points') }}
+{{ __('general.accounts') }}
 @endsection
 @section('css')
 <!-- Internal Select2 css -->
