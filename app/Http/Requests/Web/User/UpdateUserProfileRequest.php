@@ -36,7 +36,7 @@ class UpdateUserProfileRequest extends FormRequest
          'password'=>'nullable|between:'. $this->minpass.','. $this->maxpass,
          'confirm_password' => 'same:password',
          'mobile'=>'nullable|numeric|digits_between:'. $this->minMobileLength.','.$this->maxMobileLength,          
-        'role'=>'required|in:admin,super',
+       // 'role'=>'required|in:admin,super',
       //  'is_active'=>'required',  
         'image'=>'file|image',   
        ];   

@@ -239,7 +239,7 @@ class UserController extends Controller
 
           //'password' => bcrypt($formdata['password']),
           'mobile' => $formdata['mobile'],
-          'role' => $formdata['role'],
+        //  'role' => $formdata['role'],
           'updateuser_id' => Auth::user()->id,
           'is_active' => isset ($formdata["is_active"]) ? 1 : 0,
         ]);

@@ -80,17 +80,7 @@
 											<li class="parsley-required" id="confirm_password_error"></li>
 										</ul>
 									</div>
-                                    <div class="mb-4">
-                                        <select name="role"   id="role" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
-                                            <!--placeholder-->
-                                            <option title=""   class="text-muted">{{ __('general.choose role') }}</option>
-                                            <option value="admin"  @if ( $user->role=='admin')selected="selected" @endif>{{ __('general.admin') }}</option>
-                                            <option value="super" @if ( $user->role=='super')selected="selected" @endif>{{ __('general.super') }}</option>
-                                        </select>
-										<ul class="parsley-errors-list filled">
-											<li class="parsley-required"  id="role_error"></li>
-										</ul>
-                                    </div>
+                                
                                     <div class="form-group">
 										<input type="text" class="form-control" id="mobile" value="{{ $user->mobile }}" placeholder="Mobile" name="mobile">
 										<ul class="parsley-errors-list filled" >
