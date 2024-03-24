@@ -16,7 +16,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto"><a href="{{ url('admin/balance/expert') }}">{{ __('general.accounts') }}</a></h4> 
+							<h4 class="content-title mb-0 my-auto"> {{ __('general.accounts') }} </h4> 
   
 					
 						</div>
@@ -35,7 +35,7 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">									 
 										<div class="d-flex justify-content-between">
-											<h4 class="card-title mg-b-0">{{ __('general.pull op') }}</h4>
+											<h4 class="card-title mg-b-0">{{ __('general.pulls') }}</h4>
 											<a href="{{ url('admin/balance/createpull') }}" class="btn btn-primary btn-small">{{ __('general.pull balance') }}</a>
 										</div>							 
 									</div>

@@ -33,7 +33,7 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-between">
-									<h4 class="card-title mg-b-0">{{ __('general.manage services') }}</h4>
+									<h4 class="card-title mg-b-0">{{ __('general.add service') }}</h4>
 									<a href="{{ route('service.create') }}" class="btn btn-primary btn-small">{{ __('general.new service') }}</a>
 								</div>
 									</div>

@@ -24,7 +24,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto"><a href="{{ route('service.index') }}">{{ __('general.services') }}</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{ __('general.new service') }}</span>
+							<h4 class="content-title mb-0 my-auto"><a href="{{ route('service.index') }}">{{ __('general.services') }}</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{ __('general.add service') }}</span>
 						</div>
 					</div>
 				</div>
