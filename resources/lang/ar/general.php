@@ -19,6 +19,7 @@ return [
   'manage experts' => 'إدارة حسابات الخبراء',
   'new expert' =>'خبير جديد',
   'new service' =>'خدمة جديدة',
+  'add service' =>'اضافة خدمة',
   'cpanel' => 'لوحة تحكم',
   'welcome_name' => 'اهلا بك سيد :Name  المحترم',
   'login' => 'تسجيل دخول',
@@ -85,7 +86,7 @@ return [
 'manage services'=>'ادارة الخدمات',
 
 'show percent'=>'نسب الخبراء',
-'show Service Expert'=>'خبراء الخدمات',
+'show Service Expert'=>'اضافة خبير للخدمة',
 'manage clients'=>'ادارة العملاء',
 'experts list'=>'قائمة الخبراء',
 'expert'=>'الخبير',
@@ -136,6 +137,8 @@ return [
 'pull balance' => 'سحب رصيد',
 'pull op' => 'عمليات السحب',
 'pull value' => 'قيمة السحب',
+'manage orders'=>'ادارة الطلبات',
+'general setting' => 'اعدادات عامة',
 ];
 /*
 
