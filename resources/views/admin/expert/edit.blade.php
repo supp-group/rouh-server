@@ -213,7 +213,7 @@
 										<form name="del_record_form" action="{{ route('expert.delrecord', $expert->id) }}" method="POST"
 											id="del_record_form">
 											@csrf
-											<button type="submit" name="btn_del_record" id="btn_del_record"
+											<button type="button" name="btn_del_record" id="btn_del_record" data-effect="effect-scale" data-toggle="modal" data-target="#modaldemo8"  
                                             form="del_record_form"
                                             class="btn btn-danger">{{ __('general.delete') }}</button>
 										</form>
@@ -235,7 +235,22 @@
     <!-- Container closed -->
     </div>
     <!-- main-content closed -->
-   
+   <!-- Modal effects -->
+   <div class="modal" id="modaldemo8">
+	<div class="modal-dialog modal-dialog-centered   modal-sm" role="document">
+		<div class="modal-content modal-content-demo">
+			 
+			<div class="modal-body text-center" style="padding-bottom: 5px;	padding-top: 30px;">
+				<h6 class="modal-title">{{ __('general.Are you sure') }}</h6>
+					 </div>
+			<div class="modal-footer d-flex justify-content-between">
+				<button class="btn ripple btn-danger" id="btn-modal-delrecord" type="button">{{ __('general.delete') }}</button>
+				<button class="btn ripple btn-secondary"  id="btn-cancel-modal"  data-dismiss="modal" type="button">{{ __('general.cancel') }}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Modal effects-->
 @endsection
 @section('js')
     <!--Internal  Datepicker js -->
