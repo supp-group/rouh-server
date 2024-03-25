@@ -40,5 +40,6 @@ return [
 'Email Password Reset Link' => 'رابط إعادة تعيين كلمة المرور للبريد الإلكتروني',
 'amount_bigger' =>'القيمة اكبر من الرصيد الحالي',
 'Not allowed'=>'ليس لديك سماحية',
+'faild'=>'فشلت العملية',
 ];
 //{{ __('general.welcome_name',['Name'=>'احمد']) }}

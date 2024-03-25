@@ -308,4 +308,35 @@ class ExpertController extends Controller
     }
     return 1;
   }
+
+  public function delrecord($id)
+  {
+ 
+   if (isset($id))
+     {
+      $this->deleteExpertRecord( $id);
+      return response()->json("ok");
+     }  else{
+     return response()->json([
+        "errors" =>  ["record" => [__('messages.faild')]]          
+      ], 422); 
+     }
+   
+    
+    
+  }
+
+  public function deleteExpertRecord( $id)
+  {
+      $model = Expert::find($id);
+      $oldfile = $model->record;
+      $oldfilename = basename($oldfile);
+      $strgCtrlr = new StorageController();
+      $recpath = $strgCtrlr->recordpath['experts'];   
+                  Expert::find($id)->update([
+              "record" =>""
+          ]);
+          Storage::delete("public/" . $recpath . '/' . $oldfilename);     
+      return 1;
+  }
 }

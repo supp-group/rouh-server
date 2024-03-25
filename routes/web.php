@@ -100,6 +100,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
         Route::resource('expert', ExpertController::class, ['except' => ['update']]);
         Route::prefix('expert')->group(function () {
             Route::post('/update/{id}', [ExpertController::class, 'update'])->name('expert.update');
+            Route::post('/delrecord/{id}', [ExpertController::class, 'delrecord'])->name('expert.delrecord');
+            
           
         });
 

@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Http\Controllers\Api\StorageController;
 class Expert extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -52,7 +53,7 @@ class Expert extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-  
+        'record_path',
     ];
 
     /**
@@ -70,7 +71,19 @@ class Expert extends Authenticatable implements JWTSubject
         return  $this->first_name.' '. $this->last_name ;
  }
 
+ public function getRecordPathAttribute(){     
 
+          $conv="";
+          if(!(is_null($this->record)||$this->record=="")){
+            $strgCtrlr = new StorageController();
+            $url = $strgCtrlr->ExpertPath('record');
+            $conv =  $url.$this->record;   
+          } 
+      
+            return  $conv;
+
+
+}
     public function getJWTIdentifier()
     {
         return $this->getKey();
