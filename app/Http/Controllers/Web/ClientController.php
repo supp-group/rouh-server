@@ -162,9 +162,20 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
+      $strgCtrlr=new StorageController();
+      $url=$strgCtrlr->ExpertPath('image');
+     // $recurl=$strgCtrlr->ExpertPath('record');
+     // $url =url(Storage::url($this->path)).'/';
+      $object = Client::find($id);
+      $object->birthdateStr= (string)Carbon::create($object->birthdate)->format('d/m/Y');
+      if( $object->image !="" ){
+        $object->fullpathimg= $url.$object->image;
+      }
       //
+       //return  dd ($object);
+      return view('admin.client.showinfo', ['client' => $object]);
     }
   
     /** 

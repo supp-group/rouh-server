@@ -15,6 +15,7 @@ return [
 
   'user_name' => 'اسم المستخدم',
   'new user' => 'مستخدم جديد',
+  'name' => 'الاسم',
   'manage Accounts' => 'إدارة حسابات المستخدمين',
   'manage experts' => 'إدارة حسابات الخبراء',
   'new expert' =>'خبير جديد',
@@ -41,6 +42,7 @@ return [
   'new supervisor'=>'مشرف جديد',
   'supervisor info'=>'بيانات المشرف',
   'expert info'=>'بيانات الخبير',
+  'client info'=>'بيانات العميل',
   'service info'=>'بيانات الخدمة',
   'service'=>'الخدمة',
   //

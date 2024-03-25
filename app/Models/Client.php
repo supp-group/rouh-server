@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Http\Controllers\Api\StorageController;
+use Illuminate\Support\Str;
 class Client extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -43,7 +44,9 @@ class Client extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password',
-     
+        'birthdate_conv',
+     'gender_conv',
+     'marital_status_conv',
     ];
 
     /**
@@ -70,6 +73,59 @@ class Client extends Authenticatable implements JWTSubject
        
             return  $conv;
      }
+
+  
+public function getGenderConvAttribute(){
+    $conv = "";
+    
+        if ($this->gender == 1) {
+            $conv = __('general.male');
+        } else {
+            $conv = __('general.female');
+        }
+
+         return  $conv;
+  }
+  public function getMaritalStatusConvAttribute(){
+     $conv="";
+   
+          $lrval = Str::lower($this->marital_status);
+          $conv = __('general.' . $lrval);    
+         return  $conv;
+  }
+  public function getBirthdateConvAttribute(){
+    $conv="";
+  
+         $lrval = Str::lower($this->value);
+         $conv = __('general.' . $lrval);    
+        return  $conv;
+ }
+  public function getValueConvAttribute()
+  {
+      $conv = "";
+      if ($this->ispersonal == 1 && $this->name == 'gender') {
+          if ($this->value == 1) {
+              $conv = __('general.male');
+          } else {
+              $conv = __('general.female');
+          }
+
+      } else if ($this->ispersonal == 0 && $this->type == 'bool') {
+          if ($this->value == 1) {
+              $conv = __('general.yes');
+          } else {
+              $conv = __('general.no');
+          }
+      } else if ($this->ispersonal == 1 && $this->name == 'marital_status') {
+          $lrval = Str::lower($this->value);
+          $conv = __('general.' . $lrval);
+      } else {
+          $conv = $this->value;
+      }
+
+
+      return $conv;
+  }
     public function getJWTIdentifier()
     {
         return $this->getKey();

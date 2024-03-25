@@ -56,21 +56,8 @@
 
                                         <td>{{ $client->user_name }}</td>
                                         <td>{{ $client->mobile }}</td>
-
-                                        <td>
-{{--
-                                            <a href="{{ route('client.edit', $client->id) }}"
-                                                class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i
-                                                    class="fa fa-edit"></i></a>
-
-                                            <form action="{{ route('client.destroy', $client->id) }}" method="POST"
-                                                class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete"><i
-                                                        class="fa fa-trash"></i></button>
-                                            </form>
-  --}}
+                                      <td>
+                                        <a href="{{route('client.show', $client->id)}}"  class="btn btn-success btn-sm" title="بيانات العميل"><i class="fa fa-info"></i></a>                              
                                         </td>
 
                                     </tr>
