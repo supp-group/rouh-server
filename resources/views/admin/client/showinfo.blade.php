@@ -60,7 +60,7 @@
 			<p><span class="badge badge-light badge-lg px-3 py-2">
 				<img alt="Icon SVG Vector Icon" fetchpriority="high" decoding="async" data-nimg="1"
 					style="width:20px;height:20px"
-					src="{{ asset('storage/images/default/icons/default.svg') }}">
+					src="{{ asset('storage/images/inputs/icons/nationality.svg') }}">
 				{{ ' ' . __('general.nationality') }}
 			</span>{{ ' ' . $client->nationality }}
 		</p>
@@ -91,7 +91,7 @@
 					<div class="col-lg-4 mt-sm-3 mt-lg-0">
 						<img alt="" id="imgshow"
 							class="rounded img-thumbnail wd-100p float-sm-right  mg-t-10 mg-sm-t-0"
-							src="@if ($client->image == '') {{ URL::asset('assets/img/photos/1.jpg') }}@else {{ $client->image_path }} @endif">
+							src="@if ($client->image == '') {{ URL::asset('storage/images/default/default.png') }}@else {{ $client->image_path }} @endif">
 						</div>
 						
  
