@@ -27,8 +27,8 @@ class Reason extends Model
                case('answer'):
                 $conv =__('general.answers');
                break;
-               case('comment'):
-                $conv = __('general.comments');
+               case('form,answer'):
+                $conv = __('general.orders').' , '.__('general.answers');
                break;
     
             default:

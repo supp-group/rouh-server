@@ -73,7 +73,7 @@ class OrderController extends Controller
         $q->orderByDesc('ispersonal');
     }
      ] )->find($id);
-      $reasons=Reason::where('type','form')->get();
+      $reasons=Reason::where('type', 'LIKE', '%'.'form'.'%')->get();
      //return dd($object);
       return view('admin.order.edit', ['selectedservice' => $object,'reasons'=> $reasons]);
     }

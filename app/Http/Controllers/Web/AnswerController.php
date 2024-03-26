@@ -24,6 +24,7 @@ use App\Models\Company;
 
 use App\Http\Controllers\Api\CashTransferController;
 use App\Http\Controllers\Api\PointTransferController;
+use Illuminate\Support\Str;
 class AnswerController extends Controller
 {
   /**
@@ -89,7 +90,7 @@ class AnswerController extends Controller
         $q->orderByDesc('created_at');
       }
     ])->find($id);
-    $reasons = Reason::where('type', 'answer')->get();
+    $reasons = Reason::where('type', 'LIKE', '%'.'answer'.'%')->get();
     //return dd($object);
     return view('admin.answer.edit', ['selectedservice' => $object, 'reasons' => $reasons]);
   }

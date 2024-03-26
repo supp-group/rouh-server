@@ -45,19 +45,34 @@
 										</ul>
 										 
 									</div>
-									<div class="mb-4">
-                                        <select name="type"   id="type" class="form-control SlectBox"  >
-                                            <!--placeholder-->
-                                            <option title=""   class="text-muted">اختر القسم</option>
-                                            <option value="form"  @if ( $reason->type=='form')selected="selected" @endif >{{ __('general.orders') }}</option>
-                                            <option value="answer"  @if ( $reason->type=='answer')selected="selected" @endif >{{ __('general.answers') }}</option>
-										
-                                        </select>
-										<ul class="parsley-errors-list filled">
-											<li class="parsley-required"  id="type_error"></li>
-										</ul>
-                                    </div>
-                                    
+									 
+
+									<div class="form-group justify-content-end row"  id="deptype">
+										<div  class=" col-sm-4">
+											<div class="row">
+											
+										<div class="checkbox col-sm-3 ">
+											<div class="custom-checkbox custom-control">
+												<input type="checkbox" data-checkboxes="mygroup"  @if (Str::contains( $reason->type,'form'))checked="" @endif  class="custom-control-input" id="checkbox-2" value="form" name="deptype[]">
+												<label for="checkbox-2" class="custom-control-label mt-1"  >{{ __('general.orders') }}</label>
+											</div>
+											
+										</div>
+										<div class="checkbox  col-sm-9 ">
+											<div class="custom-checkbox custom-control">
+												<input type="checkbox" data-checkboxes="mygroup"  @if (Str::contains( $reason->type,'answer'))checked="" @endif   class="custom-control-input" id="checkbox-3" value="answer" name="deptype[]">
+												<label for="checkbox-3" class="custom-control-label mt-1"  >{{ __('general.answers') }}</label>
+											</div>
+										</div>
+										</div>
+									</div>
+										<div class="checkbox  col-sm-8">
+										</div>
+									</div>
+									<ul class="parsley-errors-list filled" >
+										<li class="parsley-required" id="deptype_error"></li>
+									</ul>
+
 									<div class="form-group mb-0 mt-3 justify-content-end">
 										<div>
 											<button type="submit" name="btn_update_user" id="btn_update_user" class="btn btn-primary">{{ __('general.save') }}</button>

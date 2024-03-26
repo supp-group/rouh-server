@@ -13,7 +13,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use App\Http\Requests\Web\Reason\StoreReasonRequest;
 use App\Http\Requests\Web\Reason\UpdateReasonRequest;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Str;
 
 class ReasonController extends Controller
 {
@@ -39,9 +39,10 @@ class ReasonController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReasonRequest $request)
+    public function store(StoreReasonRequest $request)//
     {
       $formdata = $request->all();
+   
       // return redirect()->back()->with('success_message', $formdata);
       $validator = Validator::make(
         $formdata,
@@ -57,12 +58,14 @@ class ReasonController extends Controller
         return response()->json($validator);  
       } else {
         $newObj = new Reason;
-        $newObj->content = $formdata['content'];         
-        $newObj->type = $formdata['type'];       
+        $newObj->content = $formdata['content'];   
+       $type= implode(",", $formdata['deptype']);      
+        $newObj->type =  $type;       
         $newObj->is_active = 1;
       
         $newObj->save();
-  
+    //$boolres= Str::contains( $type,'form') ;
+     
         return response()->json("ok");
       }
     }
@@ -102,10 +105,10 @@ class ReasonController extends Controller
     return response()->json($validator);
   
       } else {
-   
+        $type= implode(",", $formdata['deptype']);  
         Reason::find($id)->update([
           'content'=>  $formdata['content'],
-          'type'=>  $formdata['type'],              
+          'type'=>  $type,              
         ]);
       
         //save image

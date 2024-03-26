@@ -25,7 +25,7 @@ class StoreReasonRequest extends FormRequest
       
        return[
          'content'=>'required|string', 
-         'type'=>'required|in:form,answer,comment', 
+         'deptype'=>'required ', 
      
       //  'is_active'=>'required',  
           
@@ -43,8 +43,8 @@ public function messages(): array
    return[   
       'content.required'=> __('messages.this field is required') ,
       'content.string'=> __('messages.this field is required') ,
-      'type.required'=>__('messages.this field is required') ,   
-  'type.in'=>__('messages.this field is required') ,
+      'deptype.required'=>__('messages.this field is required') ,   
+  'deptype.in'=>__('messages.this field is required') ,
       
  
     ];
