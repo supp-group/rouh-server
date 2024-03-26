@@ -65,7 +65,7 @@
 
                                                 <td>{{ $selectedservice->comment_state_conv}}</td>
                                                 <td>
-													<a href="{{route('comment.edit', $selectedservice->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.edit') }}"><i class="fa fa-edit"></i></a>
+													<a href="{{route('comment.edit', $selectedservice->id)}}"  class="btn btn-success btn-sm" title="{{ __('general.detail') }}"><i class="fa fa-edit"></i></a>
                                                 </td>
 
 											</tr>
