@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Http\Controllers\Api\StorageController;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Carbon;
 class ValueService extends Model
 {
     use HasFactory;
@@ -82,7 +82,11 @@ class ValueService extends Model
         } else if ($this->ispersonal == 1 && $this->name == 'marital_status') {
             $lrval = Str::lower($this->value);
             $conv = __('general.' . $lrval);
-        } else {
+        } 
+     else if (($this->ispersonal == 1 && $this->name == 'birthdate')||($this->ispersonal == 0 && $this->type == 'date')) {
+        $conv= (string)Carbon::create($this->value)->format('d/m/Y');       
+    } 
+        else {
             $conv = $this->value;
         }
 
